@@ -1,0 +1,21 @@
+{% extends 'base/base.html' %}
+
+{% block exp_block %}
+
+    <div class="topmargin">
+        <p> <h1> Participants </h1></p>
+
+        <p>
+
+            {% for u in users %}
+
+         <p><a href="{% url 'treconomics:showuserperformance' u.id %}">{{u.username}}</a>
+            </p>
+
+
+            {% endfor %}
+
+        </p>
+
+    </div>
+{% endblock %}

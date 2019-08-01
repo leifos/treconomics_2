@@ -1,0 +1,6 @@
+beautifulsoup4==4.7.1
+datrie==0.8
+Django==2.2.3
+jsonpickle==1.2
+redis==3.3.4
+Whoosh==2.7.4

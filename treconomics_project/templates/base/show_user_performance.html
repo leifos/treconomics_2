@@ -1,0 +1,39 @@
+{% extends 'base/base.html' %}
+
+{% block exp_block %}
+
+    <p><h1>Performance for Participant: {{user.id}}, {{user.username}}</h1></p>
+
+<p> <a href="{% url 'treconomics:showusers' %}"> Back to participant List</a></p>
+
+
+
+    {% for  topic in performances %}
+        <hr/>
+        <p><span class="report_header" style="margin-left: 0;"><strong>Task</strong></span> {{ topic.task_description }}
+            <span class="report_header"><strong>Topic</strong></span> {{ topic.title }}
+            <span class="report_header"><strong>System</strong></span> <em>{{ topic.system_name }}</em></p>
+
+           <p>
+
+
+        <p><strong>Number of documents saved: <span style="color: #3366FF;">{{ topic.total}}</span></strong></p>
+    <p><strong>Number of relevant documents saved: <span style="color: #3366FF;">{{ topic.estimated_rels|floatformat:0 }}</span></strong> (Number required: {{topic.target}}) </p>
+    <p> <strong>Accuracy: <span style="color: #3366FF;">{{topic.estimated_acc|floatformat:2}}</span></strong> (Accuracy greater than 0.5 required.)</p>
+    <p>
+        {% if topic.diversity == 1 or topic.diversity == 2 %}
+        <li>New <strong><em>{{ topic.diversity_entity }}</em></strong> found: <strong
+                style="color: #3366FF;">{{ topic.diversity_new_entities }}</strong></li>
+        {% endif %}
+    </p>
+    <p><strong style="margin-left: 20px;">Success?</strong> <span class="report_header {{ topic.status }}" style="margin-left: 0;">{{ topic.status_message }}</span></p>
+
+    {% endfor %}
+
+
+    
+    <hr />
+    
+
+
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'base/base.html' %}
+
+{% block exp_info_block %}
+    <p> <!-- a href="/treconomics/logout">Logout</a> --></p>
+{% endblock %}
+
+{% block exp_block %}
+    <script>
+        $(document).ready(function () {
+            $('.surveySubmitButton').click(function () {
+                $(this).hide()
+            });
+        })
+    </script>
+
+    <div class="experimentPageTitle">
+        <p>
+
+        <h1> Practice Task</h1></p>
+        <p> In order to get acquainted with the search system and newspaper database,
+            we would like you to practice for a couple of minutes using the system to undertake a task similar to those
+            you will need to undertake.
+        </p>
+
+
+        {% if diversity < 3  %}
+    <p>For this task you must find <strong> RELEVANT and DIFFERENT </strong> documents.</p>
+{% else %}
+ <p>For this task you must find <strong> RELEVANT </strong> documents.</p>
+    {% endif %}
+
+    <hr/>
+
+
+        <p>{% autoescape off %} <strong>{{ taskdescription }}</strong> {% endautoescape %} </p>
+
+        {% if diversity < 3 %}
+    <p>{% autoescape off %} <strong>{{ diversify }}</strong> {% endautoescape %}</p>
+    {% endif %}
+
+        <p>To get familiar with the system, we would like you to:
+        <ul>
+            <li> Select "Show Task" to remind you what the topic of the search task is.</li>
+            <li> Search for articles about this topic by entering queries. </li>
+            <li> Mark at least three documents as relevant.</li>
+            <li> Scroll down to click on the "Next" page button, and</li>
+            <li> Review your list of documents by selecting "View Saved".</li>
+            <li> Your performance on the practice task will be shown once you "End Task".</li>
+        </ul>
+        </p>
+
+    </div>
+
+
+    <div style="text-align: center;">
+        <p>Click Next to start the practice task.</p>
+        <hr/>
+        <div class=surveySubmitButton">
+            <a href="{% url 'treconomics:next' %}">
+                <button class="button" type="next">Next</button>
+            </a>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+{% block exp_footer_block %}
+    Participant: {{ participant }}  - Condition: {{ condition }} - Task: {{ task }}  - Diversity: {{ diversity }} - Interface: {{ interface }}
+{% endblock %}
