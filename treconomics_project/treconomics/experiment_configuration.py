@@ -12,7 +12,9 @@ work_dir = os.getcwd()
 # when deployed this needs to match up with the hostname, and directory to where the project is
 
 
-my_whoosh_doc_index_dir = os.path.join(work_dir, 'data/fullindex/')
+#my_whoosh_doc_index_dir = os.path.join(work_dir, 'data/fullindex/')
+my_whoosh_doc_index_dir = os.path.join(work_dir, 'data/test500index/')
+
 my_whoosh_query_index_dir = os.path.join(work_dir, "/trec_query_index/index")
 my_experiment_log_dir = work_dir
 qrels_file = os.path.join(work_dir, "data/TREC2005.qrels.txt")
@@ -68,12 +70,12 @@ diversity_flow = [
 
 
 test_flow = [
-    'startexperiment/', 'preexperiment/UK/', 'demographicssurvey/',
+    'startexperiment/', 'preexperiment/UK/', 'demographicssurvey/', 'pst-findas/', 'pst-numbers/', 'taskspacer',
     'prepracticetask/0/', 'postpracticetask/0/', 'taskspacer/',
-    'pretask/1/', 'taskspacerwithdetails/1/', 'taskspacer',
-    'pretask/2/', 'taskspacerwithdetails/2/', 'taskspacer',
-    'pretask/3/','taskspacer',
-    'pretask/4/',
+    'pretaskquestions/1/', 'taskspacerwithdetails/1/', 'taskspacer',
+     'pretaskquestions/2/', 'taskspacerwithdetails/2/', 'taskspacer',
+     'pretaskquestions/3/', 'taskspacer',
+     'pretaskquestions/4/',
     'endexperiment/',
     'logout/'
 ]

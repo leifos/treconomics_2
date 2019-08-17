@@ -320,7 +320,7 @@ def pre_task_with_questions(request, taskid):
             obj.topic_num = ec["topicnum"]
             obj.save()
             log_event(event="PRE_TASK_SURVEY_COMPLETED", request=request)
-            return redirect('next')
+            return redirect('treconomics:next')
         else:
             print(form.errors)
             errors = form.errors
@@ -334,6 +334,7 @@ def pre_task_with_questions(request, taskid):
     # else we can provide a link to a hosted questionnaire
 
     action = APP_NAME + 'pretaskquestions/' + taskid + '/'
+    print(action)
 
     # provide link to search interface / next system
 
@@ -399,7 +400,7 @@ def post_task_with_questions(request, taskid):
             obj.topic_num = ec["topicnum"]
             obj.save()
             log_event(event="POST_TASK_SURVEY_COMPLETED", request=request)
-            return redirect('next')
+            return redirect('treconomics:next')
         else:
             print (form.errors)
             errors = form.errors

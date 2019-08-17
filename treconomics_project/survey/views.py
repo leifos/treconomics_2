@@ -121,3 +121,35 @@ def view_concept_listing_survey(request, taskid, when):
                     'errors': errors}
 
     return render(request, 'survey/concept_listing_survey.html', context_dict)
+
+
+
+@login_required
+def view_pst_findas(request):
+    context = RequestContext(request)
+    ec = get_experiment_context(request)
+    uname = ec["username"]
+    condition = ec["condition"]
+    #u = User.objects.get(username=uname)
+
+    # provide link to search interface / next system
+    context_dict = {'participant': uname,
+                    'condition': condition }
+
+    return render(request, 'survey/perceptual_speed_test_findas.html', context_dict)
+
+
+
+@login_required
+def view_pst_numbers(request):
+    context = RequestContext(request)
+    ec = get_experiment_context(request)
+    uname = ec["username"]
+    condition = ec["condition"]
+    #u = User.objects.get(username=uname)
+
+    # provide link to search interface / next system
+    context_dict = {'participant': uname,
+                    'condition': condition }
+
+    return render(request, 'survey/perceptual_speed_test_number_compare.html', context_dict)

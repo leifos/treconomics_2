@@ -12,7 +12,7 @@ urlpatterns = [
              path('startexperiment/', views.start_amt_experiment, name='start-experiment'),
              path('preexperiment/<version>/', views.PreExperimentView.as_view(), name='pre-experiment'),
              path('pretask/<taskid>/', views.pre_task, name='pre-task'),
-             path('prepracticetask/<taskid>/', views.pre_practice_task),
+             path('prepracticetask/<taskid>/', views.pre_practice_task, name='pre-task-questions'),
              path('pretaskquestions/<taskid>/', views.pre_task_with_questions),
              path('postpracticetask/<taskid>/', views.post_practice_task),
              path('posttaskquestions/<taskid>/', views.post_task_with_questions),
@@ -29,10 +29,9 @@ urlpatterns = [
              path('endexperiment/', views.EndExperimentView.as_view()),
 
 #            path('(?P<whoosh_docid>\d+)/$', search_views.show_document),
-#              path('saved/$', search_views.show_saved_documents, name='saved'),
-#             path('search/$', search_views.search, name='search'),
-#             path('search/(?P<taskid>\d+)/$', search_views.search, name='search-task'),
-
+#            path('saved/$', search_views.show_saved_documents, name='saved'),
+#            path('search/$', search_views.search, name='search'),
+#            path('search/(?P<taskid>\d+)/$', search_views.search, name='search-task'),
 
 
 ]
