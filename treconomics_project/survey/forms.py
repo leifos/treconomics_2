@@ -23,7 +23,7 @@ YEAR_CHOICES = (('', 'Not Specified'),
 )
 
 
-class UKDemographicsSurveyForm(ModelForm):
+class DemographicsSurveyForm(ModelForm):
     age = forms.IntegerField(label="Please provide your age (in years).",
                              max_value=100,
                              min_value=0,
@@ -53,38 +53,10 @@ class UKDemographicsSurveyForm(ModelForm):
         return cleaned_data
 
     class Meta:
-        model = UKDemographicsSurvey
+        model = DemographicsSurvey
         exclude = ('user',)
 
 
-class USDemographicsSurveyForm(ModelForm):
-    age = forms.IntegerField(label="Please provide your age (in years).",
-                             max_value=100,
-                             min_value=0,
-                             required=False)
-    sex = forms.CharField(max_length=1,
-                          widget=forms.Select(choices=SEX_CHOICES),
-                          label="Please indicate your sex.",
-                          required=False)
-    education_undergrad = forms.CharField(widget=forms.Select(choices=YES_CHOICES),
-                                          label="Are you undertaking, or have you obtained, an undergraduate degree?",
-                                          required=False)
-    education_undergrad_major = forms.CharField(widget=forms.TextInput(attrs={'size': '60', 'class': 'inputText'}),
-                                                label="If yes, what is/was your subject area?",
-                                                required=False)
-    education_standing = forms.CharField(widget=forms.Select(choices=STANDING_CHOICES),
-                                         label="What is your class standing?",
-                                         required=False)
-
-    def clean(self):
-        cleaned_data = self.cleaned_data
-        if not cleaned_data.get("age"):
-            cleaned_data["age"] = 0
-        return cleaned_data
-
-    class Meta:
-        model = USDemographicsSurvey
-        exclude = ('user',)
 
 
 NASA_LOW_CHOICES = ((1, 'Very Low'), (2, ''), (3, ''), (4, ''), (5, ''), (6, ''), (7, 'Very High'))

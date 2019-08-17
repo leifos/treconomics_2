@@ -4,29 +4,21 @@ from django.db import models
 from django import forms
 from django.contrib.auth.models import User
 
-SEX_CHOICES = (('N', 'Not Indicated'),
-               ('M', 'Male'), ('F', 'Female'))
+SEX_CHOICES = (
+                ('N', 'Not Indicated'),
+                ('M', 'Male'),
+                ('F', 'Female'),
+                ('P', 'Prefer not to say')
+               )
 
 
-class UKDemographicsSurvey(models.Model):
+class DemographicsSurvey(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     age = models.IntegerField(default=0, help_text="Please provide your age (in years).")
     sex = models.CharField(max_length=1, choices=SEX_CHOICES, help_text="Please indicate your sex.")
     education_undergrad = models.CharField(max_length=1, default="N")
     education_undergrad_major = models.CharField(max_length=100, default="")
     education_undergrad_year = models.CharField(max_length=1, default="")
-
-    def __unicode__(self):
-        return self.user.username
-
-
-class USDemographicsSurvey(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    age = models.IntegerField(default=0, help_text="Please provide your age (in years).")
-    sex = models.CharField(max_length=1, choices=SEX_CHOICES, help_text="Please indicate your sex.")
-    education_undergrad = models.CharField(max_length=1, default="N")
-    education_undergrad_major = models.CharField(max_length=100, default="")
-    education_standing = models.CharField(max_length=30, default="")
 
     def __unicode__(self):
         return self.user.username

@@ -43,12 +43,8 @@ def view_search_efficacy_survey(request):
 
 
 @login_required
-def view_demographics_survey(request, country):
-    if country == 'US':
-        return handle_survey(request, USDemographicsSurveyForm, 'DEMOGRAPHICS', '/treconomics/demographicssurvey/US/',
-                             'survey/demographics_survey.html')
-    else:
-        return handle_survey(request, UKDemographicsSurveyForm, 'DEMOGRAPHICS', '/treconomics/demographicssurvey/UK/',
+def view_demographics_survey(request):
+    return handle_survey(request, DemographicsSurveyForm, 'DEMOGRAPHICS', '/treconomics/demographicssurvey/',
                              'survey/demographics_survey.html')
 
 

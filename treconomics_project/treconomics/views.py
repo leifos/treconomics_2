@@ -16,7 +16,7 @@ from treconomics.experiment_functions import get_user_performance_diversity
 from treconomics.experiment_configuration import experiment_setups
 
 
-from survey.models import USDemographicsSurvey
+from survey.models import DemographicsSurvey
 from survey.models import PreTaskTopicKnowledgeSurvey
 from survey.models import PostTaskTopicRatingSurvey
 from survey.models import NasaSystemLoad, NasaQueryLoad, NasaNavigationLoad, NasaAssessmentLoad
@@ -51,8 +51,7 @@ def reset_test_users(request):
         """
         PreTaskTopicKnowledgeSurvey.objects.filter(user=temp_user).delete()
         PostTaskTopicRatingSurvey.objects.filter(user=temp_user).delete()
-        USDemographicsSurvey.objects.filter(user=temp_user).delete()
-        USDemographicsSurvey.objects.filter(user=temp_user).delete()
+        DemographicsSurvey.objects.filter(user=temp_user).delete()
         NasaSystemLoad.objects.filter(user=temp_user).delete()
         NasaQueryLoad.objects.filter(user=temp_user).delete()
         NasaNavigationLoad.objects.filter(user=temp_user).delete()

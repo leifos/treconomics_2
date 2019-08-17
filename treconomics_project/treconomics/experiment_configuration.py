@@ -68,7 +68,7 @@ diversity_flow = [
 
 
 test_flow = [
-    'startexperiment/', 'preexperiment/UK/', 'demographicssurvey/UK/',
+    'startexperiment/', 'preexperiment/UK/', 'demographicssurvey/',
     'prepracticetask/0/', 'postpracticetask/0/', 'taskspacer/',
     'pretask/1/', 'taskspacerwithdetails/1/', 'taskspacer',
     'pretask/2/', 'taskspacerwithdetails/2/', 'taskspacer',
@@ -99,40 +99,6 @@ search_engine = Whooshtrec(
 search_engine.key_name = 'bm25'
 search_engine.set_fragmenter(frag_type=2, surround=30)
 
-"""
-exp_sigir2017 = ExperimentSetup(
-    workflow=snippet_flow,
-    engine=search_engine,
-    practice_topic='367',
-    topics=['347', '341', '435','408'],
-    rpp=10,
-    practice_interface=1,
-    interface=[1, 2, 3, 4],
-    rotation_type=1,
-    description='standard condition bm25 test',
-    trie=suggestion_trie,
-    autocomplete=False,
-    timeout=[150,600,600,600, 600])  # 300s = 5min; 600s = 10min; 1200s = 20min
-
-
-exp_sigir2018 = ExperimentSetup(
-    workflow=diversity_flow,
-    engine=search_engine,
-    practice_topic='367',
-    topics=['347', '341', '435', '408'],
-    rpp=10,
-    practice_interface=1,
-    interface=[1, 1, 1, 1],
-    rotation_type=2,
-    practice_diversity=2,
-    diversity=[1,2,3,4],
-    description='standard condition bm25 test',
-    trie=suggestion_trie,
-    autocomplete=False,
-    target=4,
-    timeout=[10000, 10000, 10000, 10000, 10000])  # 300s = 5min; 600s = 10min; 1200s = 20min, 10000 to stop timeout events firing
-
-"""
 
 exp_sigir2019 = ExperimentSetup(
     workflow=test_flow,
