@@ -16,6 +16,9 @@ class DocumentsExamined(models.Model):
     def __unicode__(self):
         return self.docid
 
+    def __str__(self):
+        return "{} {}".format(self.docid, self.title)
+
 
 class TaskDescription(models.Model):
     topic_num = models.IntegerField(default=0)
@@ -26,6 +29,9 @@ class TaskDescription(models.Model):
     def __unicode__(self):
         return self.title
 
+    def __str__(self):
+        return "{} {}".format(self.topic_num,  self.title)
+
 
 class TopicQuerySuggestion(models.Model):
     topic_num = models.IntegerField(default=0)
@@ -33,6 +39,9 @@ class TopicQuerySuggestion(models.Model):
     link = models.CharField(max_length=150)
 
     def __unicode__(self):
+        return self.title
+
+    def __str__(self):
         return self.title
 
 
@@ -55,3 +64,8 @@ class UserProfile(models.Model):
         #        UserProfile.objects.create(user=instance)
 
         #post_save.connect(create_user_profile, sender=User)
+
+    def __str__(self):
+        return self.user.username
+
+    
