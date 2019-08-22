@@ -1,7 +1,16 @@
 {% extends 'base/base.html' %}
+{% load staticfiles %}
+
 
 {% block exp_info_block %}
- <p> <!-- a href="/treconomics/logout">Logout</a> -->
+<style>
+    .active { color:blue; }
+</style>
+
+<script type="text/javascript"  src="{% static 'javascripts/pst.js' %}"></script>
+
+
+<p> <!-- a href="/treconomics/logout">Logout</a> -->
  </p>
 {% endblock %}
 
@@ -12,10 +21,68 @@
 <div>
 <div class="experimentPageTitle">
 <h2>Perceptual Speed Test - Finding A's</h2>
-<p> </p>
-<p> </p>
-<p> - Test to be added - </p>
+
+    <p> You will be shown lists of words.
+        Your task is to select (by clicking) all the words which contain the letter 'a'.<br/>
+        You can de-select the word by clicking it again. Selected are shown in blue.<br/>
+
+        You will have a limited amount of time to find as many as you can.<br/>
+
+        Press the start button to begin.<br/>
+
+    </p>
+
+    <div id="startbtn">
+            <button  class="largebutton" type="start">Start</button>
+    </div>
+
+
+    <table id="testtbl" style="width:100%">
+
+  <tr>
+    <td>house</td>
+    <td>glasses</td>
+    <td>books</td>
+      <td>yellow</td>
+          <td>cruel</td>
+
+
+
+  </tr>
+  <tr>
+    <td>branch</td>
+    <td>petrol</td>
+    <td>helmet</td>
+
+          <td>pensive</td>
+          <td>spawn</td>
+
+
+  </tr>
+   <tr>
+    <td>jungle</td>
+    <td>hatred</td>
+    <td>pencil</td>
+       <td>ideal</td>
+    <td>boring</td>
+
+
+
+  </tr>
+
+        <tr>
+              <td>spate</td>
+             <td>green</td>
+             <td>tissue</td>
+            <td>terror</td>
+             <td>happy</td>
+        </tr>
+
+</table>
+
 </div>
+    <div id="score">0 0</div>
+
 <div>
 
 
