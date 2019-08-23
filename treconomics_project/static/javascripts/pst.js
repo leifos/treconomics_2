@@ -22,7 +22,7 @@ $(document).ready(function(){
         $('#startbtn').hide();
         //alert(correct + " " + incorrect);
         //$('#testtbl').delay(6000).finished();
-        setTimeout(finished, 6000)
+        setTimeout(finished, 15000)
      });
 
 
