@@ -24,6 +24,18 @@ class DemographicsSurvey(models.Model):
         return self.user.username
 
 
+class PSTCharSearch(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    correct = models.IntegerField(default=0)
+    incorrect = models.IntegerField(default=0)
+
+    def __unicode__(self):
+        return self.user.username
+
+    def __str__(self):
+        return "{} {} {}".format(self.user.username, self.correct, self.incorrect)
+
+
 class NasaSystemLoad(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     nasa_mental_demand = models.IntegerField(default=0)

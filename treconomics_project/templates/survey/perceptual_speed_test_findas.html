@@ -32,10 +32,11 @@
 
     </p>
 
+    <div style="height:70px">
     <div id="startbtn">
             <button  class="largebutton" type="start">Start</button>
     </div>
-
+    </div>
 
     <table id="testtbl" style="width:100%">
 
@@ -81,16 +82,24 @@
 </table>
 
 </div>
-    <div id="score">0 0</div>
+    <!--- div id="score">0 0</div> --->
 
 <div>
 
+    <form id="survey_form" method="post" action="{{action}}">
+        {% csrf_token %}
+        <input type="hidden" id="correct" name="correct" value="0">
+        <input type="hidden" id="incorrect" name="incorrect" value="0">
 
-  <div class="surveySubmitButton">
-        <a href="{% url 'treconomics:next' %}">
-            <button class="largebutton" type="next">Next</button>
-        </a>
-    </div>
+           <div id="nextbtn" class="surveySubmitButton">
+ <input class="largebutton" type="submit" name="submit" value="Submit" />
+</div>
+
+    </form>
+
+
+
+
 
 
 {% endblock %}
