@@ -80,6 +80,13 @@ test_flow = [
     'logout/'
 ]
 
+#test_flow = [
+#    'startexperiment/', 'pst-findas/',
+#    'endexperiment/',
+#    'logout/'
+#]
+
+
 
 suggestion_trie = None
 """
@@ -110,7 +117,6 @@ exp_sigir2019 = ExperimentSetup(
     rpp=10,
     practice_interface=1,
     interface=[1, 2, 3, 4],
-    diversity=[0, 1, 0, 1],
     rotation_type=1,
     description='standard condition bm25 test',
     trie=suggestion_trie,

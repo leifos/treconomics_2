@@ -23,20 +23,14 @@
         </p>
 
 
-        {% if diversity < 3  %}
-    <p>For this task you must find <strong> RELEVANT and DIFFERENT </strong> documents.</p>
-{% else %}
- <p>For this task you must find <strong> RELEVANT </strong> documents.</p>
-    {% endif %}
+
+        <p>For this task you find a number of <strong> RELEVANT and DIFFERENT </strong> examples.</p>
 
     <hr/>
 
 
         <p>{% autoescape off %} <strong>{{ taskdescription }}</strong> {% endautoescape %} </p>
 
-        {% if diversity < 3 %}
-    <p>{% autoescape off %} <strong>{{ diversify }}</strong> {% endautoescape %}</p>
-    {% endif %}
 
         <p>To get familiar with the system, we would like you to:
         <ul>
@@ -67,5 +61,5 @@
 
 
 {% block exp_footer_block %}
-    Participant: {{ participant }}  - Condition: {{ condition }} - Task: {{ task }}  - Diversity: {{ diversity }} - Interface: {{ interface }}
+    Participant: {{ participant }}  - Condition: {{ condition }} - Task: {{ task }}  - Interface: {{ interface }}
 {% endblock %}

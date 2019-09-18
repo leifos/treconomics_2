@@ -9,44 +9,15 @@
 
 
     <div class="experimentPageTitle">
-
-
     <p><b>Search System</b></p>
-        <p> For this task you will be using the News Search System called:
-          {% if diversity == 1  %}
-        YoYo
-        {% endif %}
-         {% if diversity == 2  %}
-        Hula
-        {% endif %}
-         {% if diversity == 3  %}
-        YoYo
-        {% endif %}
- {% if diversity == 4  %}
-        Hula
-        {% endif %}
-        </p>
+        <p> For this task you will be using the News Search System.</p>
 
         <p><b>Task</b></p>
-
-         {% if diversity < 3  %}
-            <p>For this task you must find <strong> RELEVANT and DIFFERENT </strong> documents.</p>
-        {% else %}
-            <p>For this task you must find <strong> RELEVANT </strong> documents.</p>
-    {% endif %}
-
-
+            <p>For this task find a number of <strong> RELEVANT and DIFFERENT </strong> examples.</p>
 
         <p><b>Topic</b></p>
          <p>{% autoescape off %} {{ taskdescription }} {% endautoescape %} </p>
-
-            {% if diversity < 3 %}
-                <p>{% autoescape off %} {{ diversify }} {% endautoescape %}</p>
-            {% endif %}
-
     <hr/>
-
-
         <p> When you are ready click the "next" button to continue to the next task: </p>
     </div>
 
@@ -56,8 +27,6 @@
         </a>
 
     </div>
-
-
 
 {% endblock %}
 

@@ -21,7 +21,7 @@
            value="{% if focus_querybox %}{{ focus_querybox }}{% else %}true{% endif %}"/>
 
     <p>
-        <a href="{% url 'saved' %}?taskid={{ task }}&diversity={{ diversity }}">View Saved</a> |
+        <a href="{% url 'saved' %}?taskid={{ task }}">View Saved</a> |
         <a href="JavaScript:taskPopup('/treconomics/showtask/');">Show Task</a>
         | <a href="{% url 'next' %}" id="end-task-link"> End Task</a>
        <!-- | <a href="{% url 'next' %}" id="end-task-link"> End Task</a> -->
@@ -78,6 +78,6 @@
 
 
 {% block exp_footer_block %}
-    Participant: {{ participant }}  - Condition: {{ condition }} - Task: {{ task }} - Topic: {{ topicno }} - Diversity: {{ diversity }} - Interface: {{ interface }}
+    Participant: {{ participant }}  - Condition: {{ condition }} - Task: {{ task }} - Topic: {{ topicno }} - Interface: {{ interface }}
 {% endblock %}
 

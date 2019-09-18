@@ -12,7 +12,7 @@ from treconomics.models import TaskDescription
 from treconomics.models import UserProfile
 from treconomics.experiment_functions import get_experiment_context, print_experiment_context
 from treconomics.experiment_functions import log_event, populate_context_dict
-from treconomics.experiment_functions import get_user_performance_diversity
+
 from treconomics.experiment_configuration import experiment_setups
 
 
@@ -211,8 +211,7 @@ def show_task(request):
                     'task': taskid,
                     'topic': t.topic_num,
                     'tasktitle': t.title,
-                    'taskdescription': t.description,
-                    'diversify': t.diversify}
+                    'taskdescription': t.description}
     populate_context_dict(ec, context_dict)
 
 
@@ -240,8 +239,7 @@ def pre_task(request, taskid):
                     'task': taskid,
                     'topic': t.topic_num,
                     'tasktitle': t.title,
-                    'taskdescription': t.description,
-                    'diversify': t.diversify}
+                    'taskdescription': t.description}
 
     populate_context_dict(ec, context_dict)
 
@@ -263,8 +261,7 @@ def pre_practice_task(request, taskid):
     # provide link to search interface / next system
     context_dict = {'topic': t.topic_num,
                     'tasktitle': t.title,
-                    'taskdescription': t.description,
-                    'diversify': t.diversify}
+                    'taskdescription': t.description}
 
     populate_context_dict(ec, context_dict)
     print(context_dict)
@@ -505,7 +502,6 @@ def task_spacer_with_details(request, taskid):
     context_dict = {'topic': t.topic_num,
                     'tasktitle': t.title,
                     'taskdescription': t.description,
-                    'diversify': t.diversify,
                     'task': taskid}
 
     populate_context_dict(ec, context_dict)
@@ -566,25 +562,12 @@ def show_user_performance(request, userid):
 
     for i in range(1, 5):
         topic_num = setup.get_rotation_topic(rotation, i)
-        diversity_num = setup.get_rotation_diversity(rotation, i)
+
         topic_desc = TaskDescription.objects.get(topic_num=topic_num).title
 
-        perf = get_user_performance_diversity(uname, topic_num)
+        perf = {}
         perf['num'] = topic_num
         perf['title'] = topic_desc
-        perf['diversity'] = diversity_num
-
-        #perf = set_descriptions(diversity_num, topic_num, perf)
-        #perf = set_status(perf, target)
-
-        #if diversity_num in [1, 3]:
-        #    perf['system_name'] = 'YoYo Search'
-        #else:
-        #    perf['system_name'] = 'Hula Search'
-
-        state = ''
-        performances.append(perf)
-
 
     context_dict = {'user':u,
                     'performances': performances,}

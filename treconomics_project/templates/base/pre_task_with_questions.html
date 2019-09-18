@@ -19,11 +19,8 @@
 
         <p>Below is a description of the search task that we would like you to undertake.</p>
 
-         {% if diversity < 3  %}
-            <p>For this task you must find <strong> RELEVANT and DIFFERENT </strong> documents.</p>
-        {% else %}
-            <p>For this task you must find <strong> RELEVANT </strong> documents.</p>
-    {% endif %}
+
+           <p>For this task you find a number of <strong> RELEVANT and DIFFERENT </strong> examples.</p>
 
     <hr/>
 
@@ -31,9 +28,6 @@
         <div id="query">
             <p>{% autoescape off %} <strong>{{ taskdescription }}</strong> {% endautoescape %} </p>
 
-            {% if diversity < 3 %}
-                <p>{% autoescape off %} <strong>{{ diversify }}</strong> {% endautoescape %}</p>
-            {% endif %}
 
         </div>
         <br/>

@@ -5,14 +5,14 @@ from django.contrib.auth.models import User
 from pytz import timezone
 from django.conf import settings
 from treconomics.models import DocumentsExamined
-from treconomics.experiment_configuration import event_logger, qrels_file, qrels_diversity_file, experiment_setups
+from treconomics.experiment_configuration import event_logger, qrels_file, experiment_setups
 
 from ifind.seeker.trec_qrel_handler import TrecQrelHandler
-from ifind.seeker.trec_diversity_qrel_handler import EntityQrelHandler
+
 
 settings_timezone = timezone(settings.TIME_ZONE)
 qrels = TrecQrelHandler(qrels_file)
-qrels_diversity = EntityQrelHandler(qrels_diversity_file)
+
 
 
 def get_experiment_context(request):
@@ -48,7 +48,7 @@ def get_experiment_context(request):
     esd = es.get_exp_dict(ec["taskid"],ec["rotation"])
     ec["topicnum"] = esd["topic"]
     ec["interface"] = esd["interface"]
-    ec["diversity"] = esd["diversity"]
+    ec["diversity"] = 0
     ec["rpp"] = esd["rpp"]
     ec["autocomplete"] = esd["autocomplete"]
     ec["target"] = esd["target"]
@@ -100,7 +100,7 @@ def log_event(event, request, query="", whooshid=-2, judgement=-2, trecid="", ra
               metrics=None):
     ec = get_experiment_context(request)
 
-    msg = "{0} {1} {2} {3} {4} {5} {6}".format(ec["username"], ec["condition"], ec["interface"], ec["diversity"], ec["taskid"], ec["topicnum"], event)
+    msg = "{0} {1} {2} {3} {4} {5} {6}".format(ec["username"], ec["condition"], ec["interface"], 0, ec["taskid"], ec["topicnum"], event)
 
     if whooshid > -1:
         event_logger.info(
@@ -265,70 +265,6 @@ def get_performance(username, topic_num):
     return assess_performance(str(topic_num), doc_list)
 
 
-def get_user_performance_diversity(username, topic_num):
-    """
-    Given a username and a topic number, calls get_performance_diversity(), and return its output.
-    """
-    u = User.objects.get(username=username)
-    docs = DocumentsExamined.objects.filter(user=u).filter(topic_num=topic_num)
-    doc_list = []
-
-    # Select all documents that were marked/saved by the searcher.
-    for d in docs:
-        if d.judgement > 0:
-            doc_list.append(d.doc_num)
-
-    return get_performance_diversity(doc_list, topic_num)
-
-
-def get_performance_diversity(doc_list, topic_num):
-    """
-    A revised get_performance_diversity function.
-    For debugging, use debug_doc_list as a list of documents that an imaginary user has saved (list of strings, TREC docnums).
-    """
-    return_dict = {}  # Return dictionary for all values.
-    (total, trec_rels, trec_nonrels, unassessed) = get_trec_scores(doc_list, topic_num)
-
-    # Calculate TREC accuracy -- i.e. accuracy considering only documents that were assessed.
-    return_dict['trec_acc'] = 0.0
-
-    if (trec_rels + trec_nonrels) > 0:
-        return_dict['trec_acc'] = float(trec_rels) / (trec_rels + trec_nonrels)
-
-    # Calculate accuracy -- i.e. considering all saved documents.
-    return_dict['acc'] = 0.0
-
-    if total > 0:
-        return_dict['acc'] = float(trec_rels) / total
-
-    # Assign raw values to the dictionary.
-    return_dict['trec_rels'] = trec_rels
-    return_dict['trec_nonrels'] = trec_nonrels
-    return_dict['trec_unassessed'] = unassessed
-    return_dict['total'] = total
-
-    # Estimated accuracy and relevant documents
-    return_dict['estimated_acc'] = (return_dict['trec_acc'] + return_dict['acc']) / 2.0
-    return_dict['estimated_rels'] = math.floor(trec_rels + return_dict['estimated_acc'] * unassessed)
-
-    # Entity calculations
-    observed_entities = []
-    new_doc_count = 0
-
-    for docid in doc_list:
-        doc_entities = qrels_diversity.get_mentioned_entities_for_doc(topic_num, docid)
-        new_in_doc = list(set(doc_entities) - set(observed_entities))
-        observed_entities = observed_entities + list(set(doc_entities) - set(observed_entities))
-
-        if len(new_in_doc) > 0:
-            new_doc_count = new_doc_count + 1
-
-    return_dict['diversity_new_docs'] = new_doc_count
-    return_dict['diversity_new_entities'] = len(observed_entities)
-
-    return return_dict
-
-
 def query_result_performance(results, topic_num):
     i = 0
     rels_found = 0
@@ -336,10 +272,6 @@ def query_result_performance(results, topic_num):
         i += 1
         if qrels.get_value(topic_num, r.docid) > 0:
             rels_found += 1
-
-    # TODO rels_found = sum(qrels.get_value(topic_num, r.docid) > 0 for r in results)
-    # return [rels_found, len(results)]
-
     return [rels_found, i]
 
 
@@ -348,12 +280,9 @@ def get_topic_relevant_count(topic_num):
     Returns the number of documents considered relevant for topic topic_num.
     """
     count = 0
-
     for document in qrels.get_doc_list(topic_num):
         if qrels.get_value(topic_num, document) > 0:
             count += 1
-
-    # TODO return sum(qrels.get_value(topic_num, doc) > 0 for doc in qrels.get_doc_list(topic_num))
     return count
 
 
@@ -410,8 +339,6 @@ def populate_context_dict(experiment_context, page_context_dict):
         page_context_dict["interface"]  = experiment_context["interface"]
     if "rpp" in experiment_context:
         page_context_dict["rpp"] = experiment_context["rpp"]
-    if "diversity" in experiment_context:
-        page_context_dict["diversity"] = experiment_context["diversity"]
     if "target" in experiment_context:
         page_context_dict["target"] = experiment_context["target"]
     return page_context_dict

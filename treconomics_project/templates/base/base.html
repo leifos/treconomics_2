@@ -20,7 +20,7 @@
         <script  type="text/javascript" src="{% static 'javascripts/gen_validatorv4-mod.js' %}"></script>
         <script type="text/javascript" src="{% static 'javascripts/popup_launcher.js' %}"></script>
         <script type="text/javascript" src="{% static 'javascripts/no_backsies.js' %}"></script>
-        
+
         <script type="text/javascript">
             TASKID = {{ task }};
         </script>
@@ -30,17 +30,9 @@
         {% block wait-box %}{% endblock %}
 
         <div class="container">
-        <div class="header {%if diversity and diversity > 0 and task and task > 0 %}{% if diversity == 1 or diversity == 3 %}yoyo{% else %}hula{% endif %}{% endif %}">
+        <div class="header">
             <div class="title">
-            {% if diversity and diversity > 0 and task and task > 0 %}
-                {% if diversity == 1 or diversity == 3 %}
-                    <img src="/static/images/yoyo-top.png" /><span class="extra">Search</span>
-                {% else %}
-                    <img src="/static/images/hula-top.png" /><span class="extra">Search</span>
-                {% endif %}
-            {% else %}
             <em>News Search System Study</em>
-            {% endif %}
             </div>
 	        <div class="info_block"> {% block exp_info_block %}{% endblock %} </div>
         </div> <!-- end header div -->

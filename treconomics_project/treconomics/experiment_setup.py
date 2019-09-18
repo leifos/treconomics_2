@@ -15,10 +15,8 @@ class ExperimentSetup(object):
                  topics=['347', '344'],
                  practice_topic='367',
                  practice_interface=1,
-                 practice_diversity=0,
                  rpp=10,
                  interface=[1, 2, 3],
-                 diversity=[0,1,1],
                  description='',
                  delay_results=0,
                  delay_docview=0,
@@ -31,7 +29,6 @@ class ExperimentSetup(object):
         self.topics = topics
         self.rpp = rpp
         self.interface = interface
-        self.diversity = diversity
         self.engine = engine
         self.description = description
         self.workflow = workflow
@@ -44,7 +41,6 @@ class ExperimentSetup(object):
         self.delay_docview = delay_docview
         self.practice_topic = practice_topic
         self.practice_interface = practice_interface
-        self.practice_diversity = practice_diversity
         self.rotation_type = rotation_type
         # Do you want to use AJAX suggestions if the AJAX search interface is used?
         # To ensure that suggestions do not show with the structured interface, wrap the following assignments
@@ -107,21 +103,6 @@ class ExperimentSetup(object):
         else:
             return self.get_interface(t)
 
-    def get_rotation_diversity(self, i, t):
-        """ get the ith rotation and the tth diversity
-        :param i: integer
-        :param t: integer
-        :return: returns the diversity number
-        """
-
-        if self.rotation_type == 2:
-            ith = self._get_check_i(self.diversity, i)
-            rotations = self.pro.get_ordering(self.diversity, ith)
-            t -= 1
-            return rotations[t]
-        else:
-            return self.get_diversity(t)
-
     def get_topic(self, t=0):
 
         if t == 0:
@@ -137,13 +118,6 @@ class ExperimentSetup(object):
         else:
             t -= 1
             return self._get_value(self.interface, t)
-
-    def get_diversity(self, t=0):
-        if t == 0:
-            return self.practice_diversity
-        else:
-            t -= 1
-            return self._get_value(self.diversity, t)
 
     def get_engine(self, t=0):
         return self._get_value(self.engine, t)
@@ -167,7 +141,6 @@ class ExperimentSetup(object):
 
         exp = {'engine': self.get_engine(t),
                'interface': self.get_interface(t),
-               'diversity': self.get_diversity(t),
                'result_delay': self.get_result_delay(t),
                'docview_delay': self.get_docview_delay(t),
                'rpp': self.get_rpp(t),
@@ -180,23 +153,19 @@ class ExperimentSetup(object):
         if t == 0:
             exp['topic'] = self.practice_topic
             exp['interface'] = self.practice_interface
-            exp['diversity'] = self.practice_diversity
             exp['desc'] = 'practice'
         else:
             if self.rotation_type == 0:
                 exp['topic'] = self.get_rotation_topic(i, t)
                 exp['interface'] = self.get_interface(t)
-                exp['diversity'] = self.get_diversity(t)
             else:
                 if self.rotation_type == 2:
-
                     exp['topic'] = self.get_topic(t)
                     exp['interface'] = self.get_interface(t)
-                    exp['diversity'] = self.get_rotation_diversity(i, t)
                 else:
                     exp['interface'] = self.get_rotation_interface(i, t)
                     exp['topic'] = self.get_topic(t)
-                    exp['diversity'] = self.get_diversity(t)
+
 
             exp['desc'] = 'real'
 
@@ -212,9 +181,7 @@ if __name__ == '__main__':
                            topics=['347', '367', '354','999'],
                            rpp=10,
                            practice_interface=1,
-                           practice_diversity=0,
                            interface= [1, 2, 3, 4],
-                           diversity =[1, 1, 0, 0],
                            rotation_type=2,
                          tasks=4)
 
@@ -223,5 +190,4 @@ if __name__ == '__main__':
         print ("User on rotation", r)
         for t in range(0, 5):
             des = es.get_exp_dict(t, r)
-
-            print("Taskno: {0} Rotation: {1} Topic: {2} Interface: {3} Diversity: {4}").format(t,  r, des['topic'], des['interface'], des['diversity'])
+            print("Taskno: {0} Rotation: {1} Topic: {2} Interface:  {4}").format(t,  r, des['topic'], des['interface'])
