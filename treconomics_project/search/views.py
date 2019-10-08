@@ -8,15 +8,14 @@ import logging
 import math
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseBadRequest
-from treconomics.models import DocumentsExamined
-from treconomics.models import TaskDescription
+
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
-from ifind.search import Query
-from urllib import urlencode
+
+from urllib.parse import urlencode
 # Whoosh
 from whoosh.index import open_dir
 # Cache for autocomplete trie
@@ -24,16 +23,19 @@ from django.core import cache
 # Timing Query
 import timeit
 # Experiments
+from ifind.search import Query
+from treconomics.models import DocumentsExamined
+from treconomics.models import TaskDescription
 from treconomics.experiment_functions import get_topic_relevant_count
 from treconomics.experiment_functions import get_experiment_context
 from treconomics.experiment_functions import mark_document, log_event
 from treconomics.experiment_functions import time_search_experiment_out
-from treconomics.experiment_functions import get_performance, get_user_performance_diversity, populate_context_dict
+from treconomics.experiment_functions import get_performance, populate_context_dict
 from treconomics.experiment_functions import query_result_performance, log_performance
 from treconomics.experiment_configuration import my_whoosh_doc_index_dir, data_dir
 from treconomics.experiment_configuration import experiment_setups
 import json
-from search.diversify import diversify_results
+
 
 from .snippets import entity_snippet
 
@@ -52,7 +54,7 @@ def show_document(request, whoosh_docid):
     :return:
     """
     if time_search_experiment_out(request):
-        return redirect('timeout')
+        return redirect('treconomics:timeout')
 
     ec = get_experiment_context(request)
     uname = ec["username"]
@@ -99,7 +101,7 @@ def show_document(request, whoosh_docid):
             rank = get_document_rank()
 
             # marks that the document has been marked rel or nonrel
-            doc_length = ixr.doc_field_length(long(request.GET.get('docid', 0)), 'content')
+            doc_length = ixr.doc_field_length(int(request.GET.get('docid', 0)), 'content')
             user_judgement = mark_document(request, doc_id, user_judgement, title, doc_num, rank, doc_length)
             # mark_document handles logging of this event
         return JsonResponse(user_judgement, safe=False)
@@ -111,7 +113,7 @@ def show_document(request, whoosh_docid):
         # marks that the document has been viewed
         rank = get_document_rank()
 
-        doc_length = ixr.doc_field_length(long(doc_id), 'content')
+        doc_length = ixr.doc_field_length(int(doc_id), 'content')
         user_judgement = mark_document(request, doc_id, user_judgement, title, doc_num, rank, doc_length)
 
         context_dict = {'participant': uname,
@@ -147,7 +149,7 @@ def show_saved_documents(request):
     """
     # Timed out?
     if time_search_experiment_out(request):
-        return redirect('timeout')
+        return redirect('treconomics:timeout')
 
     ec = get_experiment_context(request)
     taskid = ec['taskid']
@@ -160,13 +162,6 @@ def show_saved_documents(request):
         taskid = int(request.GET.get('taskid'))
     elif 'taskid' in request.session:
         taskid = int(request.session['taskid'])
-    
-    if 'diversity' in request.GET:
-        diversity = int(request.GET.get('diversity'))
-    elif 'diversity' in request.session:
-        diversity = int(request.session['diversity'])
-    else:
-        diversity = None
     
     user_judgement = -2
     if request.method == 'GET':
@@ -209,8 +204,7 @@ def show_saved_documents(request):
                     'task': taskid,
                     'condition': condition,
                     'current_search': current_search,
-                    'docs': docs,
-                    'diversity': diversity}
+                    'docs': docs}
 
     return render(request, 'trecdo/saved_documents.html', context_dict)
 
@@ -250,7 +244,7 @@ def run_query(request, result_dict, query_terms='', page=1, page_len=10, conditi
     query.top = page_len
     result_dict['query'] = query_terms
 
-    print query
+    print(query)
     search_engine = experiment_setups[condition].get_engine()
 
     snippet_sizes = [2, 0, 1, 4]
@@ -261,32 +255,7 @@ def run_query(request, result_dict, query_terms='', page=1, page_len=10, conditi
     search_engine.set_fragmenter(frag_type=2, surround=snippet_surround[pos])
 
     response = None
-    if (diversity in [1,3]):
-        # we need to diversify the results
-        print("Do Diversification :-)")
-        log_event(event="QUERY_DIVERSIFIED", request=request, query=query_terms)
-        kdiv = 30
-        lam = 0.7
-        if ((page * page_len) <= (kdiv+1)):
-            # we are only diversifying the top kdiv
-            query.skip = 1
-            query.top = kdiv
-            response = search_engine.search(query)
-            #print("Normal")
-            #for r in response.results:
-            #    print(r.docid, r.title)
-            response = diversify_results(response, topic_num, kdiv, lam)
-            #print("Diversified")
-            #for r in response.results:
-            #    print(r.docid, r.title)
-            start = (page-1)*page_len
-            end = min((page*page_len), len(response.results))
-            response.results = response.results[start:end]
-            response.actual_page = page
-        else:
-            response = search_engine.search(query)
-    else:
-        response = search_engine.search(query)
+    response = search_engine.search(query)
 
     log_event(event="QUERY_END", request=request, query=query_terms)
     num_pages = response.total_pages
@@ -302,7 +271,7 @@ def run_query(request, result_dict, query_terms='', page=1, page_len=10, conditi
         result_dict['trec_search'] = True
         result_dict['trec_results'] = response.results[len(response.results)-page_len:len(response.results)]
         result_dict['curr_page'] = response.actual_page
-        print response.actual_page
+        print(response.actual_page)
         if page > 1:
             result_dict['prev_page'] = page - 1
             result_dict['prev_page_show'] = True
@@ -335,8 +304,7 @@ def get_results(request, result_dict, page, page_len, condition, user_query, int
 
 
 def set_task(request, taskid=-1):
-    if isinstance(taskid, unicode):
-        taskid = int(taskid)
+    taskid = int(taskid)
 
     # If taskid is set, then it marks the start of a new search task
     # Update the session variable to reflect this
@@ -377,8 +345,7 @@ def is_from_search_request(request, new_page_no):
 def search(request, taskid=-1):
     sys.stdout.flush()
 
-    if isinstance(taskid, unicode):
-        taskid = int(taskid)
+    taskid = int(taskid)
 
     # If taskid is set, then it marks the start of a new search task
     # Update the session variable to reflect this
@@ -393,7 +360,7 @@ def search(request, taskid=-1):
 
     #FIXME this might cause issues check for timeout
     if time_search_experiment_out(request):
-        return redirect('timeout')
+        return redirect('treconomics:timeout')
     else:
         """show base index view"""
 
@@ -402,10 +369,9 @@ def search(request, taskid=-1):
         rotation = ec["rotation"]
         interface = ec["interface"]
         topic_num = ec["topicnum"]
-        diversity = ec["diversity"]
 
-        print taskid, rotation, interface, topic_num, diversity
-        print '--------'
+        print(taskid, rotation, interface, topic_num)
+        print('--------')
 
         page_len = ec["rpp"]
         page = 1
@@ -464,15 +430,15 @@ def search(request, taskid=-1):
             else:
                 # Get some results! Call this wrapper function which uses the Django cache backend.
 
-                print "INTERFACE IS {0}".format(interface)
+                print("INTERFACE IS {0}".format(interface))
 
-                print "page: {0} pagelen: {1}".format(page,page_len)
+                print("page: {0} pagelen: {1}".format(page,page_len))
                 get_results(request, result_dict,
                             page,
                             page_len,
                             condition,
                             user_query,
-                            interface, diversity, topic_num)
+                            interface, 0, topic_num)
                 log_event(event="QUERY_COMPLETE", request=request, query=user_query)
 
                 result_dict['page'] = page
@@ -578,186 +544,6 @@ def view_performance(request):
     return render(request, 'base/performance_experiment.html', context_dict)
 
 
-def view_performance_diversity(request):
-    """
-    Renders the performance template for the diversity experiment.
-    Added by David on 2018-01-04.
-    """
-    ec = get_experiment_context(request)
-    uname = ec["username"]
-    rotation = ec["rotation"]
-    condition = ec["condition"]
-    target = ec["target"]  # How many documents do people need to find?
-    
-    # Gets the experimental setup for the given condition.
-    setup = experiment_setups[condition]
-    
-    performances = []
-    """
-    entities = {  # Mappings of the different entities that we asked people to find.
-        '347': 'species',
-        '408': 'tropical storms',
-        '435': 'countries',
-        '341': 'airports',
-        '367': 'vessels',
-    }
-    """
-    
-    for i in range(1, 5):
-        topic_num = setup.get_rotation_topic(ec['rotation'], i)
-        diversity_num = setup.get_rotation_diversity(ec['rotation'], i)
-        topic_desc = TaskDescription.objects.get(topic_num=topic_num).title
-        
-        perf = get_user_performance_diversity(uname, topic_num)
-        perf['num'] = topic_num
-        perf['title'] = topic_desc
-        perf['diversity'] = diversity_num
-
-        perf = set_descriptions(diversity_num, topic_num, perf)
-        perf = set_status(perf, target)
-        
-        if diversity_num in [1, 3]:
-            perf['system_name'] = 'YoYo Search'
-        else:
-            perf['system_name'] = 'Hula Search'
-
-        """
-        if diversity_num in [1,2]:
-            perf['diversity_entity'] = entities[topic_num]
-            perf['task_description'] = "Find RELEVANT and DIFFERENT"
-        elif diversity_num in [3,4]:
-            perf['task_description'] = "Find RELEVANT"
-        """
-        ## Did the searcher pass or fail?
-        """
-        state = 'FAIL'
-        perf['status'] = 'fail'
-        perf['status_message'] = 'Fail'
-    
-        if perf['estimated_rels'] >= target:
-            if diversity_num in [1,2] and perf['assessed']['accuracy'] >= 0.5:  # Rel and diff, and meets/exceeds the target threshold:
-                perf['status'] = 'pass'
-                perf['status_message'] = 'Pass!'
-                state = 'PASS'
-            elif diversity_num in [3, 4] and perf['assessed']['accuracy'] >= 0.5:  # Rel only
-                perf['status'] = 'pass'
-                perf['status_message'] = 'Pass!'
-                state = 'PASS'
-        """
-        state = ''
-        performances.append(perf)
-        log_user_diversity_performance(request, topic_num, diversity_num, perf)
-        
-    context_dict = {'participant': uname,
-                    'condition': condition,
-                    'performances': performances,}
-    
-    return render(request, 'base/performance_experiment_diversity.html', context_dict)
-
-def view_performance_diversity_practice(request):
-    """
-    Renders the performance template for the practice task.
-    Added by David on 2018-01-04.
-    """
-    # This view is called after the task has been completed.
-    log_event(request=request, event="TASK_ENDED")
-    
-    ec = get_experiment_context(request)
-    uname = ec["username"]
-    rotation = ec["rotation"]
-    condition = ec["condition"]
-    target = ec["target"]  # How many documents do people need to find?
-
-    setup = experiment_setups[condition]
-    # Iteration 0 is the practice topic
-    topic_num = setup.get_rotation_topic(ec['rotation'], 0)
-    diversity_num = setup.get_rotation_diversity(ec['rotation'], 0)
-    topic_desc = TaskDescription.objects.get(topic_num=topic_num).title
-    
-    perf = get_user_performance_diversity(uname, topic_num)
-    perf['num'] = topic_num
-    perf['title'] = topic_desc
-
-    perf = set_descriptions(diversity_num, topic_num, perf)
-    perf = set_status(perf, target)
-    
-    #log_event(request=request, event = "TPERFORMANCE"+ str(perf))
-
-
-    context_dict = {'participant': uname,
-                    'condition': condition,
-                    'performance': perf}
-                    
-    log_user_diversity_performance(request, topic_num, diversity_num, perf)
-    
-    return render(request, 'base/performance_experiment_diversity_practice.html', context_dict)
-
-
-def log_user_diversity_performance(request, topic_num, diversity_num, perf):
-    """
-    Logs a user's performance given a dictionary, perf.
-    """
-    log_str = 'USER_PERFORMANCE {topic} {diversity}'.format(
-        topic=topic_num,
-        diversity=diversity_num)
-    
-    # Key: USER_PERFORMANCE topic diversity target trec_rels trec_nonrels trec_unassessed total trec_acc acc estimated_acc estimated_rels diversity_new_docs diversity_new_entities
-    # What order should the fields be appended to the log string in?
-    order = ['diversity', 'target', 'trec_rels', 'trec_nonrels', 'trec_unassessed', 'total', 'trec_acc', 'acc', 'estimated_acc', 'estimated_rels', 'diversity_new_docs', 'diversity_new_entities']
-    
-    # Build up the log string
-    for key in order:
-        val = perf[key]
-        
-        if type(val) == str:
-            val = val.upper()
-        
-        log_str = '{log_str} {val}'.format(log_str=log_str, val=val)
-    
-    if perf['status'] == 'pass':
-        log_str = '{log_str} PASS'.format(log_str=log_str)
-    else:
-        log_str = '{log_str} FAIL'.format(log_str=log_str)
-    
-    log_event(request=request, event=log_str)
-
-
-def set_status(perf_dict, target):
-    perf_dict['target'] = target
-    perf_dict['status'] = ''
-    perf_dict['status_message'] = 'You did not meet all the specified criteria.'
-
-    if perf_dict['estimated_rels'] >= target:
-        if perf_dict['estimated_acc'] >= 0.5:
-            perf_dict['status'] = 'pass'
-            perf_dict['status_message'] = 'You met the specified criteria.'
-
-    return perf_dict
-
-
-def set_descriptions(diversity_num, topic_num, perf_dict):
-    entities = {  # Mappings of the different entities that we asked people to find.
-        '347': 'species',
-        '408': 'tropical storms',
-        '435': 'countries',
-        '341': 'airports',
-        '367': 'vessels',
-    }
-
-    perf_dict['diversity'] = diversity_num
-
-    if diversity_num in [1,2]:
-        perf_dict['diversity_entity'] = entities[topic_num]
-        perf_dict['task_description'] = "Find RELEVANT and DIFFERENT"
-    elif diversity_num in [3,4]:
-        perf_dict['task_description'] = 'Find RELEVANT'
-
-    return perf_dict
-
-
-
-
-
 
 @login_required
 def view_log_hover(request):
@@ -861,7 +647,7 @@ def autocomplete_suggestion(request):
         results = []
 
         if exp['autocomplete']:
-            chars = unicode(request.GET.get('suggest'))
+            chars = str(request.GET.get('suggest'))
 
             # See if the cache has what we are looking for.
             # If it does, pull it out and use that.
@@ -904,7 +690,7 @@ def view_run_queries(request, topic_num):
             parts = line.partition(' ')
             # print parts
             # TODO query_num = parts[0]
-            query_str = unicode(parts[2])
+            query_str = str(parts[2])
             if query_str:
                 logging.debug(query_str)
                 q = Query(query_str)

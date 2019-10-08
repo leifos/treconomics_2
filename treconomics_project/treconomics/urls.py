@@ -1,5 +1,6 @@
 from django.urls import path
 from treconomics import views
+from search import views as search_views
 
 app_name = 'treconomics'
 
@@ -23,15 +24,21 @@ urlpatterns = [
              path('taskspacer/', views.TaskSpacerView.as_view()),
              path('taskspacerwithdetails/<taskid>/', views.task_spacer_with_details),
              path('taskspacer2/<msg_id>/', views.task_spacer_msg),
-
              path('sessioncompleted/', views.SessionCompletedView.as_view(), name='session-completed'),
              path('postexperiment/', views.PostExperimentView.as_view()),
              path('endexperiment/', views.EndExperimentView.as_view()),
 
-#            path('(?P<whoosh_docid>\d+)/$', search_views.show_document),
-#            path('saved/$', search_views.show_saved_documents, name='saved'),
-#            path('search/$', search_views.search, name='search'),
-#            path('search/(?P<taskid>\d+)/$', search_views.search, name='search-task'),
+            path('saved/', search_views.show_saved_documents, name='saved'),
+            path('search/', search_views.search, name='search'),
+            path('search/<taskid>/', search_views.search, name='search-task'),
+            path('performance/', search_views.view_performance),
+            path('suggestion_selected/', search_views.suggestion_selected),
+            path('suggestion_hover/', search_views.suggestion_hover),
+            path('query_focus/', search_views.view_log_query_focus),
+            path('hover/', search_views.view_log_hover),
+            path('autocomplete/', search_views.autocomplete_suggestion),
+            path('doc/<whoosh_docid>/', search_views.show_document),
 
+            path('timeout/', views.show_timeout_message, name='timeout'),
 
 ]

@@ -12,9 +12,9 @@ class Worker(Thread):
 
     def run(self):
         key = make_key(self.query, self.search_engine)
-        print "Starting " + key
+        print("Starting " + key)
         (in_cache, response) = get_response(self.query, self.search_engine)
-        print "Exiting " + key
+        print("Exiting " + key)
 
 
 def do_cache_pages(query, search_engine, num_pages):
@@ -23,7 +23,7 @@ def do_cache_pages(query, search_engine, num_pages):
         w = Worker(query, search_engine)
         w.setDaemon(True)
         w.start()
-        print w
+        print(w)
 
 
 def get_response(query, search_engine):
@@ -35,7 +35,7 @@ def get_response(query, search_engine):
         response = search_engine.search(query)
         put_results_in_cache(key, response)
     else:
-        print "response fetched from cache"
+        print("response fetched from cache")
     return in_cache, response
 
 
@@ -50,7 +50,7 @@ def make_key(query, search_engine):
     terms = '-'.join(term_list)
     terms = terms.lower()
     key = search_engine.key_name + '-' + str(skip) + '-' + str(top) + '-' + terms
-    print key
+    print(key)
     return key
 
 

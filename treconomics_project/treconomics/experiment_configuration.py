@@ -13,12 +13,11 @@ work_dir = os.getcwd()
 
 
 #my_whoosh_doc_index_dir = os.path.join(work_dir, 'data/fullindex/')
-my_whoosh_doc_index_dir = os.path.join(work_dir, 'data/test500index/')
+my_whoosh_doc_index_dir = os.path.join(work_dir, 'data/newindex/')
 
 my_whoosh_query_index_dir = os.path.join(work_dir, "/trec_query_index/index")
 my_experiment_log_dir = work_dir
 qrels_file = os.path.join(work_dir, "data/TREC2005.qrels.txt")
-qrels_diversity_file = os.path.join(work_dir, "data/sigir-combined.diversity.qrels")
 stopword_file = os.path.join(work_dir, "data/stopwords.txt")
 data_dir = os.path.join(work_dir, "data")
 
@@ -71,11 +70,11 @@ diversity_flow = [
 
 test_flow = [
     'startexperiment/', 'preexperiment/UK/', 'demographicssurvey/', 'pst-findas/', 'pst-numbers/', 'taskspacer',
-    'prepracticetask/0/', 'postpracticetask/0/', 'taskspacer/',
-    'pretaskquestions/1/', 'taskspacerwithdetails/1/', 'taskspacer',
-     'pretaskquestions/2/', 'taskspacerwithdetails/2/', 'taskspacer',
-     'pretaskquestions/3/', 'taskspacer',
-     'pretaskquestions/4/',
+    'prepracticetask/0/', 'search/0/', 'postpracticetask/0/', 'taskspacer/',
+    'pretaskquestions/1/', 'search/1/', 'taskspacerwithdetails/1/', 'taskspacer',
+     'pretaskquestions/2/', 'search/2/', 'taskspacerwithdetails/2/', 'taskspacer',
+     'pretaskquestions/3/', 'search/3/', 'taskspacer',
+     'pretaskquestions/4/', 'search/4/',
     'endexperiment/',
     'logout/'
 ]

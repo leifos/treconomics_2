@@ -1,4 +1,3 @@
-import string
 
 class Query(object):
     """
@@ -26,7 +25,7 @@ class Query(object):
 
         """
         self.terms = Query.check_input(terms, strip_punctuation=strip_punctuation)
-        self.parsed_terms = None
+        self.parsed_terms = self.terms.strip()
         self.result_type = result_type.lower()
         if not self.result_type:
             self.result_type = None
@@ -41,8 +40,8 @@ class Query(object):
         for key, value in self.__dict__.items():
             self.__dict__[key] = value
 
-            if isinstance(value, str):
-                self.__dict__[key] = value.encode('utf-8').rstrip()
+            #if isinstance(value, str):
+            #    self.__dict__[key] = value.encode('utf-8').rstrip()
 
     def set_skip(self, skip):
         self.skip = skip
@@ -105,14 +104,17 @@ class Query(object):
         contains nothing/spaces.
 
         """
-        PUNCTUATION = '!"#$%&\'()*+,-/;<=>?@[\\]^_`{|}~'
+        s = input_string
+        PUNCTUATION = u'!"#$%&\'()*+,-/;<=>?@[\\]^_`{|}~'
 
         # encode to ascii, ignoring non ascii chars
-        s = input_string.encode('ascii', 'ignore')
+        #s = input_string.encode('ascii', 'ignore')
 
         # remove all punctuation
-        if strip_punctuation:
-            s = s.translate(string.maketrans(PUNCTUATION, ' '*len(PUNCTUATION)))
+        #if strip_punctuation:
+        #    translation = str.maketrans(PUNCTUATION, ' '*len(PUNCTUATION))
+        #
+        #    s = s.translate(translation)
 
         # set to None if just spaces
         if s.isspace():
@@ -124,12 +126,4 @@ class Query(object):
         """
         Unicode method - returns the query.
         """
-        if isinstance(self.parsed_terms, unicode):
-            return self.parsed_terms
-
-        return_str = u""
-
-        for term in self.parsed_terms:
-            return_str = "{0} {1}".format(return_str, term.text)
-
-        return return_str.strip()
+        return self.parsed_terms

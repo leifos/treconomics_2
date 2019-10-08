@@ -1,3 +1,5 @@
+/*
+
 function validate_required(field) {
     with (field) {
         if (value == null || value == "") {
@@ -17,3 +19,5 @@ function validate_form(thisform) {
         }
     }
 }
+
+*/
