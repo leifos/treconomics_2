@@ -37,92 +37,110 @@ def handle_survey(request, SurveyForm, survey_name, action, template):
     return render(request, template, context_dict)
 
 
-@login_required
-def view_search_efficacy_survey(request):
-    return handle_survey(request, SearchEfficacyForm, 'SELF_SEARCH_EFFICACY', '/treconomics/searchefficacysurvey/',
-                         'survey/search_efficacy_survey.html')
+# @login_required
+# def view_search_efficacy_survey(request):
+#     return handle_survey(request, SearchEfficacyForm, 'SELF_SEARCH_EFFICACY', '/treconomics/searchefficacysurvey/',
+#                          'survey/search_efficacy_survey.html')
 
 
 @login_required
 def view_demographics_survey(request):
     return handle_survey(request, DemographicsSurveyForm, 'DEMOGRAPHICS', '/treconomics/demographicssurvey/',
-                             'survey/demographics_survey.html')
+                         'survey/demographics_survey.html')
 
 
 @login_required
-def view_nasa_load_survey(request):
-    return handle_survey(request, NasaSystemLoadForm, 'NASA_LOAD', '/treconomics/nasaloadsurvey/',
-                         'survey/nasa_load_survey.html')
+def view_post_perception_survey(request):
+    return handle_survey(request, PostPerceptionSurveyForm, 'PERCEPTION', '/treconomics/perceptionsurvey/',
+                         'survey/post_perception_survey.html')
 
 
 @login_required
-def view_short_stress_survey(request):
-    return handle_survey(request, ShortStressSurveyForm, 'SHORT_STRESS', '/treconomics/shortstresssurvey/',
-                         'survey/short_stress_survey.html')
+def view_nasa_survey(request):
+    return handle_survey(request, NasaForm, 'NASA_LOAD', '/treconomics/nasasurvey/',
+                         'survey/nasa_survey.html')
 
 
 @login_required
-def view_modified_stress_survey(request):
-    return handle_survey(request, ModifiedStressSurveyForm, 'MODIFIED_STRESS', '/treconomics/modifiedstresssurvey/',
-                         'survey/short_stress_survey.html')
+def view_post_system_survey(request):
+    return handle_survey(request, PostSystemSurveyForm, 'SYSTEM', '/treconomics/systemsurvey/',
+                         'survey/post_system_survey.html')
 
 
 @login_required
-def view_concept_listing_survey(request):
-    return handle_survey(request, ShortStressSurveyForm, 'CONCEPT_LISTING', '/treconomics/conceptssurvey/',
-                         'survey/concept_listing_survey.html')
+def view_final_personality_survey(request):
+    return handle_survey(request, FinalPersonalitySurveyForm, 'PERSONALITY', '/treconomics/personalitysurvey/'
+                         'survey/final_personality_survey.html')
+
+#
+# @login_required
+# def view_short_stress_survey(request):
+#     return handle_survey(request, ShortStressSurveyForm, 'SHORT_STRESS', '/treconomics/shortstresssurvey/',
+#                          'survey/short_stress_survey.html')
 
 
-@login_required
-def view_concept_listing_survey(request, taskid, when):
-    context = RequestContext(request)
-    # Set the tasks id manually from request
-    request.session['taskid'] = taskid
-    ec = get_experiment_context(request)
-    uname = ec["username"]
-    condition = ec["condition"]
-    topicnum = ec["topicnum"]
-    t = TaskDescription.objects.get(topic_num=topicnum)
-    errors = ""
+# @login_required
+# def view_modified_stress_survey(request):
+#     return handle_survey(request, ModifiedStressSurveyForm, 'MODIFIED_STRESS', '/treconomics/modifiedstresssurvey/',
+#                          'survey/short_stress_survey.html')
 
-    uname = request.user.username
-    u = User.objects.get(username=uname)
 
-    # handle post within this element. save data to survey table,
-    if request.method == 'POST':
-        form = ConceptListingSurveyForm(request.POST)
-        if form.is_valid():
-            obj = form.save(commit=False)
-            obj.user = u
-            obj.task_id = ec["taskid"]
-            obj.topic_num = ec["topicnum"]
-            obj.when = when
-            obj.save()
-            log_event(event="CONCEPT_LISTING_COMPLETED", request=request)
-            return HttpResponseRedirect('/treconomics/next/')
-        else:
-            print(form.errors)
-            errors = form.errors
-            survey = ConceptListingSurveyForm(request.POST)
-
-    else:
-        survey = ConceptListingSurveyForm()
-
-    action = '/treconomics/conceptlistingsurvey/' + taskid + '/' + when + '/'
-
-    # provide link to search interface / next system
-    context_dict = {'participant': uname,
-                    'condition': condition,
-                    'task': taskid,
-                    'topic': t.topic_num,
-                    'tasktitle': t.title,
-                    'taskdescription': t.description,
-                    'formset': survey,
-                    'action': action,
-                    'errors': errors}
-
-    return render(request, 'survey/concept_listing_survey.html', context_dict)
-
+# @login_required
+# def view_concept_listing_survey(request):
+#     return handle_survey(request, ShortStressSurveyForm, 'CONCEPT_LISTING', '/treconomics/conceptssurvey/',
+#                          'survey/concept_listing_survey.html')
+#
+#
+# @login_required
+# def view_concept_listing_survey(request, taskid, when):
+#     context = RequestContext(request)
+#     # Set the tasks id manually from request
+#     request.session['taskid'] = taskid
+#     ec = get_experiment_context(request)
+#     uname = ec["username"]
+#     condition = ec["condition"]
+#     topicnum = ec["topicnum"]
+#     t = TaskDescription.objects.get(topic_num=topicnum)
+#     errors = ""
+#
+#     uname = request.user.username
+#     u = User.objects.get(username=uname)
+#
+#     # handle post within this element. save data to survey table,
+#     if request.method == 'POST':
+#         form = ConceptListingSurveyForm(request.POST)
+#         if form.is_valid():
+#             obj = form.save(commit=False)
+#             obj.user = u
+#             obj.task_id = ec["taskid"]
+#             obj.topic_num = ec["topicnum"]
+#             obj.when = when
+#             obj.save()
+#             log_event(event="CONCEPT_LISTING_COMPLETED", request=request)
+#             return HttpResponseRedirect('/treconomics/next/')
+#         else:
+#             print(form.errors)
+#             errors = form.errors
+#             survey = ConceptListingSurveyForm(request.POST)
+#
+#     else:
+#         survey = ConceptListingSurveyForm()
+#
+#     action = '/treconomics/conceptlistingsurvey/' + taskid + '/' + when + '/'
+#
+#     # provide link to search interface / next system
+#     context_dict = {'participant': uname,
+#                     'condition': condition,
+#                     'task': taskid,
+#                     'topic': t.topic_num,
+#                     'tasktitle': t.title,
+#                     'taskdescription': t.description,
+#                     'formset': survey,
+#                     'action': action,
+#                     'errors': errors}
+#
+#     return render(request, 'survey/concept_listing_survey.html', context_dict)
+#
 
 
 @login_required
