@@ -40,7 +40,7 @@ class DemographicsSurveyForm(ModelForm):
 
 class PostPerceptionSurveyForm(ModelForm):
     PERCEPTION_CHOICES = (
-        (1, 'Strongly disagree'), (2, ''), (3, ''), (4, ''), (5, ''), (6, ''), (7, 'Strongly agree')
+        (1, 'Disagree'), (2, ''), (3, ''), (4, ''), (5, ''), (6, ''), (7, 'Agree')
     )
 
     perception_frustration = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,

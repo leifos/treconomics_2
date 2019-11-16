@@ -11,6 +11,7 @@ from treconomics.models import TaskDescription
 from survey.models import PSTCharSearch
 
 
+
 def handle_survey(request, SurveyForm, survey_name, action, template):
     context = RequestContext(request)
     ec = get_experiment_context(request)
@@ -57,7 +58,7 @@ def view_post_perception_survey(request):
 
 @login_required
 def view_nasa_survey(request):
-    return handle_survey(request, NasaForm, 'NASA_LOAD', '/treconomics/nasasurvey/',
+    return handle_survey(request, NasaSurveyForm, 'NASA_LOAD', '/treconomics/nasasurvey/',
                          'survey/nasa_survey.html')
 
 

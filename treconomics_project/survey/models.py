@@ -37,6 +37,17 @@ class DemographicsSurvey(models.Model):
 
 class PostPerceptionSurvey(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    perception_frustration = models.IntegerField(default=0)
+    perception_confidence = models.IntegerField(default=0)
+    perception_enjoyment = models.IntegerField(default=0)
+    perception_satisfaction = models.IntegerField(default=0)
+    perception_checking = models.IntegerField(default=0)
+    perception_difficulty = models.IntegerField(default=0)
+    perception_tiredness = models.IntegerField(default=0)
+    perception_alert = models.IntegerField(default=0)
+
+    def __unicode__(self):
+        return self.user.username
 
 
 class NasaSurvey(models.Model):

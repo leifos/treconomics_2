@@ -23,12 +23,12 @@
         {% csrf_token %}
 <table class="survey_radio" cellpadding="20"> 
 
-               {# Include the hidden fields #}
-    {% for hidden in formset.hidden_fields %}
-    {{ hidden }}
-    {% endfor %}
+    {# Include the hidden fields #}
+        {% for hidden in formset.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
     {# Include the visible fields #}
-    {% for field in formset.visible_fields %}
+        {% for field in formset.visible_fields %}
 	<tr>
 	<td class="matrix">
             {{ field.errors }}
