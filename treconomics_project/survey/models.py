@@ -83,6 +83,31 @@ class PSTCharSearch(models.Model):
         return "{} {} {}".format(self.user.username, self.correct, self.incorrect)
 
 
+
+class PersonalitySurvey(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    personality_distract = models.IntegerField(default=0)
+    personality_absorbed = models.IntegerField(default=0)
+    personality_immersed = models.IntegerField(default=0)
+    personality_attention = models.IntegerField(default=0)
+
+    def __unicode__(self):
+        return self.user.username
+
+
+
+class SystemSurvey(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    system_aesthetics = models.IntegerField(default=0)
+    system_boring = models.IntegerField(default=0)
+    system_annoying = models.IntegerField(default=0)
+    system_ease = models.IntegerField(default=0)
+    system_confusing = models.IntegerField(default=0)
+    system_focus = models.IntegerField(default=0)
+
+    def __unicode__(self):
+        return self.user.username
+
 # class NasaSystemLoad(models.Model):
 #
 #

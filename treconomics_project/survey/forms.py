@@ -160,13 +160,13 @@ class PostSystemSurveyForm(ModelForm):
         return clean_to_zero(self)
 
     class Meta:
-        model = PostSystemSurvey
+        model = SystemSurvey
         exclude = ('user',)
 
 
 class FinalPersonalitySurveyForm(ModelForm):
     PERSONALITY_CHOICES = (
-    (1, 'Strongly disagree'), (2, ''), (3, ''), (4, ''), (5, ''), (6, ''), (7, 'Strongly agree')
+    (1, 'Disagree'), (2, ''), (3, ''), (4, ''), (5, ''), (6, ''), (7, 'Agree')
     )
 
     personality_distract = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
@@ -186,7 +186,7 @@ class FinalPersonalitySurveyForm(ModelForm):
         return clean_to_zero(self)
 
     class Meta:
-        model = FinalPersonalitySurvey
+        model = PersonalitySurvey
         exclude = ('user',)
 
 

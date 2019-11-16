@@ -18,7 +18,7 @@
     <div id='survey_form_errorloc' class='error_strings' style="color: #F00; text-align: center;"></div>
 
     <form id="survey_form" method="post" action="{{action}}">
-    <table cellpadding="20">
+    <table class="survey_radio" cellpadding="5">
         {% csrf_token %}
         {# Include the hidden fields #}
         {% for hidden in formset.hidden_fields %}
@@ -27,7 +27,7 @@
         {# Include the visible fields #}
         {% for field in formset.visible_fields %}
 	    <tr>
-	        <td>
+	        <td id="preTaskQuestions" class="matrix">
             {{ field.errors }}
             {{ field.label_tag }}
 	        </td>
