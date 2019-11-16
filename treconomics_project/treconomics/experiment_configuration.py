@@ -70,11 +70,12 @@ diversity_flow = [
 
 test_flow = [
     'startexperiment/', 'preexperiment/UK/', 'demographicssurvey/', 'pst-findas/', 'pst-numbers/', 'taskspacer',
-    'prepracticetask/0/', 'search/0/', 'postpracticetask/0/', 'taskspacer/',
-    'pretaskquestions/1/', 'search/1/', 'taskspacerwithdetails/1/', 'taskspacer',
-     'pretaskquestions/2/', 'search/2/', 'taskspacerwithdetails/2/', 'taskspacer',
-     'pretaskquestions/3/', 'search/3/', 'taskspacer',
-     'pretaskquestions/4/', 'search/4/',
+    'perceptionsurvey/', 'nasasurvey/', 'systemsurvey/', 'personalitysurvey/',
+    'prepracticetask/0/', 'postpracticetask/0/', 'taskspacer/',
+    'pretaskquestions/1/', 'taskspacerwithdetails/1/', 'taskspacer',
+    'pretaskquestions/2/', 'taskspacerwithdetails/2/', 'taskspacer',
+    'pretaskquestions/3/', 'taskspacer',
+    'pretaskquestions/4/',
     'endexperiment/',
     'logout/'
 ]
