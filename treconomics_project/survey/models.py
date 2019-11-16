@@ -12,12 +12,12 @@ SEX_CHOICES = (
                )
 
 LANGUAGE_CHOICES = (
-    ('', 'Please select'), ('Native', 'Native'), ('Bilingual', 'Bilingual'), ('Professional working', 'Professional working'), ('Limited working', 'Limited working')
+    ('', 'Please select'), ('N', 'Native'), ('B', 'Bilingual'), ('P', 'Professional Working'), ('L', 'Limited Working')
 )
 
 EXPERTISE_CHOICES = (
-    ('', 'Please select'), ('Never', 'Never'), ('Rarely', 'Rarely'), ('Sometimes', 'Sometimes'), ('A few times a week', 'A few times a week'),
-    ('Many times a week', 'Many times a week'), ('1-2 times a day', '1-2 times a day'), ('Several times a day', 'Several times a day')
+    ('', 'Please select'), ('N', 'Never'), ('R', 'Rarely'), ('S', 'Sometimes'), ('F', 'A few times a week'),
+    ('M', 'Many times a week'), ('2', '1-2 times a day'), ('3', 'Several times a day')
 )
 
 
@@ -25,8 +25,8 @@ class DemographicsSurvey(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     age = models.IntegerField(default=0, help_text="Please provide your age (in years).")
     sex = models.CharField(max_length=1, choices=SEX_CHOICES, help_text="Please indicate your sex.")
-    language = models.CharField(max_length=1, choices=LANGUAGE_CHOICES, help_text="Please indicate your English language ability")
-    expertise = models.CharField(max_length=1, choices=EXPERTISE_CHOICES, help_text="Please indicate your news searching habits")
+    language = models.CharField(max_length=1, choices=LANGUAGE_CHOICES, help_text="Please indicate your English language ability", default="")
+    expertise = models.CharField(max_length=1, choices=EXPERTISE_CHOICES, help_text="Please indicate your news searching habits", default="")
     # education_undergrad = models.CharField(max_length=1, default="N")
     # education_undergrad_major = models.CharField(max_length=100, default="")
     # education_undergrad_year = models.CharField(max_length=1, default="")

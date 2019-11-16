@@ -5,23 +5,6 @@ from django import forms
 from django.forms.widgets import RadioSelect, Textarea
 from survey.models import *
 
-YES_CHOICES = (('', 'Not Specified'),
-               ('Y', 'Yes'), ('N', 'No')
-)
-
-YES_NO_CHOICES = (
-    ('Y', 'Yes'), ('N', 'No')
-)
-
-LANGUAGE_CHOICES = (
-    ('', 'Please select'), ('Native', 'Native'), ('Bilingual', 'Bilingual'), ('Professional working', 'Professional working'), ('Limited working', 'Limited working')
-)
-
-EXPERTISE_CHOICES = (
-    ('', 'Please select'), ('Never', 'Never'), ('Rarely', 'Rarely'), ('Sometimes', 'Sometimes'), ('A few times a week', 'A few times a week'),
-    ('Many times a week', 'Many times a week'), ('1-2 times a day', '1-2 times a day'), ('Several times a day', 'Several times a day')
-)
-
 
 class DemographicsSurveyForm(ModelForm):
     age = forms.IntegerField(label="Please provide your age (in years).",
