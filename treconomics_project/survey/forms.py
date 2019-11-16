@@ -134,26 +134,26 @@ class NasaSurveyForm(ModelForm):
 
 class PostSystemSurveyForm(ModelForm):
     SYSTEM_CHOICES = (
-        (1, 'Yes'), (2, ''), (3, ''), (4, ''), (5, ''), (6, ''), (7, 'No')
+        (1, 'Disagree'), (2, ''), (3, ''), (4, ''), (5, ''), (6, ''), (7, 'Agree')
     )
 
     system_aesthetics = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
-                                             label="Aesthetically appealing",
+                                             label="The system was aesthetically appealing",
                                              required=False)
     system_boring = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
-                                label="Boring",
+                                label="The system was boring",
                                 required=False)
     system_annoying = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
-                                label="Annoying",
+                                label="The system was annoying",
                                 required=False)
     system_ease = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
-                                label="Easy to use",
+                                label="The system was  easy to use",
                                 required=False)
     system_confusing = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
-                                label="Confusing",
+                                label="The system was confusing",
                                 required=False)
     system_focus = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
-                                label="Enabled me to focus",
+                                label="The system was engaging",
                                 required=False)
 
     def clean(self):
