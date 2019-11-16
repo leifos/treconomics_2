@@ -52,8 +52,8 @@ class PostPerceptionSurvey(models.Model):
 
 class NasaSurvey(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    nasa_mental_demand = models.IntegerField(default=0)
-    nasa_physical_demand = models.IntegerField(default=0)
+    nasa_mental = models.IntegerField(default=0)
+    nasa_physical = models.IntegerField(default=0)
     nasa_temporal = models.IntegerField(default=0)
     nasa_performance = models.IntegerField(default=0)
     nasa_effort = models.IntegerField(default=0)
