@@ -70,7 +70,7 @@ def view_post_system_survey(request):
 
 @login_required
 def view_final_personality_survey(request):
-    return handle_survey(request, FinalPersonalitySurveyForm, 'PERSONALITY', '/treconomics/personalitysurvey/'
+    return handle_survey(request, FinalPersonalitySurveyForm, 'PERSONALITY', '/treconomics/personalitysurvey/',
                          'survey/final_personality_survey.html')
 
 #
@@ -156,7 +156,6 @@ def view_pst_findas(request):
 
     u = User.objects.get(username=uname)
     # handle post within this element. save data to survey table,
-    print("in findas")
     if request.method == 'POST':
             correct = request.POST.get('correct')
             incorrect = request.POST.get('incorrect')

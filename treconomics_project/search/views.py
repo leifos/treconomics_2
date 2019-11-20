@@ -6,6 +6,7 @@ import datetime
 import logging
 # Django
 import math
+import random
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseBadRequest
 
@@ -25,7 +26,7 @@ import timeit
 # Experiments
 from ifind.search import Query
 from treconomics.models import DocumentsExamined
-from treconomics.models import TaskDescription
+from treconomics.models import TaskDescription, TopicAds
 from treconomics.experiment_functions import get_topic_relevant_count
 from treconomics.experiment_functions import get_experiment_context
 from treconomics.experiment_functions import mark_document, log_event
@@ -247,6 +248,9 @@ def run_query(request, result_dict, query_terms='', page=1, page_len=10, conditi
     print(query)
     search_engine = experiment_setups[condition].get_engine()
 
+    ###################################
+    # CONTROL THE SNIPPET LENGTH HERE #
+    ###################################
     snippet_sizes = [2, 0, 1, 4]
     snippet_surround = [40, 40, 40, 40]
 
@@ -344,7 +348,6 @@ def is_from_search_request(request, new_page_no):
 @login_required
 def search(request, taskid=-1):
     sys.stdout.flush()
-
     taskid = int(taskid)
 
     # If taskid is set, then it marks the start of a new search task
@@ -454,6 +457,29 @@ def search(request, taskid=-1):
                               whooshid=page,
                               rank=qrp[0],
                               judgement=qrp[1])
+
+
+                ############
+                ##
+                ##  Get Ads from TopicAds
+                ##
+                ############
+
+                #on_topic_ads = TopicAds.objects.filter(topic_num=topic_num)
+                #off_topic_ads = TopicAds.objects.filter(topic_num=0)
+                ad_list = TopicAds.objects.filter(shape__contains='Banner')
+                print(ad_list)
+
+                ads = random.choices(ad_list, k=3)
+                top_ad = random.choice(ad_list)
+                bot_ad = random.choice(ad_list)
+                result_dict['top_ad'] = top_ad
+                result_dict['bot_ad'] = bot_ad
+
+                ad_list = TopicAds.objects.filter(shape__contains='Portrait')
+                ads = random.choices(ad_list, k=4)
+                result_dict['side_ads'] = ads
+
 
                 #TODO fix this using url-resolvers (reverse())
                 query_params = urlencode({'query': user_query, 'page': page, 'noperf': 'true'})
@@ -565,7 +591,7 @@ def view_log_hover(request):
     page = request.GET.get('page')
     trec_id = request.GET.get('trecID')
     whoosh_id = request.GET.get('whooshID')
-    doc_length = ixr.doc_field_length(long(whoosh_id), 'content')
+    doc_length = ixr.doc_field_length(int(whoosh_id), 'content')
 
     try:
         examined = DocumentsExamined.objects.get(user=u, task=taskid, doc_num=trec_id)

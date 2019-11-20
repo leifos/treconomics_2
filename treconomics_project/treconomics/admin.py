@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django import forms
 from treconomics.models import DocumentsExamined, UserProfile
-from treconomics.models import TaskDescription, TopicQuerySuggestion
+from treconomics.models import TaskDescription, TopicQuerySuggestion, TopicAds
 
 
 class UserProfileAdmin(admin.ModelAdmin):
@@ -56,7 +56,14 @@ class TaskQuestionSurveyAdmin(admin.ModelAdmin):
     list_display = ['user', 'task_id', 'topic_num']
 
 
+class TopicAdsAdmin(admin.ModelAdmin):
+    # fields = ['user','task_id','topic_num']
+    ist_display = ('topic_num', 'title')
+
+
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(TaskDescription, TaskDescriptionAdmin)
 admin.site.register(DocumentsExamined)
+admin.site.register(TopicAds, TopicAdsAdmin)
+
 

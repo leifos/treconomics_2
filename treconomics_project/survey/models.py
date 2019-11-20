@@ -34,6 +34,8 @@ class DemographicsSurvey(models.Model):
     def __unicode__(self):
         return self.user.username
 
+    def __str__(self):
+        return "{}".format(self.user.username)
 
 class PostPerceptionSurvey(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -49,6 +51,9 @@ class PostPerceptionSurvey(models.Model):
     def __unicode__(self):
         return self.user.username
 
+    def __str__(self):
+        return "{}".format(self.user.username)
+
 
 class NasaSurvey(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -61,6 +66,9 @@ class NasaSurvey(models.Model):
 
     def __unicode__(self):
         return self.user.username
+
+    def __str__(self):
+        return "{}".format(self.user.username)
 
 
 class PostSystemSurvey(models.Model):
@@ -80,7 +88,7 @@ class PSTCharSearch(models.Model):
         return self.user.username
 
     def __str__(self):
-        return "{} {} {}".format(self.user.username, self.correct, self.incorrect)
+        return "{}".format(self.user.username)
 
 
 
@@ -93,6 +101,9 @@ class PersonalitySurvey(models.Model):
 
     def __unicode__(self):
         return self.user.username
+
+    def __str__(self):
+        return "{}".format(self.user.username)
 
 
 
@@ -107,6 +118,9 @@ class SystemSurvey(models.Model):
 
     def __unicode__(self):
         return self.user.username
+
+    def __str__(self):
+        return "{}".format(self.user.username)
 
 # class NasaSystemLoad(models.Model):
 #
@@ -166,32 +180,32 @@ class NasaFactorCompare(models.Model):
 #         return self.user.username
 
 
-# class PreTaskTopicKnowledgeSurvey(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     task_id = models.IntegerField()
-#     topic_num = models.IntegerField()
-#     topic_knowledge = models.IntegerField()
-#     topic_relevance = models.IntegerField()
-#     topic_interest = models.IntegerField()
-#     topic_searched = models.IntegerField()
-#     topic_difficulty = models.IntegerField()
-#
-#     def __unicode__(self):
-#         return self.user.username
-#
-#
-# class PostTaskTopicRatingSurvey(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     task_id = models.IntegerField(default=0)
-#     topic_num = models.IntegerField(default=0)
-#     relevance_difficulty = models.IntegerField(default=0)
-#     relevance_skill = models.IntegerField(default=0)
-#     relevance_system = models.IntegerField(default=0)
-#     relevance_success = models.IntegerField(default=0)
-#     relevance_number = models.IntegerField(default=0)
-#
-#     def __unicode__(self):
-#         return self.user.username
+class PreTaskTopicKnowledgeSurvey(models.Model):
+     user = models.ForeignKey(User, on_delete=models.CASCADE)
+     task_id = models.IntegerField()
+     topic_num = models.IntegerField()
+     topic_knowledge = models.IntegerField()
+     topic_relevance = models.IntegerField()
+     topic_interest = models.IntegerField()
+     topic_searched = models.IntegerField()
+     topic_difficulty = models.IntegerField()
+
+     def __unicode__(self):
+         return self.user.username
+
+
+class PostTaskTopicRatingSurvey(models.Model):
+     user = models.ForeignKey(User, on_delete=models.CASCADE)
+     task_id = models.IntegerField(default=0)
+     topic_num = models.IntegerField(default=0)
+     relevance_difficulty = models.IntegerField(default=0)
+     relevance_skill = models.IntegerField(default=0)
+     relevance_system = models.IntegerField(default=0)
+     relevance_success = models.IntegerField(default=0)
+     relevance_number = models.IntegerField(default=0)
+
+     def __unicode__(self):
+         return self.user.username
 
 
 # class ShortStressSurvey(models.Model):

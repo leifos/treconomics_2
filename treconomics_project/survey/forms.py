@@ -273,4 +273,64 @@ class NasaFactorCompareForm(ModelForm):
 #         exclude = ('user', 'task_id', 'topic_num')
 
 
+TOPIC_NOTHING_CHOICES = ( (1, 'Nothing'), (2, ''), (3, ''), (4, ''), (5, 'I Know Details')  )
+TOPIC_NOTATALL_CHOICES = ( (1, 'Not at all'), (2, ''), (3, ''), (4, ''), (5, 'Very Much')  )
+TOPIC_NEVER_CHOICES = ( (1, 'Never'), (2, ''), (3, ''), (4, ''), (5, 'Very Often')  )
+TOPIC_EASY_CHOICES = ( (1, 'Very Easy'), (2, ''), (3, ''), (4, ''), (5, 'Very Difficult')  )
+TOPIC_NOTGOOD_CHOICES = ( (1, 'Not Good'), (2, ''), (3, ''), (4, ''), (5, 'Very Good')  )
+TOPIC_UNSUCCESSFUL_CHOICES = ( (1, 'Unsuccessful'), (2, ''), (3, ''), (4, ''), (5, 'Successful')  )
+TOPIC_FEW_CHOICES = ( (1, 'A few of them'), (2, ''), (3, ''), (4, ''), (5, 'All of them')  )
+
+
+
+class PreTaskTopicKnowledgeSurveyForm(ModelForm):
+
+    topic_knowledge = forms.ChoiceField(widget=RadioSelect,
+                                        choices=TOPIC_NOTHING_CHOICES,
+                                        label="How much do you know about this topic?",
+                                        required=True)
+    topic_relevance = forms.ChoiceField(widget=RadioSelect,
+                                        choices=TOPIC_NOTATALL_CHOICES,
+                                        label="How relevant is this topic to your life?",
+                                        required=True)
+    topic_interest = forms.ChoiceField(widget=RadioSelect,
+                                       choices=TOPIC_NOTATALL_CHOICES,
+                                       label="How interested are you to learn more about this topic?",
+                                       required=True)
+    topic_searched = forms.ChoiceField(widget=RadioSelect, choices=TOPIC_NEVER_CHOICES,
+                                       label="Have you ever searched for information related to this topic?",
+                                       required=True)
+    topic_difficulty = forms.ChoiceField(widget=RadioSelect, choices=TOPIC_EASY_CHOICES,
+                                         label="How difficult do you think it will be to search for information about this topic?",
+                                         required=True)
+
+    def clean(self):
+        return clean_to_zero(self)
+
+    class Meta:
+        model = PreTaskTopicKnowledgeSurvey
+        exclude = ('user', 'task_id', 'topic_num')
+
+
+class PostTaskTopicRatingSurveyForm(ModelForm):
+    relevance_difficulty = forms.ChoiceField(widget=RadioSelect, choices=TOPIC_EASY_CHOICES,
+                                             label="How difficult was it to find relevant documents?", required=False)
+    relevance_skill = forms.ChoiceField(widget=RadioSelect, choices=TOPIC_NOTGOOD_CHOICES,
+                                        label="How would you rate your skill and ability at finding relevant documents?",
+                                        required=False)
+    relevance_system = forms.ChoiceField(widget=RadioSelect, choices=TOPIC_NOTGOOD_CHOICES,
+                                         label="How would you rate the system's ability at retrieving relevant documents?",
+                                         required=False)
+    relevance_success = forms.ChoiceField(widget=RadioSelect, choices=TOPIC_UNSUCCESSFUL_CHOICES,
+                                          label="How successful was your search?", required=False)
+    relevance_number = forms.ChoiceField(widget=RadioSelect, choices=TOPIC_FEW_CHOICES,
+                                         label="How many of the relevant documents do you think you found?",
+                                         required=False)
+
+    def clean(self):
+        return clean_to_zero(self)
+
+    class Meta:
+        model = PostTaskTopicRatingSurvey
+        exclude = ('user', 'task_id', 'topic_num')
 

@@ -45,6 +45,21 @@ class TopicQuerySuggestion(models.Model):
         return self.title
 
 
+class TopicAds(models.Model):
+    topic_num = models.IntegerField(default=0)
+    title = models.CharField(max_length=40)
+    url = models.CharField(max_length=150)
+    shape = models.CharField(max_length=20)
+    adimage = models.ImageField(blank=True, upload_to='ads/')
+    on_topic = models.BooleanField(default=True)
+
+    def __unicode__(self):
+        return self.title
+
+    def __str__(self):
+        return self.title
+
+
 class UserProfile(models.Model):
     # This field is required.
     user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
@@ -68,4 +83,3 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
-    

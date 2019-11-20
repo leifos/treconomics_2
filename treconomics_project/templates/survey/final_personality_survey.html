@@ -8,7 +8,7 @@
 
 <div>
 <div class="experimentPageTitle">
-<h2>Final Survey</h2>
+<h2>Personality Survey</h2>
 <p>Please complete the following questions about your own personality in general </p>
 </div> 
 <div>
@@ -30,9 +30,8 @@
 	        <td id="preTaskQuestions" class="matrix">
             {{ field.errors }}
             {{ field.label_tag }}
-	        </td>
-	        <td>
- 	        {{ field }}
+	        <div>
+ 	        {{ field }}</div>
 	        </td>
         </tr>
         {% endfor %}

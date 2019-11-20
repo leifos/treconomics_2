@@ -102,7 +102,7 @@ def log_event(event, request, query="", whooshid=-2, judgement=-2, trecid="", ra
 
     msg = "{0} {1} {2} {3} {4} {5} {6}".format(ec["username"], ec["condition"], ec["interface"], 0, ec["taskid"], ec["topicnum"], event)
 
-    if whooshid > -1:
+    if int(whooshid) > -1:
         event_logger.info(
             msg + " " + str(whooshid) + " " + trecid + " " + str(doc_length) + " " + str(judgement) + " " + str(rank))
     else:

@@ -5,6 +5,13 @@
 
 {% block search_results %}
 
+<div>
+ {% if top_ad %}
+    <img height="200" src="{{top_ad.adimage.url}}" alt="{{top_ad.title}}" />
+ {% endif  %}
+</div>
+
+
     {% if trec_search %}
 
         <div class="query">
@@ -45,6 +52,15 @@
             </div>
         {% endif %}
     {% endif %}
+
+
+<div>
+ {% if top_ad %}
+
+    <p>{{top_ad.title}}</p>
+    <img src="{{top_ad.adimage.url}}" />
+ {% endif  %}
+</div>
 
 
 {% endblock %}

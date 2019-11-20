@@ -17,14 +17,14 @@ from treconomics.experiment_configuration import experiment_setups
 
 
 from survey.models import DemographicsSurvey
-# from survey.models import PreTaskTopicKnowledgeSurvey
-# from survey.models import PostTaskTopicRatingSurvey
+from survey.models import PreTaskTopicKnowledgeSurvey
+from survey.models import PostTaskTopicRatingSurvey
 # from survey.models import NasaSystemLoad, NasaQueryLoad, NasaNavigationLoad, NasaAssessmentLoad
 # from survey.models import SearchEfficacy
 # from survey.models import ConceptListingSurvey
 # from survey.models import ShortStressSurvey
-# from survey.forms import PreTaskTopicKnowledgeSurveyForm
-# from survey.forms import PostTaskTopicRatingSurveyForm
+from survey.forms import PreTaskTopicKnowledgeSurveyForm
+from survey.forms import PostTaskTopicRatingSurveyForm
 
 """
 from search.views import set_descriptions
