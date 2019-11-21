@@ -139,6 +139,26 @@ def show_document(request, whoosh_docid):
         if request.GET.get('backtoassessment', False):
             context_dict['backtoassessment'] = True
 
+
+
+        ############
+        ##
+        ##  GET ADS
+        ##
+        ##############
+        ad_list = TopicAds.objects.filter(shape__contains='Banner')
+        ads = random.choices(ad_list, k=3)
+        top_ad = random.choice(ad_list)
+        bot_ad = random.choice(ad_list)
+        context_dict['top_ad'] = top_ad
+        context_dict['bot_ad'] = bot_ad
+
+
+        ad_list = TopicAds.objects.filter(shape__contains='Portrait')
+        ads = random.choices(ad_list, k=4)
+        context_dict['side_ads'] = ads
+
+
         return render(request, 'trecdo/document.html', context_dict)
 
 
@@ -251,7 +271,7 @@ def run_query(request, result_dict, query_terms='', page=1, page_len=10, conditi
     ###################################
     # CONTROL THE SNIPPET LENGTH HERE #
     ###################################
-    snippet_sizes = [2, 0, 1, 4]
+    snippet_sizes = [2, 2, 2, 2]
     snippet_surround = [40, 40, 40, 40]
 
     pos = interface - 1
@@ -276,6 +296,14 @@ def run_query(request, result_dict, query_terms='', page=1, page_len=10, conditi
         result_dict['trec_results'] = response.results[len(response.results)-page_len:len(response.results)]
         result_dict['curr_page'] = response.actual_page
         print(response.actual_page)
+
+        for res in result_dict['trec_results']:
+            res.title = str(res.title, 'utf-8')
+            res.source = str(res.source, 'utf-8')
+            res.docid = str(res.docid, 'utf-8')
+            res.url = str(res.url, 'utf-8')
+
+
         if page > 1:
             result_dict['prev_page'] = page - 1
             result_dict['prev_page_show'] = True
@@ -467,9 +495,8 @@ def search(request, taskid=-1):
 
                 #on_topic_ads = TopicAds.objects.filter(topic_num=topic_num)
                 #off_topic_ads = TopicAds.objects.filter(topic_num=0)
-                ad_list = TopicAds.objects.filter(shape__contains='Banner')
-                print(ad_list)
 
+                ad_list = TopicAds.objects.filter(shape__contains='Banner')
                 ads = random.choices(ad_list, k=3)
                 top_ad = random.choice(ad_list)
                 bot_ad = random.choice(ad_list)

@@ -243,7 +243,7 @@ class Whooshtrec(Engine):
 
             rank = result.rank + 1
 
-            url = "/treconomics/" + str(result.docnum)
+            url = "/treconomics/doc/" + str(result.docnum)+ "/"
 
             summary = result.highlights(field,top=snippet_size)
             content = result[field]

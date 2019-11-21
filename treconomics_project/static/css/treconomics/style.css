@@ -168,7 +168,7 @@ input {
 
 #search_box_area{
 	position: relative;
-	height: 140px;
+	height: 100px;
 	margin: 0 auto 0 auto;
 	}
 
@@ -225,19 +225,43 @@ input {
 	float: right;
 }
 
-.results {
-	width: 100%;
+.document_content, .results {
+	width: 90%;
 	margin: 0px auto;
 }
 
 .results_squash {
-    width: 75%;
+    width: 90%;
     margin: 0 auto 0 auto;
 }
 
-.document_content, .experiment{
-	width: 80%;
+ .experiment{
+	width: 70%;
 	margin: 0 auto 0 auto;
+}
+
+.column1 {
+    float: left;
+    width: 70%;
+}
+
+.column2 {
+    float: left;
+    width: 20%;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+#sidebar{
+padding-top:175px;
+}
+
+.ad {
+margin-top: 15px;
 }
 
 #rightnav {
@@ -265,7 +289,7 @@ input {
 	}
 
 h1.document_title {
-	margin: 40px 40px;
+	margin: 00px 00px;
 	font-size: 30px;
 	line-height: 35px;
 	color: #6699ff;
@@ -284,14 +308,14 @@ table {
 }
 
 .article {
-	margin: 20px 40px;
+	margin: 00px 00px;
 	line-height: 28px;
 	font-size: 16px;
 	text-align: justify;
 	}
 
 .document_source_date {
-	margin: 20px 40px;
+	margin: 00px 00px;
 	line-height: 30px;
 	font-size: 16px;
 	font-style: italic;

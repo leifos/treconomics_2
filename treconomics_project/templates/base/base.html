@@ -36,27 +36,44 @@
 	        <div class="info_block"> {% block exp_info_block %}{% endblock %} </div>
         </div> <!-- end header div -->
 
+            <div class="experiment">
+                     {% block exp_block %}{% endblock %}
+             </div>
+
  	    <div class="search">
-		    <div class="content">
-                <div class="query_terms">
+            <div class="query_terms">
                     {% block query_box %}
                     {% endblock %}
                 </div>
+
+            <div class="row">
+		    <div class="column1">
                 <div class="results">
                         {% block search_results %}{% endblock %}
-                </div>
-                <div class="results_nav">
-                        {% block result_nav %}{% endblock %}
                 </div>
                 <div class="document_content">
                     {% block document_content %}{% endblock %}
                 </div>
 
-                <div class="experiment">
-                     {% block exp_block %}{% endblock %}
-                    </div>
-	   		</div><!-- end content div -->		
+	   		</div><!-- end column 1 -->
+            <div class="column2">
+                 <div class="sidebar">
+                        {% block side_results %}{% endblock %}
+                </div>
+                </div> <!-- end column 2 -->
+
+                </div> <!--- end row --->
+
+
+            <div class="row">
+                 <div class="results_nav">
+                        {% block result_nav %}{% endblock %}
+                 </div>
+            </div>  <!--- end row --->
+
 	    </div>	<!-- end search civ-->
+
+
         <div class="push"></div>
         </div> <!-- end container div -->
 

@@ -60,7 +60,7 @@ class ExperimentSetup(object):
         return i % self.pro.number_of_orderings(items)
 
     def _get_value(self, var, t):
-        print("getvalue", var)
+
         if type(var) is list:
             return var[t]
         else:

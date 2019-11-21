@@ -7,22 +7,32 @@
      <a href="{% url 'treconomics:saved' %}?taskid={{ task }}">Back to Saved Documents</a> |
      {% else %}
      <a href="{{current_search}}">Back to Results</a> |
-     <a href="/treconomics/saved/">View Saved</a> |
+     <a href="{% url 'treconomics:saved' %}?taskid={{ task }}s">View Saved</a> |
      {% endif %}
      <a href="JavaScript:taskPopup('/treconomics/showtask/');">Show Task</a>
-     | <a href="{% url 'treconomicsnext' %}" id="end-task-link"> End Task</a>
+     | <a href="{% url 'treconomics:next' %}" id="end-task-link"> End Task</a>
 
 </p>
 {% endblock %}
 
 
 {% block document_content %}
-<div style="width: 90%;">
+
+ {% if top_ad %}
+ <div class="search_result" id="{{ top_ad.topic_num }}" rank="top" page="{{ page }}" whooshid="0">
+            <div class="results_squash">
+                <div class="ad">
+    <a href="JavaScript:taskPopup('{{top_ad.url}}');">
+        <img height="150" src="{{top_ad.adimage.url}}" alt="{{top_ad.title}}" />
+        <a></div></div></div>
+ {% endif  %}
+
+
+<div class="results_squash">
 <h1 class="document_title">{{ title }}</h1>
 <p class="document_source_date"><b>{{doc_source}}</b> <span> <b>{{doc_date}}</b></span></p>
 <div class="article"> {% autoescape off %} {{ content|linebreaksbrbr:doc_source }} {% endautoescape %}  </div>
 </div>
-
 
 <div id="marked">
      {% if backtoassessment %}
@@ -49,7 +59,41 @@ function markNonRelevant(){$.ajax({ url:"/treconomics/"+{{docid}}+"?judge=0&doci
      } }); }
 </script>
 
+
+
+<div>
+ {% if bot_ad %}
+    <div class="search_result" id="{{ bot_ad.topic_num }}" rank="bot" page="{{ page }}" whooshid="0">
+            <div class="results_squash"><div class="ad">
+
+    <img height="150" src="{{bot_ad.adimage.url}}" />
+            </div></div></div>
+ {% endif  %}
+</div>
+
+
 {% endblock %}
+
+
+{% block side_results %}
+<div id="sidebar" >
+    {% if side_ads %}
+        {% for ad in side_ads %}
+            <div  id="{{ ad.topic_num }}" rank="side" page="{{ page }}" whooshid="0">
+
+    <img class="ad" width="200" src="{{ad.adimage.url}}" />
+            </div>
+        {% endfor %}
+
+    {% endif %}
+
+
+
+</div>
+
+{% endblock %}
+
+
 
 
 <!-- ><button class="largebutton" type="relevant" value="{{docid}}" name="{{docid}}" onclick="markNonRelevant()" >Mark as Not Relevant </button> -->

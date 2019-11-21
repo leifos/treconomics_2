@@ -2,17 +2,24 @@
 
 {% load treconomics_tags %}
 
+{% load static %}
 
 {% block search_results %}
 
-<div>
- {% if top_ad %}
-    <img height="200" src="{{top_ad.adimage.url}}" alt="{{top_ad.title}}" />
- {% endif  %}
-</div>
 
 
     {% if trec_search %}
+
+
+
+
+ {% if top_ad %}
+ <div class="search_result" id="{{ top_ad.topic_num }}" rank="top" page="{{ page }}" whooshid="0">
+            <div class="results_squash"><div class="ad">
+
+    <a href="JavaScript:taskPopup('{{top_ad.url}}');"><img height="150" src="{{top_ad.adimage.url}}" alt="{{top_ad.title}}" /><a>
+                </div></div></div>
+ {% endif  %}
 
         <div class="query">
             <div class="results_squash">
@@ -20,13 +27,18 @@
 		        Showing page <em>{{ curr_page }}</em> out of <em>{{ num_pages }}</em> pages.</span>
             </div>
         </div>
+
+
         {% for result in trec_results %}
+
+
+
             <div class="search_result" id="{{ result.docid }}" rank="{{ result.rank }}" page="{{ page }}"
                  whooshid="{{ result.whooshid }}">
                 <div class="results_squash">
                     <div class="entry">
                         <p class="result_title"><strong><a class="doc-link"
-                                                           href="{{ result.url }}">{{ result.title }}</a></strong></p>
+                                                           href="{{ result.url }}">{% autoescape off %} {{ result.title }}{% endautoescape %}</a></strong></p>
 
                         <p class="summary">{% autoescape off %} {{ result.summary | removeps }} {% endautoescape %}</p>
                     </div>
@@ -55,15 +67,37 @@
 
 
 <div>
- {% if top_ad %}
+ {% if bot_ad %}
+    <div class="search_result" id="{{ bot_ad.topic_num }}" rank="bot" page="{{ page }}" whooshid="0">
+            <div class="results_squash"><div class="ad">
 
-    <p>{{top_ad.title}}</p>
-    <img src="{{top_ad.adimage.url}}" />
+    <img height="150" src="{{bot_ad.adimage.url}}" />
+            </div></div></div>
  {% endif  %}
 </div>
 
 
 {% endblock %}
+
+
+ {% block side_results %}
+<div id="sidebar" >
+    {% if side_ads %}
+        {% for ad in side_ads %}
+            <div  id="{{ ad.topic_num }}" rank="side" page="{{ page }}" whooshid="0">
+
+    <img class="ad" width="200" src="{{ad.adimage.url}}" />
+            </div>
+        {% endfor %}
+
+    {% endif %}
+
+
+
+</div>
+
+{% endblock %}
+
 
 
 {% block result_nav %}
