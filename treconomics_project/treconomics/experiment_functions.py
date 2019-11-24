@@ -170,7 +170,7 @@ def mark_document(request, whooshid, judgement, title="", trecid="", rank=0, doc
         # create an entry to show the document has been judged
         # print "no doc found in db"
         if judgement > -1:
-            doc = DocumentsExamined(user=u, title=title, docid=whooshid, url='/treconomics/' + whooshid + '/',
+            doc = DocumentsExamined(user=u, title=title, docid=whooshid, url='/treconomics/doc/' + whooshid + '/',
                                     task=task, topic_num=topicnum, doc_num=trecid, judgement=judgement,
                                     judgement_date=datetime.datetime.now(tz=settings_timezone))
             doc.save()

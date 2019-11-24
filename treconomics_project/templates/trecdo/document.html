@@ -1,13 +1,22 @@
 {% extends 'base/base.html' %}
 {% load treconomics_tags %}
 
+{% load static %}
+
 {% block exp_info_block %}
+    <script type="text/javascript">
+        var APP_ROOT = '{{ application_root }}';
+
+    </script>
+
+<script type="text/javascript" src="{% static 'javascripts/search_helpers.js' %}"></script>
+
  <p>
      {% if backtoassessment %}
      <a href="{% url 'treconomics:saved' %}?taskid={{ task }}">Back to Saved Documents</a> |
      {% else %}
      <a href="{{current_search}}">Back to Results</a> |
-     <a href="{% url 'treconomics:saved' %}?taskid={{ task }}s">View Saved</a> |
+     <a href="{% url 'treconomics:saved' %}?taskid={{ task }}">View Saved</a> |
      {% endif %}
      <a href="JavaScript:taskPopup('/treconomics/showtask/');">Show Task</a>
      | <a href="{% url 'treconomics:next' %}" id="end-task-link"> End Task</a>
@@ -27,7 +36,7 @@
 </div>
 
  {% if top_ad %}
- <div class="search_result" id="{{ top_ad.topic_num }}" rank="top" page="{{ page }}" whooshid="0">
+ <div class="search_result" id="{{ top_ad.topic_num }}" rank="ad-top" page="landing" whooshid="{{docid}}">
             <div class="results_squash">
                 <div class="ad">
     <a href="JavaScript:taskPopup('{{top_ad.url}}');">
@@ -59,10 +68,10 @@
 </div>
 
 <script>
-function markRelevant(){$.ajax({ url:"/treconomics/"+{{docid}}+"?judge=1&docid="+{{docid}}+"&rank="+{{rank}}, complete: function(data){
+function markRelevant(){$.ajax({ url:"/treconomics/doc/"+{{docid}}+"?judge=1&docid="+{{docid}}+"&rank="+{{rank}}, complete: function(data){
     $('#mark').replaceWith('<div id="mark"><br/>Saved </div>');
      } }); }
-function markNonRelevant(){$.ajax({ url:"/treconomics/"+{{docid}}+"?judge=0&docid="+{{docid}}+"&rank="+{{rank}}, complete: function(data){
+function markNonRelevant(){$.ajax({ url:"/treconomics/doc/"+{{docid}}+"?judge=0&docid="+{{docid}}+"&rank="+{{rank}}, complete: function(data){
      $('#mark').replaceWith('<div id="mark">  <button class="largebutton" type="relevant" value="{{docid}}" name="{{docid}}" onclick="markRelevant()" >Save </button></div>');
      } }); }
 </script>
@@ -71,10 +80,11 @@ function markNonRelevant(){$.ajax({ url:"/treconomics/"+{{docid}}+"?judge=0&doci
 
 <div>
  {% if bot_ad %}
-    <div class="search_result" id="{{ bot_ad.topic_num }}" rank="bot" page="{{ page }}" whooshid="0">
+    <div class="search_result" id="{{ bot_ad.topic_num }}" rank="ad-bot" page="landing" whooshid="{{docid}}">
             <div class="results_squash"><div class="ad">
-
-    <img height="150" src="{{bot_ad.adimage.url}}" />
+    <a href="JavaScript:taskPopup('{{bot_ad.url}}');">
+        <img height="150" src="{{bot_ad.adimage.url}}" alt="{{bot_ad.title}}" />
+        <a>
             </div></div></div>
  {% endif  %}
 </div>
@@ -87,16 +97,15 @@ function markNonRelevant(){$.ajax({ url:"/treconomics/"+{{docid}}+"?judge=0&doci
 <div id="sidebar" >
     {% if side_ads %}
         {% for ad in side_ads %}
-            <div  id="{{ ad.topic_num }}" rank="side" page="{{ page }}" whooshid="0">
-
-    <img class="ad" width="200" src="{{ad.adimage.url}}" />
+            <div class="search_result"  id="{{ ad.topic_num }}" rank="ad-side" page="landing" whooshid="{{docid}}">
+                <div class="ad">
+                    <a href="JavaScript:taskPopup('{{bot_ad.url}}');">
+                    <img width="200" src="{{ad.adimage.url}}" alt="{{ad.title}}" />
+                    <a>
+                </div>
             </div>
-        {% endfor %}
-
+            {% endfor %}
     {% endif %}
-
-
-
 </div>
 
 {% endblock %}
