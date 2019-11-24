@@ -15,6 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 
 from urllib.parse import urlencode
 # Whoosh
@@ -60,6 +61,8 @@ def show_document(request, whoosh_docid):
     ec = get_experiment_context(request)
     uname = ec["username"]
     taskid = ec["taskid"]
+    interface = ec["interface"]
+    topic_num = ec["topicnum"]
 
     condition = ec["condition"]
     current_search = request.session['queryurl']
@@ -120,6 +123,7 @@ def show_document(request, whoosh_docid):
         context_dict = {'participant': uname,
                         'task': taskid,
                         'condition': condition,
+                        'interface' : interface,
                         'current_search': current_search,
                         'docid': doc_id,
                         'docnum': doc_num,
@@ -139,24 +143,11 @@ def show_document(request, whoosh_docid):
         if request.GET.get('backtoassessment', False):
             context_dict['backtoassessment'] = True
 
-
-
-        ############
-        ##
-        ##  GET ADS
-        ##
         ##############
-        ad_list = TopicAds.objects.filter(shape__contains='Banner')
-        ads = random.choices(ad_list, k=3)
-        top_ad = random.choice(ad_list)
-        bot_ad = random.choice(ad_list)
-        context_dict['top_ad'] = top_ad
-        context_dict['bot_ad'] = bot_ad
+        ##  GET ADS  #
+        ##############
 
-
-        ad_list = TopicAds.objects.filter(shape__contains='Portrait')
-        ads = random.choices(ad_list, k=4)
-        context_dict['side_ads'] = ads
+        get_ads_for_page(interface, topic_num, context_dict)
 
 
         return render(request, 'trecdo/document.html', context_dict)
@@ -253,10 +244,8 @@ def run_query(request, result_dict, query_terms='', page=1, page_len=10, conditi
     :param interface:
     :return:
     """
-    # Stops an AWFUL lot of problems when people get up to mischief
 
     log_event(event="QUERY_START", request=request, query=query_terms)
-
     if page < 1:
         page = 1
 
@@ -271,14 +260,15 @@ def run_query(request, result_dict, query_terms='', page=1, page_len=10, conditi
     ###################################
     # CONTROL THE SNIPPET LENGTH HERE #
     ###################################
-    snippet_sizes = [2, 2, 2, 2]
-    snippet_surround = [40, 40, 40, 40]
+    #snippet_sizes = [2, 2, 2, 2]
+    #snippet_surround = [40, 40, 40, 40]
 
-    pos = interface - 1
-    search_engine.snippet_size = snippet_sizes[pos]
-    search_engine.set_fragmenter(frag_type=2, surround=snippet_surround[pos])
+    #pos = interface - 1
+    #search_engine.snippet_size = snippet_sizes[pos]
+    #search_engine.set_fragmenter(frag_type=2, surround=snippet_surround[pos])
+    search_engine.snippet_size = 2
+    search_engine.set_fragmenter(frag_type=2, surround=40)
 
-    response = None
     response = search_engine.search(query)
 
     log_event(event="QUERY_END", request=request, query=query_terms)
@@ -486,26 +476,12 @@ def search(request, taskid=-1):
                               rank=qrp[0],
                               judgement=qrp[1])
 
-
-                ############
-                ##
+                #########################
                 ##  Get Ads from TopicAds
-                ##
-                ############
+                ##########################
+                print("Serving SERP Ads for Interface:", interface)
+                get_ads_for_page(interface, topic_num, result_dict)
 
-                #on_topic_ads = TopicAds.objects.filter(topic_num=topic_num)
-                #off_topic_ads = TopicAds.objects.filter(topic_num=0)
-
-                ad_list = TopicAds.objects.filter(shape__contains='Banner')
-                ads = random.choices(ad_list, k=3)
-                top_ad = random.choice(ad_list)
-                bot_ad = random.choice(ad_list)
-                result_dict['top_ad'] = top_ad
-                result_dict['bot_ad'] = bot_ad
-
-                ad_list = TopicAds.objects.filter(shape__contains='Portrait')
-                ads = random.choices(ad_list, k=4)
-                result_dict['side_ads'] = ads
 
 
                 #TODO fix this using url-resolvers (reverse())
@@ -757,3 +733,47 @@ def view_run_queries(request, topic_num):
 
     context_dict = {'topic_num': topic_num, 'seconds': seconds, 'num': num}
     return render(request, 'base/query_test.html', context_dict)
+
+
+
+def get_ads_for_page( interface, topic_num, context_dict):
+    """
+    Puts ads into the context dictionary to be rendered on SERP and Landing Pages.
+    :param condition: 1 - No Ads, 2 - On Topic Ads, 3 - Off Topic Ads, 4 - Off and On Topic Ads
+    :param topic_num: for on topic ads.
+    :param context_dict: context dictionary
+    :return: None - updates the context dictionary by adding in the ads for keys: top_ad, bot_ad, side_ads
+    """
+    top_ad = None
+    bot_ad = None
+    side_ads = []
+    bQ = None
+
+    #Q(shape__contains='Portrait') | Q(shape_contains='Horizontal')
+    if interface==2:
+        bQ = Q(topic_num__contains=topic_num)
+
+    if interface==3:
+        bQ = Q(topic_num__contains="0")
+
+    if interface==4:
+        bQ = Q(topic_num__contains=topic_num) | Q(topic_num__contains="0")
+
+    if interface > 1:
+
+        banner_list = TopicAds.objects.filter(Q(shape__contains='Banner'), bQ)
+
+        ad_list = TopicAds.objects.filter(
+            Q(shape__contains='Portrait') | Q(shape__contains='Horizontal'),
+            bQ
+        )
+
+        side_ads = random.choices(ad_list, k=6)
+        top_ad = random.choice(banner_list)
+        bot_ad = random.choice(banner_list)
+
+    context_dict['top_ad'] = top_ad
+    context_dict['bot_ad'] = bot_ad
+    context_dict['side_ads'] = side_ads
+
+
