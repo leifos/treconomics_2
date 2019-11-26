@@ -2,5 +2,11 @@ beautifulsoup4==4.7.1
 datrie==0.8
 Django==2.2.3
 jsonpickle==1.2
+nltk==3.4.5
+Pillow==6.2.1
+pytz==2019.2
 redis==3.3.4
+six==1.12.0
+soupsieve==1.9.2
+sqlparse==0.3.0
 Whoosh==2.7.4
