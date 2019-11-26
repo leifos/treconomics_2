@@ -81,11 +81,9 @@ test_flow = [
     'logout/'
 ]
 
-#test_flow = [
-#    'startexperiment/', 'pst-findas/',
-#    'endexperiment/',
-#    'logout/'
-#]
+pst_flow = [
+    'startexperiment/', 'pst-findas/','taskspacer','pst-numbers/', 'endexperiment/', 'logout/'
+]
 
 
 
@@ -125,5 +123,21 @@ exp_sigir2019 = ExperimentSetup(
     timeout=[150, 600, 600, 600, 600])  # 300s = 5min; 600s = 10min; 1200s = 20min
 
 
+
+exp_pst = ExperimentSetup(
+    workflow=pst_flow,
+    engine=search_engine,
+    practice_topic='367',
+    topics=['347', '341', '435', '408'],
+    rpp=10,
+    practice_interface=1,
+    interface=[1, 2, 3, 4],
+    rotation_type=1,
+    description='standard condition bm25 test',
+    trie=suggestion_trie,
+    autocomplete=False,
+    timeout=[150, 600, 600, 600, 600])  # 300s = 5min; 600s = 10min; 1200s = 20min
+
+
 # these correspond to conditions
-experiment_setups = [exp_sigir2019]
+experiment_setups = [exp_sigir2019, exp_pst]
