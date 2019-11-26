@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block exp_block %}
+    <div style="padding-top:60px">
     Below is a description of the search task that we would like you to undertake. The search task is a description of
     the topic, and the type of information within documents that would be relevant to this specific topic.
 
@@ -21,6 +22,7 @@
     <p> {% autoescape off %} <strong>{{ taskdescription }}</strong> {% endautoescape %}</p>
 
     <script type="text/javascript" src="{% static 'javascripts/show_task.js' %}"></script>
+    </div>
 
 {% endblock %}
 
