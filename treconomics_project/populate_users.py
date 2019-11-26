@@ -3,10 +3,16 @@ import django
 
 def populate():
     print('Adding PST Users')
-
     for i in range(0,20):
         uname = 'pst'+str(i)
         add_user(uname,uname,1,2,i)
+
+
+    print('Adding AD Users')
+
+    for i in range(0,20):
+        uname = 'ad'+str(i)
+        add_user(uname,uname,0,2,i)
 
 
 

@@ -81,6 +81,24 @@ test_flow = [
     'logout/'
 ]
 
+test_flow2 = [
+    'startexperiment/', 'preexperiment/UK/',
+    #'demographicssurvey/', 'pst-findas/', 'pst-numbers/', 'personalitysurvey/', 'taskspacer',
+
+    'prepracticetask/0/', 'search/0/', 'postpracticetask/0/', 'taskspacer/',
+
+    'pretaskquestions/1/', 'taskspacerwithdetails/1/', 'search/1/',
+    'perceptionsurvey/1/', 'systemsurvey/1/', 'conceptlistingsurvey/1/1/',
+    'taskspacer',
+    'search/2/','search/3/', 'search/4/',
+    'endexperiment/',
+    'logout/'
+]
+
+
+
+
+
 pst_flow = [
     'startexperiment/', 'pst-findas/','taskspacer','pst-numbers/', 'endexperiment/', 'logout/'
 ]
@@ -105,19 +123,19 @@ search_engine = Whooshtrec(
     newschema=True)
 
 search_engine.key_name = 'bm25'
-search_engine.set_fragmenter(frag_type=2, surround=30)
+search_engine.set_fragmenter(frag_type=2, surround=40)
 
 
 exp_sigir2019 = ExperimentSetup(
-    workflow=test_flow,
+    workflow=test_flow2,
     engine=search_engine,
     practice_topic='367',
     topics=['347', '341', '435', '408'],
     rpp=10,
-    practice_interface=1,
+    practice_interface=4,
     interface=[1, 2, 3, 4],
     rotation_type=1,
-    description='standard condition bm25 test',
+    description='BM25 - interfaces with different Ads',
     trie=suggestion_trie,
     autocomplete=False,
     timeout=[150, 600, 600, 600, 600])  # 300s = 5min; 600s = 10min; 1200s = 20min
@@ -130,7 +148,7 @@ exp_pst = ExperimentSetup(
     practice_topic='367',
     topics=['347', '341', '435', '408'],
     rpp=10,
-    practice_interface=1,
+    practice_interface=4,
     interface=[1, 2, 3, 4],
     rotation_type=1,
     description='standard condition bm25 test',

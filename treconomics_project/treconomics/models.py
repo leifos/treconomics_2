@@ -25,6 +25,7 @@ class TaskDescription(models.Model):
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=1500)
     diversify = models.CharField(max_length=1500, default="")
+    concepts = models.CharField(max_length=700)
 
     def __unicode__(self):
         return self.title

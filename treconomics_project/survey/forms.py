@@ -4,7 +4,10 @@ from django import forms
 
 from django.forms.widgets import RadioSelect, Textarea
 from survey.models import *
+from survey.models import DemographicsSurvey, SEX_CHOICES, LANGUAGE_CHOICES, EXPERTISE_CHOICES, ED_CHOICES
 
+
+#### Starting Survey Forms ######
 
 class DemographicsSurveyForm(ModelForm):
     age = forms.IntegerField(label="Please provide your age (in years).",
@@ -17,15 +20,19 @@ class DemographicsSurveyForm(ModelForm):
                           label="Please indicate your sex.",
                           required=False)
 
+    education = forms.CharField(max_length=1, widget=forms.Select(choices=ED_CHOICES),
+                                label="Please indicate your highest level of education.", required=False)
+
     language = forms.CharField(max_length=1,
                                widget=forms.Select(choices=LANGUAGE_CHOICES),
                                label="Please indicate your English language proficiency.",
                                required=False)
 
-    expertise = forms.CharField(max_length=1,
-                               widget=forms.Select(choices=EXPERTISE_CHOICES),
-                               label="How often do you search for or read news online?",
-                               required=False)
+    search_freq = forms.CharField(max_length=1, widget=forms.Select(choices=EXPERTISE_CHOICES),
+                                  label="Please indicate how often you search for news online", required=False)
+    browse_freq = forms.CharField(max_length=1, widget=forms.Select(choices=EXPERTISE_CHOICES),
+                                  label="Please indicate how often you read news online", required=False)
+
 
     def clean(self):
         cleaned_data = self.cleaned_data
@@ -38,31 +45,38 @@ class DemographicsSurveyForm(ModelForm):
         exclude = ('user',)
 
 
+### Pre task form ####
+
+
+#### Post task forms #####
+### perception, systems, concepts
+
+
 class PostPerceptionSurveyForm(ModelForm):
     PERCEPTION_CHOICES = (
         (1, 'Disagree'), (2, ''), (3, ''), (4, ''), (5, ''), (6, ''), (7, 'Agree')
     )
 
     perception_frustration = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
-                                                 label="I felt frustrated while doing the task",
+                                                 label="I felt frustrated while doing the task.",
                                                  required=False)
     perception_confidence = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
-                                                label="I felt confident in my decisions",
+                                                label="I was confident in my decisions.",
                                                 required=False)
     perception_enjoyment = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
-                                               label="I enjoyed completing this task",
+                                               label="I enjoyed completing this task.",
                                                required=False)
     perception_satisfaction = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
-                                               label="I was satisfied with my search performance",
+                                               label="I was satisfied with my search performance.",
                                                required=False)
     perception_checking = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
-                                               label="I checked each document carefully before saving",
+                                               label="I checked each document carefully before saving.",
                                                required=False)
     perception_difficulty = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
-                                             label="It was difficult to find relevant documents for the task",
+                                             label="I found it difficult to find relevant documents.",
                                               required=False)
     perception_tiredness = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
-                                              label="I felt tired when completing this task",
+                                              label="I felt tired when completing this task.",
                                               required=False)
     perception_alert = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
                                      label="I felt alert while I was completing these tasks.", required=False)
@@ -72,64 +86,7 @@ class PostPerceptionSurveyForm(ModelForm):
 
     class Meta:
         model = PostPerceptionSurvey
-        exclude = ('user',)
-
-
-NASA_LOW_CHOICES = ((1, 'Very Low'), (2, ''), (3, ''), (4, ''), (5, ''), (6, ''), (7, 'Very High'))
-NASA_PERFECT_CHOICES = ((1, 'Perfect'), (2, ''), (3, ''), (4, ''), (5, ''), (6, ''), (7, 'Failure'))
-
-
-def clean_nasa_data(self):
-    cleaned_data = self.cleaned_data
-    if not cleaned_data.get("nasa_mental"):
-        cleaned_data["nasa_mental"] = 0
-    if not cleaned_data.get("nasa_temporal"):
-        cleaned_data["nasa_temporal"] = 0
-    if not cleaned_data.get("nasa_physical"):
-        cleaned_data["nasa_physical"] = 0
-    if not cleaned_data.get("nasa_performance"):
-        cleaned_data["nasa_performance"] = 0
-    if not cleaned_data.get("nasa_effort"):
-        cleaned_data["nasa_effort"] = 0
-    if not cleaned_data.get("nasa_frustration"):
-        cleaned_data["nasa_frustration"] = 0
-    return cleaned_data
-
-
-def clean_to_zero(self):
-    cleaned_data = self.cleaned_data
-    for item in cleaned_data:
-        if not cleaned_data[item]:
-            cleaned_data[item] = 0
-    return cleaned_data
-
-
-class NasaSurveyForm(ModelForm):
-    nasa_mental = forms.ChoiceField(widget=RadioSelect, choices=NASA_LOW_CHOICES,
-                                           label="MENTAL DEMAND: How mentally demanding was the task?",
-                                           required=False)
-    nasa_physical = forms.ChoiceField(widget=RadioSelect, choices=NASA_LOW_CHOICES,
-                                             label="PHYSICAL DEMAND: How physically demanding was the task?",
-                                             required=False)
-    nasa_temporal = forms.ChoiceField(widget=RadioSelect, choices=NASA_LOW_CHOICES,
-                                      label="TEMPORAL DEMAND: How hurried or rushed was the pace of the task?",
-                                      required=False)
-    nasa_performance = forms.ChoiceField(widget=RadioSelect, choices=NASA_PERFECT_CHOICES,
-                                         label="PERFORMANCE: How successful were you in accomplishing what you were asked to do?",
-                                         required=False)
-    nasa_effort = forms.ChoiceField(widget=RadioSelect, choices=NASA_LOW_CHOICES,
-                                    label="EFFORT: How hard did you have to work to accomplish your level of performance?",
-                                    required=False)
-    nasa_frustration = forms.ChoiceField(widget=RadioSelect, choices=NASA_LOW_CHOICES,
-                                         label="FRUSTRATION: How insecure, discouraged, irritated, stressed, and annoyed were you?",
-                                         required=False)
-
-    def clean(self):
-        return clean_nasa_data(self)
-
-    class Meta:
-        model = NasaSurvey
-        exclude = ('user',)
+        exclude = ('user', 'task_id', 'topic_num')
 
 
 class PostSystemSurveyForm(ModelForm):
@@ -138,22 +95,22 @@ class PostSystemSurveyForm(ModelForm):
     )
 
     system_aesthetics = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
-                                             label="The system was aesthetically appealing",
+                                             label="The system was aesthetically appealing.",
                                              required=False)
     system_boring = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
-                                label="The system was boring",
+                                label="The system was boring.",
                                 required=False)
     system_annoying = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
-                                label="The system was annoying",
+                                label="The system was annoying.",
                                 required=False)
     system_ease = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
-                                label="The system was  easy to use",
+                                label="The system was easy to use.",
                                 required=False)
     system_confusing = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
-                                label="The system was confusing",
+                                label="The system was confusing.",
                                 required=False)
     system_focus = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
-                                label="The system was engaging",
+                                label="The system was engaging.",
                                 required=False)
 
     def clean(self):
@@ -161,7 +118,26 @@ class PostSystemSurveyForm(ModelForm):
 
     class Meta:
         model = SystemSurvey
-        exclude = ('user',)
+        exclude = ('user', 'task_id', 'topic_num')
+
+
+class ConceptListingSurveyForm(ModelForm):
+     concepts = forms.CharField(widget=forms.Textarea(attrs={"rows":16, "cols":80}),
+                                label="For the given topic, please list the relevant entities or descriptions, one per line.",
+                                required=False)
+
+     def clean(self):
+         return clean_to_zero(self)
+
+     class Meta:
+         model = ConceptListingSurvey
+         exclude = ('user', 'task_id', 'topic_num', 'when')
+
+
+
+
+
+#### FINAL SURVEY ######
 
 
 class FinalPersonalitySurveyForm(ModelForm):
@@ -188,6 +164,24 @@ class FinalPersonalitySurveyForm(ModelForm):
     class Meta:
         model = PersonalitySurvey
         exclude = ('user',)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # I don't know what the below bit is.....-->
@@ -238,33 +232,8 @@ class NasaFactorCompareForm(ModelForm):
         exclude = ('user',)
 
 
-# <----Up until this point.
 
 
-    # def clean(self):
-    #     return clean_to_zero(self)
-    #
-    # class Meta:
-    #     model = PreTaskTopicKnowledgeSurvey
-    #     exclude = ('user', 'task_id', 'topic_num')
-
-
-# class ConceptListingSurveyForm(ModelForm):
-#     concepts = forms.CharField(widget=Textarea,
-#                                label="Please list any concepts that come to mind for this topic. You can list any concepts "
-#                                      "that you feel are relevant or important.",
-#                                required=False)
-#     paragraph = forms.CharField(widget=Textarea,
-#                                 label="Imagine you would like to tell someone you know about what you have learned about this topic."
-#                                       " Please compose a paragraph describing the topic and what you learnt about the topic. ",
-#                                 required=False)
-#
-#     def clean(self):
-#         return clean_to_zero(self)
-#
-#     class Meta:
-#         model = ConceptListingSurvey
-#         exclude = ('user', 'task_id', 'topic_num', 'when')
 
 
 # class PostConceptListingSurveyForm(ConceptListingSurveyForm):
@@ -333,4 +302,62 @@ class PostTaskTopicRatingSurveyForm(ModelForm):
     class Meta:
         model = PostTaskTopicRatingSurvey
         exclude = ('user', 'task_id', 'topic_num')
+
+
+
+NASA_LOW_CHOICES = ((1, 'Very Low'), (2, ''), (3, ''), (4, ''), (5, ''), (6, ''), (7, 'Very High'))
+NASA_PERFECT_CHOICES = ((1, 'Perfect'), (2, ''), (3, ''), (4, ''), (5, ''), (6, ''), (7, 'Failure'))
+
+
+def clean_nasa_data(self):
+    cleaned_data = self.cleaned_data
+    if not cleaned_data.get("nasa_mental"):
+        cleaned_data["nasa_mental"] = 0
+    if not cleaned_data.get("nasa_temporal"):
+        cleaned_data["nasa_temporal"] = 0
+    if not cleaned_data.get("nasa_physical"):
+        cleaned_data["nasa_physical"] = 0
+    if not cleaned_data.get("nasa_performance"):
+        cleaned_data["nasa_performance"] = 0
+    if not cleaned_data.get("nasa_effort"):
+        cleaned_data["nasa_effort"] = 0
+    if not cleaned_data.get("nasa_frustration"):
+        cleaned_data["nasa_frustration"] = 0
+    return cleaned_data
+
+
+def clean_to_zero(self):
+    cleaned_data = self.cleaned_data
+    for item in cleaned_data:
+        if not cleaned_data[item]:
+            cleaned_data[item] = 0
+    return cleaned_data
+
+
+class NasaSurveyForm(ModelForm):
+    nasa_mental = forms.ChoiceField(widget=RadioSelect, choices=NASA_LOW_CHOICES,
+                                           label="MENTAL DEMAND: How mentally demanding was the task?",
+                                           required=False)
+    nasa_physical = forms.ChoiceField(widget=RadioSelect, choices=NASA_LOW_CHOICES,
+                                             label="PHYSICAL DEMAND: How physically demanding was the task?",
+                                             required=False)
+    nasa_temporal = forms.ChoiceField(widget=RadioSelect, choices=NASA_LOW_CHOICES,
+                                      label="TEMPORAL DEMAND: How hurried or rushed was the pace of the task?",
+                                      required=False)
+    nasa_performance = forms.ChoiceField(widget=RadioSelect, choices=NASA_PERFECT_CHOICES,
+                                         label="PERFORMANCE: How successful were you in accomplishing what you were asked to do?",
+                                         required=False)
+    nasa_effort = forms.ChoiceField(widget=RadioSelect, choices=NASA_LOW_CHOICES,
+                                    label="EFFORT: How hard did you have to work to accomplish your level of performance?",
+                                    required=False)
+    nasa_frustration = forms.ChoiceField(widget=RadioSelect, choices=NASA_LOW_CHOICES,
+                                         label="FRUSTRATION: How insecure, discouraged, irritated, stressed, and annoyed were you?",
+                                         required=False)
+
+    def clean(self):
+        return clean_nasa_data(self)
+
+    class Meta:
+        model = NasaSurvey
+        exclude = ('user',)
 
