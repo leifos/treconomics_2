@@ -264,6 +264,9 @@ def get_performance(username, topic_num):
 
     return assess_performance(str(topic_num), doc_list)
 
+########
+# TODO: update the logging to record the query, and the performance values for a bunch of metrics
+########
 
 def query_result_performance(results, topic_num):
     i = 0

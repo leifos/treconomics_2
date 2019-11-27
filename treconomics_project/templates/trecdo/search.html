@@ -32,13 +32,14 @@
 {% endblock %}
 
 {% block query_box %}
+<div class="search_result" >
     <div class="entry" id="search_box_area">
         <form id="search_form" action="{% url 'treconomics:search' %}" method="post">
             {% csrf_token %}
             <!-- cross-site request forgery protection -->
-            <table>
+            <table style="margin-left:70px">
                 <tr>
-                    <td class="searchlabel">Enter your query here</td>
+                    <td class="searchlabel">Enter query here</td>
 
                     {% if query %}
                         <td><input class="searchbox" type="text" name="query" value="{{ query }}" id="query" size="50"/>
@@ -57,7 +58,7 @@
 
     </div>
 
-
+</div>
 
 
 {% endblock %}
