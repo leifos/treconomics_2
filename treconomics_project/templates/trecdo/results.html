@@ -12,10 +12,11 @@
 
   <div class="query">
             <div class="results_squash">
-                <strong>Search Terms: <em>{{ display_query }}</em></strong><span>
-		        Showing page <em>{{ curr_page }}</em> out of <em>{{ num_pages }}</em> pages.</span>
+                <strong>Query: <em>{{ display_query }}</em></strong><span>
+		        Page <em>{{ curr_page }}</em> out of <em>{{ num_pages }}</em> pages.</span>
             </div>
         </div>
+
 
 
  {% if top_ad %}
@@ -25,6 +26,9 @@
     <a href="JavaScript:taskPopup('{{top_ad.adimage.url}}');">
         <img height="150" src="{{top_ad.adimage.url}}" alt="{{top_ad.title}}" />
         <a></div></div></div>
+    {% else %}
+<div style="height:120px">
+</div>
  {% endif  %}
 
 
@@ -67,7 +71,7 @@
     {% endif %}
 
 
-<div>
+
  {% if bot_ad %}
     <div class="search_result" id="{{ bot_ad.topic_num }}" rank="ad-bot" page="{{ page }}" whooshid="0">
             <div class="results_squash"><div class="ad">
@@ -75,8 +79,12 @@
         <img height="150" src="{{bot_ad.adimage.url}}" alt="{{bot_ad.title}}" />
         <a>
             </div></div></div>
- {% endif  %}
+
+{% else %}
+<div style="height:120px">
 </div>
+
+ {% endif  %}
 
 
 {% endblock %}

@@ -365,6 +365,10 @@ p.summary {
     margin-right: 30px;
 	}
 
+.topdiv {
+style="padding-top:60px"
+}
+
 
 /* Footer */
 
@@ -445,7 +449,7 @@ p.summary {
 .searchbox {
 	border: 1px solid #999;
 	height: 30px;
-	width: 420px;
+	width: 380px;
 	font-size: 16px;
 	font-weight: bold;
 	font-family: Helvetica, Arial, sans-serif;

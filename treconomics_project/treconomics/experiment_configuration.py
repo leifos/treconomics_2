@@ -90,7 +90,7 @@ test_flow2 = [
     'pretaskquestions/1/', 'taskspacerwithdetails/1/', 'search/1/',
     'perceptionsurvey/1/', 'systemsurvey/1/', 'conceptlistingsurvey/1/1/',
     'taskspacer',
-    'search/2/','search/3/', 'search/4/',
+    'search/2/','search/3/', 'search/4/', 'personalitysurvey/',
     'endexperiment/',
     'logout/'
 ]

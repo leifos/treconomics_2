@@ -35,6 +35,7 @@
 <p class="document_source_date"><b>{{doc_source}}</b> <span> <b>{{doc_date}}</b></span></p>
 </div>
 
+
  {% if top_ad %}
  <div class="search_result" id="{{ top_ad.topic_num }}" rank="ad-top" page="landing" whooshid="{{docid}}">
             <div class="results_squash">
@@ -42,6 +43,9 @@
     <a href="JavaScript:taskPopup('{{top_ad.adimage.url}}');">
         <img height="150" src="{{top_ad.adimage.url}}" alt="{{top_ad.title}}" />
         <a></div></div></div>
+    {% else %}
+<div style="height:120px">
+</div>
  {% endif  %}
 
 
