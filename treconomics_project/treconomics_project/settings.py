@@ -133,3 +133,21 @@ MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
 CACHE_DIR = os.path.join(BASE_DIR, 'cache')
+
+
+# Add caches for autocomplete suggestions and query results
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': CACHE_DIR,
+        'OPTIONS': {
+            'MAX_ENTRIES': 10000
+        }
+    },
+    'autocomplete': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+        #'LOCATION': 'newssearch-autocomplete'
+    },
+}
+

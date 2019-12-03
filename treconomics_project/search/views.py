@@ -21,7 +21,7 @@ from urllib.parse import urlencode
 # Whoosh
 from whoosh.index import open_dir
 # Cache for autocomplete trie
-from django.core import cache
+from django.core.cache import caches
 # Timing Query
 import timeit
 # Experiments
@@ -681,7 +681,8 @@ def autocomplete_suggestion(request):
             # See if the cache has what we are looking for.
             # If it does, pull it out and use that.
             # If it doesn't, query the trie and store the results in the cache before returning.
-            autocomplete_cache = cache.get_cache('autocomplete')
+
+            autocomplete_cache = caches['autocomplete']
             results = autocomplete_cache.get(chars)
 
             if not results:

@@ -143,7 +143,7 @@ exp_sigir2020 = ExperimentSetup(
     rotation_type=1,
     description='BM25 - interfaces with different Ads',
     trie=suggestion_trie,
-    autocomplete=False,
+    autocomplete=True,
     timeout=[300, 600, 600, 600, 600])  # 300s = 5min; 600s = 10min; 1200s = 20min
 
 
