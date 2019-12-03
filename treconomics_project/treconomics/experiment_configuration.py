@@ -113,7 +113,7 @@ pst_flow = [
 
 
 suggestion_trie = None
-"""
+
 suggestion_trie = AutocompleteTrie(
     min_occurrences=3,
     suggestion_count=8,
@@ -121,7 +121,6 @@ suggestion_trie = AutocompleteTrie(
     stopwords_path=os.path.join(work_dir, "data/stopwords.txt"),
     vocab_path=os.path.join(work_dir, "data/vocab.txt"),
     vocab_trie_path=os.path.join(work_dir, "data/vocab_trie.dat"))
-"""
 
 search_engine = Whooshtrec(
     whoosh_index_dir=my_whoosh_doc_index_dir,

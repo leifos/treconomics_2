@@ -5,6 +5,7 @@ from django import forms
 from django.contrib.auth.models import User
 
 SEX_CHOICES = (
+                (' ', 'Please Select'),
                 ('F', 'Female'),
                 ('M', 'Male'),
                 ('N', 'Not Indicated'),
@@ -23,6 +24,7 @@ EXPERTISE_CHOICES = (
 
 
 ED_CHOICES = (
+                (' ','Please Select'),
                 ('H', 'High School'),
                 ('C', 'College / Diploma'),
                 ('U', 'Undergraduate / Bachelors'),
