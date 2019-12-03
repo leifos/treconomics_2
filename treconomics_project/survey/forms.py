@@ -146,17 +146,48 @@ class FinalPersonalitySurveyForm(ModelForm):
     )
 
     personality_distract = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
-                                     label="While using the Web I am able to block out most other distractions",
+                                     label="... tends to block out distractions",
                                      required=False)
-    personality_absorbed = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
-                                     label="While using the Web, I am absorbed in what I am doing",
+    personality_reserved = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
+                                     label="... is reserved",
+                                     required=False)
+    personality_trusting = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
+                                     label="... is generally trusting",
+                                     required=False)
+    personality_lazy = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
+                                     label="... tends to be lazy",
+                                     required=False)
+    personality_relaxed = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
+                                     label="... is relaxed, handles stress well",
                                      required=False)
     personality_immersed = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
-                                     label="While using the Web, I am immersed in the task I am performing",
+                                     label="... tends to be immersed in the task at hand ",
+                                     required=False)
+    personality_artistic = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
+                                     label="... has few artistic interests",
+                                     required=False)
+    personality_social = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
+                                     label="... is outgoing, sociable",
+                                     required=False)
+    personality_absorbed = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
+                                     label="... gets absorbed in what I am doing",
+                                     required=False)
+    personality_fault = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
+                                     label="... tends to find fault with others",
+                                     required=False)
+    personality_thorough = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
+                                     label="... does a thorough job",
+                                     required=False)
+    personality_nervous = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
+                                     label="... gets nervous easily",
+                                     required=False)
+    personality_imagine = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
+                                     label="... has an active imagination",
                                      required=False)
     personality_attention = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
-                                     label="While on the Web, my attention does not get diverted very easily",
+                                     label="... is generally attentive",
                                      required=False)
+
 
     def clean(self):
         return clean_to_zero(self)
@@ -282,18 +313,18 @@ class PreTaskTopicKnowledgeSurveyForm(ModelForm):
 
 
 class PostTaskTopicRatingSurveyForm(ModelForm):
-    relevance_difficulty = forms.ChoiceField(widget=RadioSelect, choices=TOPIC_EASY_CHOICES,
-                                             label="How difficult was it to find relevant documents?", required=False)
     relevance_skill = forms.ChoiceField(widget=RadioSelect, choices=TOPIC_NOTGOOD_CHOICES,
-                                        label="How would you rate your skill and ability at finding relevant documents?",
+                                        label="How would you rate your skill and ability at finding relevant examples?",
                                         required=False)
+    relevance_difficulty = forms.ChoiceField(widget=RadioSelect, choices=TOPIC_EASY_CHOICES,
+                                             label="How difficult was it to find relevant and different examples?", required=False)
     relevance_system = forms.ChoiceField(widget=RadioSelect, choices=TOPIC_NOTGOOD_CHOICES,
-                                         label="How would you rate the system's ability at retrieving relevant documents?",
+                                         label="How would you rate the system's ability at retrieving relevant examples?",
                                          required=False)
     relevance_success = forms.ChoiceField(widget=RadioSelect, choices=TOPIC_UNSUCCESSFUL_CHOICES,
                                           label="How successful was your search?", required=False)
     relevance_number = forms.ChoiceField(widget=RadioSelect, choices=TOPIC_FEW_CHOICES,
-                                         label="How many of the relevant documents do you think you found?",
+                                         label="How many relevant and different example do you think you found?",
                                          required=False)
 
     def clean(self):

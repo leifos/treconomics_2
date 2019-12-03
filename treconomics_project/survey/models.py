@@ -141,6 +141,16 @@ class PersonalitySurvey(models.Model):
     personality_absorbed = models.IntegerField(default=0)
     personality_immersed = models.IntegerField(default=0)
     personality_attention = models.IntegerField(default=0)
+    personality_reserved = models.IntegerField(default=0)
+    personality_trusting = models.IntegerField(default=0)
+    personality_lazy = models.IntegerField(default=0)
+    personality_relaxed = models.IntegerField(default=0)
+    personality_artistic = models.IntegerField(default=0)
+    personality_social = models.IntegerField(default=0)
+    personality_fault = models.IntegerField(default=0)
+    personality_thorough = models.IntegerField(default=0)
+    personality_nervous = models.IntegerField(default=0)
+    personality_imagine = models.IntegerField(default=0)
 
     def __unicode__(self):
         return self.user.username

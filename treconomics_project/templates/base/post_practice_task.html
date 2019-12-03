@@ -5,17 +5,38 @@
 {% endblock %}
 
 {% block exp_block %}
-    <script>
-        $(document).ready(function () {
-            $('.surveySubmitButton').click(function () {
-                $(this).hide()
-            });
-        })
-    </script>
+
+<div class="experimentPageTitle">
+
+    <h1>Practice Task Completed</h1>
+    <p>
+        <strong>You have now completed the practice task.</strong>
+
+</p>
+<p>
+    Note that during the experiment, after each search task, you will also be asked a series of questions about your search experience.
+</p>
+<p>
+    And, then you will be asked to list as many of the examples as you can remember.
+<div id="taskbox">
+    For this practice about piracy at sea, relevant and different examples, would include, for instance:
+    <ul>
+    <li>The Petro Ranger in the South China Sea</li>
+    <li>The Cheung Son in the South China Sea</li>
+    <li>The Tenyu in the strait of Malacca </li>
+    <li>The Achilles Lauro in the Mediterranean Sea</li>
+    <li>The Engin in the Suez Canal</li>
+    <li>The Marine Master in the Andaman Sea</li>
+    <li> etc...</li>
+    </ul>
+    </p>
+</div>
+<p></p>
 
     <p>
-        <strong>You have now completed the practice task.</strong><br/>
-        Click the button below to proceed to the first search task.
+
+If you have any questions about the task or the experiment, please do ask the assistant. Otherwise,
+        click the button below to proceed to the first search task.
     </p>
 
     <div class=surveySubmitButton" style="text-align: center;">
@@ -24,7 +45,7 @@
         </a>
     </div>
 
-
+</div>
 {% endblock %}
 
 
