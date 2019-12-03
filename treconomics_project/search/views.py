@@ -749,25 +749,52 @@ def get_ads_for_page( interface, topic_num, context_dict):
     side_ads = []
     bQ = None
 
+    banner_list = []
+    ad_list = []
     #Q(shape__contains='Portrait') | Q(shape_contains='Horizontal')
+    # ON TOPIC ADS
     if interface==2:
         bQ = Q(topic_num__contains=topic_num)
-
-    if interface==3:
-        bQ = Q(topic_num__contains="0")
-
-    if interface==4:
-        bQ = Q(topic_num__contains=topic_num) | Q(topic_num__contains="0")
-
-    if interface > 1:
-
         banner_list = TopicAds.objects.filter(Q(shape__contains='Banner'), bQ)
-
         ad_list = TopicAds.objects.filter(
             Q(shape__contains='Portrait') | Q(shape__contains='Horizontal'),
             bQ
         )
 
+    # OFF TOPIC ADS
+    if interface==3:
+        bQ = Q(topic_num__contains="0")
+        banner_list = TopicAds.objects.filter(Q(shape__contains='Banner'), bQ)
+        ad_list = TopicAds.objects.filter(
+            Q(shape__contains='Portrait') | Q(shape__contains='Horizontal'),
+            bQ
+        )
+
+
+    # OFF and ON TOPIC ADS
+    if interface==4:
+        bQ = Q(topic_num__contains="0")
+
+        off_banner_list = TopicAds.objects.filter(Q(shape__contains='Banner'), bQ)
+
+        off_ad_list = TopicAds.objects.filter(
+            Q(shape__contains='Portrait') | Q(shape__contains='Horizontal'),
+            bQ
+        )
+
+        bQ = Q(topic_num__contains=topic_num)
+        on_banner_list = TopicAds.objects.filter(Q(shape__contains='Banner'), bQ)
+
+        on_ad_list = TopicAds.objects.filter(
+            Q(shape__contains='Portrait') | Q(shape__contains='Horizontal'),
+            bQ
+        )
+        banner_list = random.choices(off_banner_list,k=2)+ random.choices(on_banner_list,k=2)
+        ad_list = random.choices(off_ad_list, k=4) + random.choices(on_ad_list, k=4)
+
+
+
+    if interface > 1:
         side_ads = random.choices(ad_list, k=6)
         top_ad = random.choice(banner_list)
         bot_ad = random.choice(banner_list)

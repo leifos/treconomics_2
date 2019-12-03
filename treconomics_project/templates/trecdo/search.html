@@ -20,7 +20,7 @@
            value="{% if focus_querybox %}{{ focus_querybox }}{% else %}true{% endif %}"/>
 
     <p>
-        Task: {{task}} |
+        Task: {% if task == 0 %} Practice {% else %} {{task}} {% endif %} |
         <a href="{% url 'treconomics:saved' %}?taskid={{ task }}">View Saved</a> |
         <a href="JavaScript:taskPopup('/treconomics/showtask/');">Show Task</a>
         | <a href="{% url 'treconomics:next' %}" id="end-task-link"> End Task</a>
