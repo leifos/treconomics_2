@@ -7,19 +7,19 @@
 
 {% block exp_block %}
     <div style="padding-top:60px">
+
+    <h1>{% if task == 0 %}Practice Task {% else %}Task: {{ task }}{% endif %}</h1>
+    <p>
     Below is a description of the search task that we would like you to undertake. The search task is a description of
     the topic, and the type of information within documents that would be relevant to this specific topic.
+    </p>
 
+        <div id="taskbox">
+        <p> {% autoescape off %} {{ taskdescription }} {% endautoescape %}</p>
+</div>
+    <p><strong>You task is to find and save several relevant and different examples that you could discuss regarding this topic.
+        </strong></p>
 
-    <p>For this task find a number of <strong> RELEVANT and DIFFERENT </strong> examples.</p>
-
-    <hr/>
-
-    <p>
-        {% if task == 0 %}<strong style="padding-right: 15px;">Practice Task</strong>
-    {% else %}Search Task: <strong style="padding-right: 15px;">{{ task }}{% endif %}</strong>
-
-    <p> {% autoescape off %} <strong>{{ taskdescription }}</strong> {% endautoescape %}</p>
 
     <script type="text/javascript" src="{% static 'javascripts/show_task.js' %}"></script>
     </div>

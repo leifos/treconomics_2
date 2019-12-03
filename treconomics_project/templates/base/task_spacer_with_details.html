@@ -7,18 +7,19 @@
 
 {% block exp_block %}
 
-<div style="padding-top:60px">
+<div >
     <div class="experimentPageTitle">
-    <p><b>Search System</b></p>
-        <p> For this task you will be using the News Search System.</p>
 
-        <p><b>Task</b></p>
-            <p>For this task find a number of <strong> RELEVANT and DIFFERENT </strong> examples.</p>
+      <h1>Task {{ task }} - Description </h1>
+        <div id="taskbox">
+            <p>{% autoescape off %} {{ taskdescription }} {% endautoescape %} </p>
+        </div>
 
-        <p><b>Topic</b></p>
-         <p>{% autoescape off %} {{ taskdescription }} {% endautoescape %} </p>
+        <p><strong>Your task is to find and save several relevant and different examples that you could discuss regarding this topic.
+        </strong></p>
+
     <hr/>
-        <p> When you are ready click the "next" button to continue to the next task: </p>
+        <p> When you are ready click the "next" button to begin searching: </p>
     </div>
 
     <div class="surveySubmitButton">

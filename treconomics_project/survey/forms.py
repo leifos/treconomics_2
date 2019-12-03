@@ -54,7 +54,7 @@ class DemographicsSurveyForm(ModelForm):
 
 class PostPerceptionSurveyForm(ModelForm):
     PERCEPTION_CHOICES = (
-        (1, 'Disagree'), (2, ''), (3, ''), (4, ''), (5, ''), (6, ''), (7, 'Agree')
+        (1, 'Strongly Disagree'), (2, ''), (3, ''), (4, ''), (5, 'Strongly Agree')
     )
 
     perception_frustration = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
@@ -91,7 +91,7 @@ class PostPerceptionSurveyForm(ModelForm):
 
 class PostSystemSurveyForm(ModelForm):
     SYSTEM_CHOICES = (
-        (1, 'Disagree'), (2, ''), (3, ''), (4, ''), (5, ''), (6, ''), (7, 'Agree')
+        (1, 'Strongly Disagree'), (2, ''), (3, ''), (4, ''),  (5, 'Strongly Agree')
     )
 
     system_aesthetics = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
@@ -142,7 +142,7 @@ class ConceptListingSurveyForm(ModelForm):
 
 class FinalPersonalitySurveyForm(ModelForm):
     PERSONALITY_CHOICES = (
-    (1, 'Disagree'), (2, ''), (3, ''), (4, ''), (5, ''), (6, ''), (7, 'Agree')
+    (1, 'Strongly Disagree'), (2, ''), (3, ''), (4, ''), (5, 'Strongly Agree')
     )
 
     personality_distract = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,

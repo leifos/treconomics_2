@@ -11,25 +11,19 @@
 
 
     <div class="experimentPageTitle">
-        <p><b> Task Description</b></p>
+        <h1>Task {{ task }} - Description</h1>
 
- <p>The search task is a description of the topic, and the type of information within documents that would be relevant to this specific topic.</p>
+        <div id="taskbox">
+            <p>{% autoescape off %} {{ taskdescription }} {% endautoescape %} </p>
+        </div>
 
-
-
-        <p>Below is a description of the search task that we would like you to undertake.</p>
-
-
-           <p>For this task you find a number of <strong> RELEVANT and DIFFERENT </strong> examples.</p>
+        <p><strong>Your task will be to find and save several relevant and different examples
+            that you could discuss regarding this topic.
+        </strong></p>
 
     <hr/>
 
 
-        <div id="query">
-            <p>{% autoescape off %} <strong>{{ taskdescription }}</strong> {% endautoescape %} </p>
-
-
-        </div>
         <br/>
         <p><b> Pre-Task Questions</b></p>
 

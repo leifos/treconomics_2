@@ -8,70 +8,76 @@
 {% block exp_block %}
     <script>
         $(document).ready(function () {
-            $('.surveySubmitButton').click(function () {
-                $(this).hide()
+            $('.surveySubmitButton').hide();
+
+
+            $('.ConfirmButton').click(function () {
+                $(this).hide();
+                $('.surveySubmitButton').show();
             });
         })
     </script>
-
-    <p> <h1> Experiment Instructions </h1></p>
+<div class="experimentPageTitle">
+    <h1> Experiment Instructions </h1>
 
     <p>
-        First of all, <strong>thank you</strong> for agreeing to participate in this experiment about online
-        searching!<br/>
+        First of all, <strong>thank you</strong> for agreeing to participate in this
+        experiment about searching for news.<br/>
         During this experiment we would like you to perform four different search tasks (and a practice task)
-        using the same search system.
+        using our news search system.
     </p>
 
-    <p>
+
     <h2><b>Your Role</b></h2>
-    <ul>
-        <li>For this experiment, imagine that you heard about an interesting topic in the news,
-            and you want to find out more information about this topic in order to write a blog post about it.
-            In order to accomplish this you will need to search for related information to find relevant documents that
-            will help you write your blog.
-        </li>
-    </ul>
+    <p>Imagine that you are taking a journalist class and need to write a number of short posts/articles
+            on various topics about the state of the world at the turn of the century.
+    </p>
+        <p>
+            To provide the evidence for your articles,
+            you need to find several different examples for each topic to demonstrate
+            your breadth of understanding about the topic,
+            i.e. you want to be able to discuss a number of different examples for each topic.
+
+        </p>
+
 
     <h2><b>The Search System</b></h2>
-    <ul>
-        <li>The search system that you will use connects to a database of about 1 million newspaper articles from the
+    <p>The search system that you will use connects to a database of about 1 million newspaper articles from the
             <em>New York Times</em>, <em>The Associated Press</em> and <em>Xinhua</em> news agencies. The articles
-            within the database range from 1999 to 2000. The search system you'll be using looks similar to a web search
+            within the database range from 1996 to 2000. The search system you'll be using looks similar to a web search
             engine, such as Google.
-        </li>
-    </ul>
-
+    </p>
     <h2><b>The Search Tasks</b></h2>
-    <ul>
-        <li>For each search task, you'll be given a short description of a topic and a clue at what kind of
+    <p>
+        For each search task, you'll be given a short description of a topic and a clue at what kind of
             information would be relevant to this topic. This can be viewed by the <b>Show Task</b> button
             at the top right-hand corner of the screen.
-        </li>
-        <br/>
-        <li>You will pose queries and look at results, just like you would in Google. When
-            viewing documents, you can select the <b>Mark as Relevant</b> button when you find a document relevant to
-            the topic. A relevant document would be one which you think could hypothetically help you to write your blog.
-            There are <b>over 100 relevant documents</b> in the database for each topic.
-        </li>
 
-    </ul>
-
-    <h2><b>Goal and Incentive</b></h2>
-    <ul>
-        <li>As previously mentioned, <b>your goal is to find a range of different examples so you can provide a
-        balanced view of the topic.</b>
-        </li>
-        <li><strong>The experiment should take approximately 1 hour</strong></li>
-    </ul>
+        </p>
+    <p>
+        You will be able to enter queries and look at results, just like you would in a normal search engine.
+            When viewing documents, you can select the <b>Mark as Relevant</b> button to save document with good examples.
     </p>
+<p>
+         A relevant document should meet the specified criteria and help you to provide evidence for your article.
+
+        After searching, you will be asked to list as many of the examples that you have found as possible.
+
+        </p>
+
+    <h2><b>Goal</b></h2>
+       <p> <b>Your goal is to find and save several relevant and different examples for each topic </b>
+        </p>
 
     <hr/>
 
     <h2><b>Experiment Outline</b></h2>
+        <p>The experiment should take approximately one hour in total i.e. 10-15 minutes per search task.</p>
+
+
     <p> Before you start searching, we will ask you a few questions about you.</p>
 
-    <p>We will then give you a few minutes to get comfortable with the screen by undertaking a <b>practice
+    <p>We will then give you a few minutes to get comfortable with the system by undertaking a <b>practice
         task.</b></p>
 
     <p>You'll then move onto the <b>four individual main search tasks</b>.
@@ -90,13 +96,24 @@
 
     <p> If you have any questions, please ask the researcher now. Please remember that the data you provide will be
         anonymous, and will be used only for the purposes of this study.</p>
-    <p><strong> If you are happy to undertake the experiment described above and committed to doing your best on the
-        search tasks, then please click the <em>Next</em> button below.</strong></p>
+
+
+
+    <div class="ConfirmButton">
+        <p><strong> If you are happy to undertake the experiment described above and committed to doing your best on the
+        search tasks, then please click the <em>Consent and Confirm</em> button below.</strong></p>
+            <button class="largebutton" type="next">Consent and Confirm</button>
+    </div>
+
+
 
     <div class="surveySubmitButton">
+        <p>Thank you for agreeing, now click the  <em>Next</em> button to continue.</p>
         <a href="{% url 'treconomics:next' %}">
             <button class="largebutton" type="next">Next</button>
         </a>
+    </div>
+
     </div>
 {% endblock %}
 
