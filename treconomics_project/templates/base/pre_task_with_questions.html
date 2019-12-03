@@ -36,7 +36,7 @@
 
         <form id="survey_form" method="post" action="{{ action }}">
             {% csrf_token %}
-            <table class="survey_radio" cellpadding="20">
+            <table class="survey_radio" cellpadding="15">
 
                 {# Include the hidden fields #}
                 {% for hidden in formset.hidden_fields %}

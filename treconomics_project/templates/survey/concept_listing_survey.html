@@ -14,13 +14,16 @@
     <p>Below is a description of the search task you just worked on.</p>
 
     <hr/>
+    <div id="taskbox">
     <div id="query" > <b> {{tasktitle}} </b> <span>Search Task: {{task}} Search Topic: {{topic}}</span></div>
 
     <p>{% autoescape off %} {{taskdescription}} {% endautoescape %} </p>
 
 
     <p>{% autoescape off %} {{concepts}} {% endautoescape %} </p>
-    <hr/>
+    </div>
+
+        <hr/>
 
 <p> <b> Post-Task Questions about the Topic/Task</b></p>
 </div>
@@ -30,7 +33,7 @@
 <div class="survey">
     <form id="survey_form" method="post" action="{{action}}">
         {% csrf_token %}
-        <table cellpadding="20">
+        <table cellpadding="15">
             {% csrf_token %}
             {# Include the hidden fields #}
             {% for hidden in formset.hidden_fields %}
@@ -50,6 +53,10 @@
 
             {% endfor %}
         </table>
+
+
+
+
         <div id='survey_form_errorloc' class='error_strings'></div>
         <div class="surveySubmitButton">
             <input class="largebutton" type="submit" name="submit" value="Submit" />

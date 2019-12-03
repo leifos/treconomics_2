@@ -257,7 +257,7 @@ input {
 }
 
 #sidebar{
-padding-top:175px;
+padding-top:70px;
 }
 
 .ad {
@@ -471,13 +471,11 @@ style="padding-top:60px"
 	}
 
 #marked {
-	position: fixed;
-	top: 112px;
-	width: 190px;
-	right: 20px;
+
     text-align: center;
-    font-size: 16pt;
-    line-height: 30px;
+    font-size: 20pt;
+    padding-bottom: 90px;
+
 	}
 
 #marked .largebutton {

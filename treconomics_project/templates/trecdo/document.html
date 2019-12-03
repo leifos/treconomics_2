@@ -55,21 +55,7 @@
 <div class="article"> {% autoescape off %} {{ content|linebreaksbrbr:doc_source }} {% endautoescape %}  </div>
 </div>
 
-<div id="marked">
-     {% if backtoassessment %}
-        <button class="largebutton" onclick="window.location.href='{% url 'treconomics:saved' %}?taskid={{ task }}'">Back to Saved Documents</button>
-     {% else %}
-        <button class="largebutton" onclick="window.location.href='{{current_search}}'">Back to Results</button>
-     {% endif %}
-<div id="mark">
-    <br/>
-     {% if user_judgement  == 1 %}
-            Saved
-     {% else %}
-        <button class="largebutton" type="relevant" value="{{ docid }}" name="{{ docid }}" onclick="markRelevant()" > Save </button>
-     {% endif %}
-     </div>
-</div>
+<!--- previously wehre marked was ---!>
 
 <script>
 function markRelevant(){$.ajax({ url:"/treconomics/doc/"+{{docid}}+"?judge=1&docid="+{{docid}}+"&rank="+{{rank}}, complete: function(data){
@@ -99,6 +85,24 @@ function markNonRelevant(){$.ajax({ url:"/treconomics/doc/"+{{docid}}+"?judge=0&
 
 {% block side_results %}
 <div id="sidebar" >
+    <div id="marked">
+     {% if backtoassessment %}
+        <button class="largebutton" onclick="window.location.href='{% url 'treconomics:saved' %}?taskid={{ task }}'">Back to Saved Documents</button>
+     {% else %}
+        <button class="largebutton" onclick="window.location.href='{{current_search}}'">Back to Results</button>
+     {% endif %}
+<div id="mark">
+    <br/>
+     {% if user_judgement  == 1 %}
+            Saved
+     {% else %}
+        <button class="largebutton" type="relevant" value="{{ docid }}" name="{{ docid }}" onclick="markRelevant()" > Save </button>
+     {% endif %}
+     </div>
+</div>
+
+
+
     {% if side_ads %}
         {% for ad in side_ads %}
             <div class="search_result"  id="{{ ad.topic_num }}" rank="ad-side" page="landing" whooshid="{{docid}}">

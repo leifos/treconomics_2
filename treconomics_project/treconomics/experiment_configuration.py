@@ -13,7 +13,7 @@ work_dir = os.getcwd()
 
 
 #my_whoosh_doc_index_dir = os.path.join(work_dir, 'data/fullindex/')
-my_whoosh_doc_index_dir = os.path.join(work_dir, 'data/newindex/')
+my_whoosh_doc_index_dir = os.path.join(work_dir, 'data/new500index/')
 
 my_whoosh_query_index_dir = os.path.join(work_dir, "/trec_query_index/index")
 my_experiment_log_dir = work_dir
@@ -81,16 +81,23 @@ test_flow = [
     'logout/'
 ]
 
-test_flow2 = [
+sigir2020_flow = [
     'startexperiment/', 'preexperiment/UK/',
-    #'demographicssurvey/', 'pst-findas/', 'pst-numbers/', 'personalitysurvey/', 'taskspacer',
-
+    'demographicssurvey/', 'pst-findas/', 'taskspacer',
     'prepracticetask/0/', 'search/0/', 'postpracticetask/0/', 'taskspacer/',
-
-    'pretaskquestions/1/', 'taskspacerwithdetails/1/', 'search/1/',
+    'pretaskquestions/1/', 'taskspacerwithdetails/1/', 'search/1/', 'posttaskquestions/1/',
     'perceptionsurvey/1/', 'systemsurvey/1/', 'conceptlistingsurvey/1/1/',
     'taskspacer',
-    'search/2/','search/3/', 'search/4/', 'personalitysurvey/',
+    'pretaskquestions/2/', 'taskspacerwithdetails/2/', 'search/2/', 'posttaskquestions/2/',
+    'perceptionsurvey/2/', 'systemsurvey/2/', 'conceptlistingsurvey/2/1/',
+    'taskspacer',
+    'pretaskquestions/3/', 'taskspacerwithdetails/3/', 'search/3/', 'posttaskquestions/3/',
+    'perceptionsurvey/3/', 'systemsurvey/3/', 'conceptlistingsurvey/3/1/',
+    'taskspacer',
+    'pretaskquestions/4/', 'taskspacerwithdetails/4/', 'search/4/', 'posttaskquestions/4/',
+    'perceptionsurvey/4/', 'systemsurvey/4/', 'conceptlistingsurvey/4/1/',
+    'taskspacer',
+    'personalitysurvey/',
     'endexperiment/',
     'logout/'
 ]
@@ -126,8 +133,8 @@ search_engine.key_name = 'bm25'
 search_engine.set_fragmenter(frag_type=2, surround=40)
 
 
-exp_sigir2019 = ExperimentSetup(
-    workflow=test_flow2,
+exp_sigir2020 = ExperimentSetup(
+    workflow=sigir2020_flow ,
     engine=search_engine,
     practice_topic='367',
     topics=['347', '341', '435', '408'],
@@ -138,7 +145,7 @@ exp_sigir2019 = ExperimentSetup(
     description='BM25 - interfaces with different Ads',
     trie=suggestion_trie,
     autocomplete=False,
-    timeout=[150, 600, 600, 600, 600])  # 300s = 5min; 600s = 10min; 1200s = 20min
+    timeout=[300, 600, 600, 600, 600])  # 300s = 5min; 600s = 10min; 1200s = 20min
 
 
 
@@ -158,4 +165,4 @@ exp_pst = ExperimentSetup(
 
 
 # these correspond to conditions
-experiment_setups = [exp_sigir2019, exp_pst]
+experiment_setups = [exp_sigir2020, exp_pst]

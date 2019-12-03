@@ -59,27 +59,27 @@ class PostPerceptionSurveyForm(ModelForm):
 
     perception_frustration = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
                                                  label="I felt frustrated while doing the task.",
-                                                 required=False)
+                                                 required=True)
     perception_confidence = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
                                                 label="I was confident in my decisions.",
-                                                required=False)
+                                                required=True)
     perception_enjoyment = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
                                                label="I enjoyed completing this task.",
-                                               required=False)
+                                               required=True)
     perception_satisfaction = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
                                                label="I was satisfied with my search performance.",
-                                               required=False)
+                                               required=True)
     perception_checking = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
                                                label="I checked each document carefully before saving.",
-                                               required=False)
+                                               required=True)
     perception_difficulty = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
                                              label="I found it difficult to find relevant documents.",
-                                              required=False)
+                                              required=True)
     perception_tiredness = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
                                               label="I felt tired when completing this task.",
-                                              required=False)
+                                              required=True)
     perception_alert = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
-                                     label="I felt alert while I was completing these tasks.", required=False)
+                                     label="I felt alert while I was completing these tasks.", required=True)
 
     def clean(self):
         return clean_to_zero(self)
@@ -96,22 +96,22 @@ class PostSystemSurveyForm(ModelForm):
 
     system_aesthetics = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
                                              label="The system was aesthetically appealing.",
-                                             required=False)
+                                             required=True)
     system_boring = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
                                 label="The system was boring.",
-                                required=False)
+                                required=True)
     system_annoying = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
                                 label="The system was annoying.",
-                                required=False)
+                                required=True)
     system_ease = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
                                 label="The system was easy to use.",
-                                required=False)
+                                required=True)
     system_confusing = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
                                 label="The system was confusing.",
-                                required=False)
+                                required=True)
     system_focus = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
                                 label="The system was engaging.",
-                                required=False)
+                                required=True)
 
     def clean(self):
         return clean_to_zero(self)
@@ -124,7 +124,7 @@ class PostSystemSurveyForm(ModelForm):
 class ConceptListingSurveyForm(ModelForm):
      concepts = forms.CharField(widget=forms.Textarea(attrs={"rows":16, "cols":80}),
                                 label="For the given topic, please list the relevant entities or descriptions, one per line.",
-                                required=False)
+                                required=True)
 
      def clean(self):
          return clean_to_zero(self)
@@ -147,46 +147,46 @@ class FinalPersonalitySurveyForm(ModelForm):
 
     personality_distract = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
                                      label="... tends to block out distractions",
-                                     required=False)
+                                     required=True)
     personality_reserved = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
                                      label="... is reserved",
-                                     required=False)
+                                     required=True)
     personality_trusting = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
                                      label="... is generally trusting",
-                                     required=False)
+                                     required=True)
     personality_lazy = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
                                      label="... tends to be lazy",
-                                     required=False)
+                                     required=True)
     personality_relaxed = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
                                      label="... is relaxed, handles stress well",
-                                     required=False)
+                                     required=True)
     personality_immersed = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
                                      label="... tends to be immersed in the task at hand ",
-                                     required=False)
+                                     required=True)
     personality_artistic = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
                                      label="... has few artistic interests",
-                                     required=False)
+                                     required=True)
     personality_social = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
                                      label="... is outgoing, sociable",
-                                     required=False)
+                                     required=True)
     personality_absorbed = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
                                      label="... gets absorbed in what I am doing",
-                                     required=False)
+                                     required=True)
     personality_fault = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
                                      label="... tends to find fault with others",
-                                     required=False)
+                                     required=True)
     personality_thorough = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
                                      label="... does a thorough job",
-                                     required=False)
+                                     required=True)
     personality_nervous = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
                                      label="... gets nervous easily",
-                                     required=False)
+                                     required=True)
     personality_imagine = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
                                      label="... has an active imagination",
-                                     required=False)
+                                     required=True)
     personality_attention = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
                                      label="... is generally attentive",
-                                     required=False)
+                                     required=True)
 
 
     def clean(self):
@@ -235,21 +235,21 @@ EVF = ( ('E', 'Effort'), ('E', 'Frustration') )
 
 
 class NasaFactorCompareForm(ModelForm):
-    nasa_mental_physical = forms.ChoiceField(widget=RadioSelect, choices=MVP, label="", required=False)
-    nasa_performance_frustration = forms.ChoiceField(widget=RadioSelect, choices=SVF, label="", required=False)
-    nasa_mental_temporal = forms.ChoiceField(widget=RadioSelect, choices=MVT, label="", required=False)
-    nasa_physical_effort = forms.ChoiceField(widget=RadioSelect, choices=PVE, label="", required=False)
-    nasa_temporal_performance = forms.ChoiceField(widget=RadioSelect, choices=TVS, label="", required=False)
-    nasa_mental_effort = forms.ChoiceField(widget=RadioSelect, choices=MVE, label="", required=False)
-    nasa_physical_frustration = forms.ChoiceField(widget=RadioSelect, choices=PVF, label="", required=False)
-    nasa_performance_effort = forms.ChoiceField(widget=RadioSelect, choices=SVE, label="", required=False)
-    nasa_temporal_effort = forms.ChoiceField(widget=RadioSelect, choices=TVE, label="", required=False)
-    nasa_mental_frustration = forms.ChoiceField(widget=RadioSelect, choices=MVF, label="", required=False)
-    nasa_physical_performance = forms.ChoiceField(widget=RadioSelect, choices=PVS, label="", required=False)
-    nasa_physical_temporal = forms.ChoiceField(widget=RadioSelect, choices=PVT, label="", required=False)
-    nasa_temporal_frustration = forms.ChoiceField(widget=RadioSelect, choices=TVF, label="", required=False)
-    nasa_mental_performance = forms.ChoiceField(widget=RadioSelect, choices=MVS, label="", required=False)
-    nasa_effort_frustration = forms.ChoiceField(widget=RadioSelect, choices=EVF, label="", required=False)
+    nasa_mental_physical = forms.ChoiceField(widget=RadioSelect, choices=MVP, label="", required=True)
+    nasa_performance_frustration = forms.ChoiceField(widget=RadioSelect, choices=SVF, label="", required=True)
+    nasa_mental_temporal = forms.ChoiceField(widget=RadioSelect, choices=MVT, label="", required=True)
+    nasa_physical_effort = forms.ChoiceField(widget=RadioSelect, choices=PVE, label="", required=True)
+    nasa_temporal_performance = forms.ChoiceField(widget=RadioSelect, choices=TVS, label="", required=True)
+    nasa_mental_effort = forms.ChoiceField(widget=RadioSelect, choices=MVE, label="", required=True)
+    nasa_physical_frustration = forms.ChoiceField(widget=RadioSelect, choices=PVF, label="", required=True)
+    nasa_performance_effort = forms.ChoiceField(widget=RadioSelect, choices=SVE, label="", required=True)
+    nasa_temporal_effort = forms.ChoiceField(widget=RadioSelect, choices=TVE, label="", required=True)
+    nasa_mental_frustration = forms.ChoiceField(widget=RadioSelect, choices=MVF, label="", required=True)
+    nasa_physical_performance = forms.ChoiceField(widget=RadioSelect, choices=PVS, label="", required=True)
+    nasa_physical_temporal = forms.ChoiceField(widget=RadioSelect, choices=PVT, label="", required=True)
+    nasa_temporal_frustration = forms.ChoiceField(widget=RadioSelect, choices=TVF, label="", required=True)
+    nasa_mental_performance = forms.ChoiceField(widget=RadioSelect, choices=MVS, label="", required=True)
+    nasa_effort_frustration = forms.ChoiceField(widget=RadioSelect, choices=EVF, label="", required=True)
 
     def clean(self):
         cleaned_data = self.cleaned_data
@@ -315,17 +315,17 @@ class PreTaskTopicKnowledgeSurveyForm(ModelForm):
 class PostTaskTopicRatingSurveyForm(ModelForm):
     relevance_skill = forms.ChoiceField(widget=RadioSelect, choices=TOPIC_NOTGOOD_CHOICES,
                                         label="How would you rate your skill and ability at finding relevant examples?",
-                                        required=False)
+                                        required=True)
     relevance_difficulty = forms.ChoiceField(widget=RadioSelect, choices=TOPIC_EASY_CHOICES,
-                                             label="How difficult was it to find relevant and different examples?", required=False)
+                                             label="How difficult was it to find relevant and different examples?", required=True)
     relevance_system = forms.ChoiceField(widget=RadioSelect, choices=TOPIC_NOTGOOD_CHOICES,
                                          label="How would you rate the system's ability at retrieving relevant examples?",
-                                         required=False)
+                                         required=True)
     relevance_success = forms.ChoiceField(widget=RadioSelect, choices=TOPIC_UNSUCCESSFUL_CHOICES,
-                                          label="How successful was your search?", required=False)
+                                          label="How successful was your search?", required=True)
     relevance_number = forms.ChoiceField(widget=RadioSelect, choices=TOPIC_FEW_CHOICES,
                                          label="How many relevant and different example do you think you found?",
-                                         required=False)
+                                         required=True)
 
     def clean(self):
         return clean_to_zero(self)
@@ -368,22 +368,22 @@ def clean_to_zero(self):
 class NasaSurveyForm(ModelForm):
     nasa_mental = forms.ChoiceField(widget=RadioSelect, choices=NASA_LOW_CHOICES,
                                            label="MENTAL DEMAND: How mentally demanding was the task?",
-                                           required=False)
+                                           required=True)
     nasa_physical = forms.ChoiceField(widget=RadioSelect, choices=NASA_LOW_CHOICES,
                                              label="PHYSICAL DEMAND: How physically demanding was the task?",
-                                             required=False)
+                                             required=True)
     nasa_temporal = forms.ChoiceField(widget=RadioSelect, choices=NASA_LOW_CHOICES,
                                       label="TEMPORAL DEMAND: How hurried or rushed was the pace of the task?",
-                                      required=False)
+                                      required=True)
     nasa_performance = forms.ChoiceField(widget=RadioSelect, choices=NASA_PERFECT_CHOICES,
                                          label="PERFORMANCE: How successful were you in accomplishing what you were asked to do?",
-                                         required=False)
+                                         required=True)
     nasa_effort = forms.ChoiceField(widget=RadioSelect, choices=NASA_LOW_CHOICES,
                                     label="EFFORT: How hard did you have to work to accomplish your level of performance?",
-                                    required=False)
+                                    required=True)
     nasa_frustration = forms.ChoiceField(widget=RadioSelect, choices=NASA_LOW_CHOICES,
                                          label="FRUSTRATION: How insecure, discouraged, irritated, stressed, and annoyed were you?",
-                                         required=False)
+                                         required=True)
 
     def clean(self):
         return clean_nasa_data(self)

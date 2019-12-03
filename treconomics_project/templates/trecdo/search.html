@@ -33,7 +33,7 @@
 {% endblock %}
 
 {% block query_box %}
-<div class="search_result" >
+
     <div class="entry" id="search_box_area">
         <form id="search_form" action="{% url 'treconomics:search' %}" method="post">
             {% csrf_token %}
@@ -59,7 +59,7 @@
 
     </div>
 
-</div>
+
 
 
 {% endblock %}
