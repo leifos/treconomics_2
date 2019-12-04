@@ -107,7 +107,9 @@ sigir2020_flow = [
 
 
 pst_flow = [
-    'startexperiment/', 'pst-findas/','taskspacer','pst-numbers/', 'endexperiment/', 'logout/'
+    'startexperiment/', 'pst-findas/','taskspacer','pst-findas/',
+    'pst-findas/','pst-findas/','pst-findas/','pst-findas/',
+    'endexperiment/', 'logout/'
 ]
 
 

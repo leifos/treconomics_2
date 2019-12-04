@@ -3,26 +3,40 @@
 var correct = 0;
 var incorrect = 0;
 
-
-
-
 $(document).ready(function(){
 
     function finished(){
-    $('#testtbl').fadeOut(100);
+    $('#pst_test').fadeOut(100);
     $('#nextbtn').show();
-};
+    };
 
-
-    $('#testtbl').hide();
+    $('#pst_test').hide();
     $('#nextbtn').hide();
+    $('#pst1').hide();
+    $('#pst2').hide();
+
+
+ $('#btn1').click(function() {
+    $('#pst1').show();
+    $('#pst2').hide();
+
+ });
+
+ $('#btn2').click(function() {
+    $('#pst2').show();
+    $('#pst1').hide();
+
+ });
+
 
      $('#startbtn').click(function() {
-        $('#testtbl').show();
+        $('#pst_test').show();
+        $('#pst1').show()
         $('#startbtn').hide();
-        //alert(correct + " " + incorrect);
-        //$('#testtbl').delay(6000).finished();
-        setTimeout(finished, 15000)
+        $('#pst_instructions').hide();
+
+
+        setTimeout(finished, 30000)
      });
 
 
