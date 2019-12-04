@@ -40,7 +40,7 @@
  <div class="search_result" id="{{ top_ad.topic_num }}" rank="ad-top" page="landing" whooshid="{{docid}}">
             <div class="results_squash">
                 <div class="ad">
-    <a href="JavaScript:taskPopup('{{top_ad.adimage.url}}');">
+    <a href="JavaScript:taskPopup('/treconomics/goto_ad/{{bot_ad.id}}/top-lp/');">
         <img height="150" src="{{top_ad.adimage.url}}" alt="{{top_ad.title}}" />
         <a></div></div></div>
     {% else %}
@@ -72,7 +72,7 @@ function markNonRelevant(){$.ajax({ url:"/treconomics/doc/"+{{docid}}+"?judge=0&
  {% if bot_ad %}
     <div class="search_result" id="{{ bot_ad.topic_num }}" rank="ad-bot" page="landing" whooshid="{{docid}}">
             <div class="results_squash"><div class="ad">
-    <a href="JavaScript:taskPopup('{{bot_ad.adimage.url}}');">
+    <a href="JavaScript:taskPopup('/treconomics/goto_ad/{{bot_ad.id}}/bot-lp/');">
         <img height="150" src="{{bot_ad.adimage.url}}" alt="{{bot_ad.title}}" />
         <a>
             </div></div></div>
@@ -107,7 +107,7 @@ function markNonRelevant(){$.ajax({ url:"/treconomics/doc/"+{{docid}}+"?judge=0&
         {% for ad in side_ads %}
             <div class="search_result"  id="{{ ad.topic_num }}" rank="ad-side" page="landing" whooshid="{{docid}}">
                 <div class="ad">
-                    <a href="JavaScript:taskPopup('{{ad.adimage.url}}');">
+                    <a href="JavaScript:taskPopup('/treconomics/goto_ad/{{ad.id}}/side-lp/');">
                     <img width="200" src="{{ad.adimage.url}}" alt="{{ad.title}}" />
                     <a>
                 </div>

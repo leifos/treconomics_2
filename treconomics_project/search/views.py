@@ -531,12 +531,10 @@ def view_log_query_focus(request):
     return HttpResponse(1)
 
 
-
 def view_performance(request):
     ec = get_experiment_context(request)
     uname = ec["username"]
     condition = ec["condition"]
-    #TODO rotation = ec["rotation"]
 
     def ratio(rels, nonrels):
         """ expect two floats
@@ -806,4 +804,10 @@ def get_ads_for_page( interface, topic_num, context_dict):
     context_dict['bot_ad'] = bot_ad
     context_dict['side_ads'] = side_ads
 
+
+
+def goto_ad(request, adid, pos):
+    log_event(event="AD_CLICKED",request=request, whooshid=adid, trecid=pos)
+    ad = TopicAds.objects.get(id=adid)
+    return redirect(ad.adimage.url)
 

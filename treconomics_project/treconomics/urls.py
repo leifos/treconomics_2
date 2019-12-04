@@ -38,6 +38,8 @@ urlpatterns = [
             path('hover/', search_views.view_log_hover),
             path('autocomplete/', search_views.autocomplete_suggestion),
             path('doc/<whoosh_docid>/', search_views.show_document),
+            path('goto_ad/<adid>/<pos>/', search_views.goto_ad),
+
 
             path('timeout/', views.show_timeout_message, name='timeout'),
 
