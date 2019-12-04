@@ -134,7 +134,7 @@ search_engine.key_name = 'bm25'
 search_engine.set_fragmenter(frag_type=2, surround=40)
 
 
-exp_sigir2020 = ExperimentSetup(
+exp_sigir2020a = ExperimentSetup(
     workflow=sigir2020_flow ,
     engine=search_engine,
     practice_topic='367',
@@ -148,6 +148,50 @@ exp_sigir2020 = ExperimentSetup(
     autocomplete=True,
     timeout=[300, 600, 600, 600, 600])  # 300s = 5min; 600s = 10min; 1200s = 20min
 
+
+exp_sigir2020b = ExperimentSetup(
+    workflow=sigir2020_flow ,
+    engine=search_engine,
+    practice_topic='367',
+    topics=[ '435', '408','347', '341'],
+    rpp=10,
+    practice_interface=4,
+    interface=[1, 2, 3, 4],
+    rotation_type=1,
+    description='BM25 - interfaces with different Ads',
+    trie=suggestion_trie,
+    autocomplete=True,
+    timeout=[300, 600, 600, 600, 600])  # 300s = 5min; 600s = 10min; 1200s = 20min
+
+
+exp_sigir2020c = ExperimentSetup(
+    workflow=sigir2020_flow ,
+    engine=search_engine,
+    practice_topic='367',
+    topics=['341','347', '408', '435' ],
+    rpp=10,
+    practice_interface=4,
+    interface=[1, 2, 3, 4],
+    rotation_type=1,
+    description='BM25 - interfaces with different Ads',
+    trie=suggestion_trie,
+    autocomplete=True,
+    timeout=[300, 600, 600, 600, 600])  # 300s = 5min; 600s = 10min; 1200s = 20min
+
+
+exp_sigir2020d = ExperimentSetup(
+    workflow=sigir2020_flow ,
+    engine=search_engine,
+    practice_topic='367',
+    topics=[ '408','435', '341', '347'],
+    rpp=10,
+    practice_interface=4,
+    interface=[1, 2, 3, 4],
+    rotation_type=1,
+    description='BM25 - interfaces with different Ads',
+    trie=suggestion_trie,
+    autocomplete=True,
+    timeout=[300, 600, 600, 600, 600])  # 300s = 5min; 600s = 10min; 1200s = 20min
 
 
 exp_pst = ExperimentSetup(
@@ -166,4 +210,12 @@ exp_pst = ExperimentSetup(
 
 
 # these correspond to conditions
-experiment_setups = [exp_sigir2020, exp_pst]
+experiment_setups = [exp_pst, exp_sigir2020a, exp_sigir2020b, exp_sigir2020a, exp_sigir2020b]
+
+
+#print("For condition 1(a)")
+#for r in range(0, 13):
+#    print ("User on Rotation", r)
+#    for t in range(0, 5):
+#        des = exp_sigir2020a.get_exp_dict(t, r)
+#        print("Taskno: {} Rotation: {} Topic: {} Interface:  {}".format(t,  r, des['topic'], des['interface']))
