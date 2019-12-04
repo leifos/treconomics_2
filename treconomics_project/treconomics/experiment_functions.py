@@ -96,6 +96,26 @@ def log_performance(request, perf):
     event_logger.info(msg)
 
 
+def log_query_performance(request, topic_num, query_str, results):
+    ec = get_experiment_context(request)
+
+    msg = "{0} {1} {2} {3} {4} {5} {6}".format(ec["username"], ec["condition"], ec["interface"], 0, ec["taskid"], ec["topicnum"], "QUERY_PERFORMANCE")
+
+    #perf = get_query_performance_metrics(topic_num, results)
+    #perf_str = ' '.join(perf)
+    perf_str = ''
+    perf = []
+    i = 0
+    rels_found = 0
+    for r in results:
+        i += 1
+        if qrels.get_value(topic_num, r.docid) > 0:
+            rels_found += 1
+        perf.append(str(round((rels_found / float(i)),2)))
+    perf_str = ' '.join(perf)
+    event_logger.info(msg + " '" + query_str + "' " + perf_str)
+
+
 def log_event(event, request, query="", whooshid=-2, judgement=-2, trecid="", rank=-2, page=-2, doc_length=0,
               metrics=None):
     ec = get_experiment_context(request)
