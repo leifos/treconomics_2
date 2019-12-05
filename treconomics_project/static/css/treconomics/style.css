@@ -21,6 +21,13 @@ p.autocomplete-item {
     padding: 0;
 }
 
+.span_btn {
+    border:1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+
 /** PLEASE WAIT BOX **/
 div#full-grey-out {
     display: none;
