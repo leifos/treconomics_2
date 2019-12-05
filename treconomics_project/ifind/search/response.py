@@ -213,7 +213,7 @@ class Result(object):
         """
         result = "\n"
         for key, value in self.__dict__.items():
-            if isinstance(value,unicode):
+            if isinstance(value,str):
                 value = value.encode('ascii','ignore')
 
             result = result + "{0}: {1}\n".format(key, value)
