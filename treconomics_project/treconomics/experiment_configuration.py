@@ -86,7 +86,7 @@ sigir2020_flow = [
     'demographicssurvey/', 'pst-findas/', 'taskspacer',
     'prepracticetask/0/', 'search/0/', 'postpracticetask/0/', 'taskspacer/',
     'pretaskquestions/1/', 'taskspacerwithdetails/1/', 'search/1/', 'conceptlistingsurvey/1/1/', 'posttaskquestions/1/',
-    'perceptionsurvey/1/', 'systemsurvey/1/', ,
+    'perceptionsurvey/1/', 'systemsurvey/1/',
     'taskspacer',
     'pretaskquestions/2/', 'taskspacerwithdetails/2/', 'search/2/', 'conceptlistingsurvey/2/1/', 'posttaskquestions/2/',
     'perceptionsurvey/2/', 'systemsurvey/2/',
