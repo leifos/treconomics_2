@@ -112,7 +112,7 @@ function displayIncompleteMessage(instructionsElement) {
         $('<div>You closed the experiment popup before completing.</div>')
             .attr({'style': 'text-align: center; font-size: 14pt; font-weight: bold; color: red;'}));
     instructionsElement.append(
-        $('<div>Click <a href="#" onmouseup="launchPopup(popupURL, popupWidth, popupHeight);">here</a> to relaunch the popup window.</div>')
+        $('<div>Click <a href="#" onmouseup="launchPopup(popupURL, 1024, 768);">here</a> to relaunch the popup window.</div>')
             .attr({'style': 'text-align: center; margin-top: 8px;'}));
 }
 
@@ -122,7 +122,7 @@ function displayPopupFailed(instructionsElement) {
         $('<div>You logged in successfully, but the experiment popup failed to launch.</div>')
             .attr({'style': 'text-align: center; font-size: 14pt; font-weight: bold; color: red;'}));
     instructionsElement.append(
-        $('<div>Your browser blocked the popup from appearing. Click <a href="#" onmouseup="launchPopup(popupURL, popupWidth, popupHeight);">here</a> to launch the popup window manually.</div>')
+        $('<div>Your browser blocked the popup from appearing. Click <a href="#" onmouseup="launchPopup(popupURL, 1024, 768);">here</a> to launch the popup window manually.</div>')
             .attr({'style': 'text-align: center; margin-top: 8px;'}));
 }
 
