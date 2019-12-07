@@ -21,7 +21,7 @@
         <script type="text/javascript" src="{% static 'javascripts/no_backsies.js' %}"></script>
 
         <script type="text/javascript">
-            TASKID = {{ task }};
+            TASKID = {% if task %}{{ task }}{% else %}undefined{% endif %};
         </script>
 
     </head>
