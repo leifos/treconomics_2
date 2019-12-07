@@ -13,6 +13,8 @@
       <h1>Task {{ task }} - Description </h1>
         <div id="taskbox">
             <p>{% autoescape off %} {{ taskdescription }} {% endautoescape %} </p>
+
+            <p>{% autoescape off %} {{ remember }} {% endautoescape %} </p>
         </div>
 
         <p><strong>Your task is to find and save several relevant and different examples that you could discuss regarding this topic.

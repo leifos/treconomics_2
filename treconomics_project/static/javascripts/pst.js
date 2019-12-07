@@ -23,17 +23,7 @@ $(document).ready(function(){
             }
         }
         tick();
-    }
-
-
-
-
-
-
-
-
-
-
+    };
 
     function finished(){
     $('#pst_test').fadeOut(100);
@@ -84,7 +74,6 @@ $(document).ready(function(){
         $('#startbtn').hide();
         $('#pst_instructions').hide();
         countdown(2, 0);
-
         setTimeout(finished, 120000)
      });
 

@@ -24,6 +24,7 @@ class TaskDescription(models.Model):
     topic_num = models.IntegerField(default=0)
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=1500)
+    remember = models.CharField(max_length=700)
     diversify = models.CharField(max_length=1500, default="")
     concepts = models.CharField(max_length=700)
 

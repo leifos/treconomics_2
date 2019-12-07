@@ -16,7 +16,7 @@
      <a href="{% url 'treconomics:saved' %}?taskid={{ task }}">Back to Saved Documents</a> |
      {% else %}
      <a href="{{current_search}}">Back to Results</a> |
-     <a href="{% url 'treconomics:saved' %}?taskid={{ task }}">View Saved</a> |
+     <a href="{% url 'treconomics:saved' %}?taskid={{ task }}">View Bookmarks</a> |
      {% endif %}
      <a href="JavaScript:taskPopup('/treconomics/showtask/');">Show Task</a>
      | <a href="{% url 'treconomics:next' %}" id="end-task-link"> End Task</a>
@@ -59,10 +59,10 @@
 
 <script>
 function markRelevant(){$.ajax({ url:"/treconomics/doc/"+{{docid}}+"?judge=1&docid="+{{docid}}+"&rank="+{{rank}}, complete: function(data){
-    $('#mark').replaceWith('<div id="mark"><br/>Saved </div>');
+    $('#mark').replaceWith('<div id="mark"><br/>Bookmarked </div>');
      } }); }
 function markNonRelevant(){$.ajax({ url:"/treconomics/doc/"+{{docid}}+"?judge=0&docid="+{{docid}}+"&rank="+{{rank}}, complete: function(data){
-     $('#mark').replaceWith('<div id="mark">  <button class="largebutton" type="relevant" value="{{docid}}" name="{{docid}}" onclick="markRelevant()" >Save </button></div>');
+     $('#mark').replaceWith('<div id="mark">  <button class="largebutton" type="relevant" value="{{docid}}" name="{{docid}}" onclick="markRelevant()" >Bookmark </button></div>');
      } }); }
 </script>
 
@@ -87,16 +87,16 @@ function markNonRelevant(){$.ajax({ url:"/treconomics/doc/"+{{docid}}+"?judge=0&
 <div id="sidebar" >
     <div id="marked">
      {% if backtoassessment %}
-        <button class="largebutton" onclick="window.location.href='{% url 'treconomics:saved' %}?taskid={{ task }}'">Back to Saved Documents</button>
+        <button class="largebutton" onclick="window.location.href='{% url 'treconomics:saved' %}?taskid={{ task }}'">Back to Bookmarked Documents</button>
      {% else %}
         <button class="largebutton" onclick="window.location.href='{{current_search}}'">Back to Results</button>
      {% endif %}
 <div id="mark">
     <br/>
      {% if user_judgement  == 1 %}
-            Saved
+            Bookmarked
      {% else %}
-        <button class="largebutton" type="relevant" value="{{ docid }}" name="{{ docid }}" onclick="markRelevant()" > Save </button>
+        <button class="largebutton" type="relevant" value="{{ docid }}" name="{{ docid }}" onclick="markRelevant()" > Save as Bookmark </button>
      {% endif %}
      </div>
 </div>

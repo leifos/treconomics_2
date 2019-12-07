@@ -211,7 +211,8 @@ def show_task(request):
                     'task': taskid,
                     'topic': t.topic_num,
                     'tasktitle': t.title,
-                    'taskdescription': t.description}
+                    'taskdescription': t.description,
+                    'remember': t.remember}
     populate_context_dict(ec, context_dict)
 
 
@@ -239,7 +240,8 @@ def pre_task(request, taskid):
                     'task': taskid,
                     'topic': t.topic_num,
                     'tasktitle': t.title,
-                    'taskdescription': t.description}
+                    'taskdescription': t.description,
+                    'remember': t.remember}
 
     populate_context_dict(ec, context_dict)
 
@@ -261,7 +263,8 @@ def pre_practice_task(request, taskid):
     # provide link to search interface / next system
     context_dict = {'topic': t.topic_num,
                     'tasktitle': t.title,
-                    'taskdescription': t.description}
+                    'taskdescription': t.description,
+                    'remember': t.remember}
 
     populate_context_dict(ec, context_dict)
     print(context_dict)
@@ -341,6 +344,7 @@ def pre_task_with_questions(request, taskid):
                     'topic': t.topic_num,
                     'tasktitle': t.title,
                     'taskdescription': t.description,
+                    'remember': t.remember,
                     'formset': survey,
                     'action': action, 'errors': errors}
 
@@ -502,6 +506,7 @@ def task_spacer_with_details(request, taskid):
     context_dict = {'topic': t.topic_num,
                     'tasktitle': t.title,
                     'taskdescription': t.description,
+                    'remember': t.remember,
                     'task': taskid}
 
     populate_context_dict(ec, context_dict)

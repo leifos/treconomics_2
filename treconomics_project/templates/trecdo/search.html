@@ -21,7 +21,7 @@
 
     <p>
         Task: {% if task == 0 %} Practice {% else %} {{task}} {% endif %} |
-        <a href="{% url 'treconomics:saved' %}?taskid={{ task }}">View Saved</a> |
+        <a href="{% url 'treconomics:saved' %}?taskid={{ task }}">View Bookmarks</a> |
         <a href="JavaScript:taskPopup('/treconomics/showtask/');">Show Task</a>
         | <a href="{% url 'treconomics:next' %}" id="end-task-link"> End Task</a>
 
