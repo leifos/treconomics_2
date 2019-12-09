@@ -36,14 +36,17 @@ $(document).ready(function(){
     $('#pst1').hide();
     $('#pst2').hide();
     $('#pst3').hide();
+    $('#pst4').hide();
 
  $('#btn1').click(function() {
     $('#pst1').show();
     $('#pst2').hide();
     $('#pst3').hide();
-            $('#btn1').hide();
-            $('#btn2').show();
-            $('#btn3').show();
+    $('#pst4').hide();
+            $('#btn1').css({"background-color":"grey"});
+            $('#btn2').css({"background-color":"white"});
+            $('#btn3').css({"background-color":"white"});
+            $('#btn4').css({"background-color":"white"});
 
  });
 
@@ -51,26 +54,41 @@ $(document).ready(function(){
     $('#pst2').show();
     $('#pst1').hide();
     $('#pst3').hide();
-            $('#btn2').hide();
-             $('#btn1').show();
-            $('#btn3').show();
+    $('#pst4').hide();
+             $('#btn1').css({"background-color":"white"});
+            $('#btn2').css({"background-color":"grey"});
+            $('#btn3').css({"background-color":"white"});
+            $('#btn4').css({"background-color":"white"});
  });
 
  $('#btn3').click(function() {
     $('#pst2').hide();
     $('#pst1').hide();
     $('#pst3').show();
-            $('#btn3').hide();
-             $('#btn2').show();
-            $('#btn1').show();
+    $('#pst4').hide();
+            $('#btn1').css({"background-color":"white"});
+            $('#btn2').css({"background-color":"white"});
+            $('#btn3').css({"background-color":"grey"});
+            $('#btn4').css({"background-color":"white"});
  });
 
+
+ $('#btn4').click(function() {
+    $('#pst2').hide();
+    $('#pst1').hide();
+    $('#pst3').hide();
+    $('#pst4').show();
+            $('#btn1').css({"background-color":"white"});
+            $('#btn2').css({"background-color":"white"});
+            $('#btn3').css({"background-color":"white"});
+            $('#btn4').css({"background-color":"grey"});
+ });
 
 
      $('#startbtn').click(function() {
         $('#pst_test').show();
         $('#pst1').show();
-        $('#btn1').hide();
+        $('#btn1').css({"background-color":"grey"});
         $('#startbtn').hide();
         $('#pst_instructions').hide();
         countdown(2, 0);
