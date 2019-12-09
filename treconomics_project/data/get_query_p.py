@@ -12,12 +12,16 @@
 
 qrels_path = 'TREC2005.qrels.txt'  # Where is the TREC QRELs file to use?
 input_file = 'query.in'  # Where is the list of queries to execute in batch? CSV (topicnumber,terms)
-index_path = 'new500index2/'  # Where is the new index?
+index_path = 'small100index2/'  # Where is the new index?
 stopwords_file = 'stopwords.txt'  # Where are the stopwords (for the querying process)?
 implicit_or = True  # OR (True) or AND (False) query terms?
 bm25_beta = 0.75  # What value of beta should we use for the retrieval model?
 
 ################
+import sys
+import os
+pp = os.path.abspath("../")
+sys.path.append(pp)
 from ifind.seeker.trec_qrel_handler import TrecQrelHandler
 from ifind.search.engines.whooshtrec import Whooshtrec
 from ifind.search import Query
@@ -84,11 +88,17 @@ search_engine.set_fragmenter(frag_type=2, surround=40)
 
 print('terms,topic,p1,p3,p5,p10,p20,no_of_hits')
 
+dfile = open("retrieved.docids","w")
+
 for query in queries:
     topic = query['topic']
     terms = query['terms']
 
     results = run_query(search_engine, terms)
+    for doc in results:
+        dfile.write(doc.docid.decode("utf-8")+os.linesep)
+
+
     pat1 = get_patk(qrels, topic, results, 1)
     pat3 = get_patk(qrels, topic, results, 3)
     pat5 = get_patk(qrels, topic, results, 5)
@@ -97,3 +107,5 @@ for query in queries:
     no_of_hits = len(results)
 
     print(f"{terms},{topic},{pat1},{pat3},{pat5},{pat10},{pat20},{no_of_hits}")
+
+dfile.close()

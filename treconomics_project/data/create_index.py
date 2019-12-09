@@ -58,15 +58,15 @@ def getTextFromPTags(nodelist):
     return tmp
 
 
-index_name = os.path.join(BASE_DIR, 'data/newindex')
-subset_name = os.path.join(BASE_DIR, 'data/aquaint500subset.docids')
+index_name = os.path.join(BASE_DIR, 'data/index')
+subset_name = os.path.join(BASE_DIR, 'data/small.subset.docids')
 aquaint_filename = os.path.join(BASE_DIR, 'data/aquaint_xml_files')
 
 if MAKE_SUBSET:
     docid_subset = readDocids(subset_name)
     print("docids read in: " + str(len(docid_subset)))
     #print(docid_subset)
-    index_name = os.path.join(BASE_DIR, 'data/new500index2')
+    index_name = os.path.join(BASE_DIR, 'data/small100index2')
 
 ix = create_in(index_name, schema)
 
