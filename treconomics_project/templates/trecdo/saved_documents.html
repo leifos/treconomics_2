@@ -11,7 +11,7 @@
 
 
 {% block document_content %}
-<h1>Assessed Document(s)</h1>
+<h1>Bookmarked Document(s)</h1>
 
 {% if not docs %}
 <p style="line-height: 25px;">
@@ -25,7 +25,7 @@ You can change your assessment of a given document by clicking the button to the
 </p>
 <p>
 <table style="width: 100%;">
-    <tr> <td> <b>News Article Title</b></td><td style="text-align: center;"> <b>Current Assessment</b></td> <td style="text-align: center;"><b>Change Assessment</b> </td></tr>
+    <tr> <td> <b>News Article Title</b></td><td style="text-align: center;"> <b>Current Bookmarks</b></td> <td style="text-align: center;"><b>Change Bookmark</b> </td></tr>
 {% for doc in docs  %}
 <tr style="height: 50px; background-color: #{% if doc.judgement  == 0 %}FFCCCC{% else %}CCFFCC{% endif %};">
 <td style="padding-left: 10px;"> <a href="{{doc.url}}?backtoassessment=true">{{ doc.title}}</a> </td>
