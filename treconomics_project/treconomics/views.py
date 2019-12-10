@@ -13,7 +13,7 @@ from treconomics.models import UserProfile
 from treconomics.experiment_functions import get_experiment_context, print_experiment_context
 from treconomics.experiment_functions import log_event, populate_context_dict
 
-from treconomics.experiment_configuration import experiment_setups
+from treconomics.experiment_configuration import experiment_setups, user_conditions
 
 
 from survey.models import DemographicsSurvey
@@ -97,19 +97,34 @@ def do_login(request,user):
         return HttpResponse("Your account is disabled.")
 
 
+
+
+
 def view_register_amt_user(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['username']
+        username = request.POST['username'].strip()
+        password = request.POST['username'].strip()
+
+        up = UserProfile.objects.filter(experiment=9)
+        lup = len(up)
 
         user_list = User.objects.filter(username=username)
         if len(user_list) == 0:
             user = User.objects.get_or_create(username=username)[0]
             user.set_password(password)
             user.save()
-            up = UserProfile.objects.get_or_create(user=user, condition=0,experiment=0,rotation=user.id, data='')[0]
-            print("UserProfile, rotation:", user.id)
+            print(user)
+
+            (a,b) = divmod(lup, len(user_conditions))
+            t_rotation = user_conditions[b][0]
+            i_rotation = user_conditions[b][1]
+
+            up = UserProfile.objects.get_or_create(user=user, condition=t_rotation,experiment=9,rotation=i_rotation, data='')[0]
+            print("UserProfile: {} {} {} {}".format(lup, user.id, t_rotation, i_rotation))
+
             up.save()
+            print(up)
+            #log_event(event="USER_CREATED {} {}".format(t_rotation, i_rotation), request=request)
             return render(request, 'base/amt_login.html', {'registered': True})
         else:
             return render(request, 'base/amt_login.html', {'already': True})
@@ -120,9 +135,15 @@ def view_register_amt_user(request):
 def start_amt_experiment(request):
 
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['username']
-        user = authenticate(username=username, password=password)
+        username = request.POST['username'].strip()
+        password = request.POST['username'].strip()
+        print(username)
+        try:
+            user = authenticate(username=username, password=password)
+
+        except:
+            user = None
+
         if user is not None:
             return do_login(request,user)
         else:
@@ -512,14 +533,6 @@ def task_spacer_with_details(request, taskid):
     populate_context_dict(ec, context_dict)
 
     return render(request, 'base/task_spacer_with_details.html', context_dict)
-
-
-#@login_required
-#def task_spacer_msg(request, msg_id):
-#    ec = get_experiment_context(request)
-#    context_dict = {'msg_id': msg_id}
-#    populate_context_dict(ec, context_dict)
-#    return render(request, 'base/task_spacer2.html', context_dict)
 
 
 @login_required

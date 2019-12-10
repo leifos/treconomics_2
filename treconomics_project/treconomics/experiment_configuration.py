@@ -236,6 +236,16 @@ exp_pst = ExperimentSetup(
 experiment_setups = [exp_pst, exp_sigir2020a, exp_sigir2020b, exp_sigir2020a, exp_sigir2020b]
 
 
+user_conditions = []
+for topic_rotation in range(1,5):
+    for interface_rotation in range(0,13):
+        user_conditions.append([topic_rotation, interface_rotation])
+
+# add additional user conditions here.
+user_conditions.append([1,0])
+#print(user_conditions)
+
+
 #print("For condition 1(a)")
 #for r in range(0, 13):
 #    print ("User on Rotation", r)
