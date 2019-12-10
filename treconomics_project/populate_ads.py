@@ -4,7 +4,7 @@ import django
 
 
 def populate():
-    afile = open('data/ads/ad_list.csv','r')
+    afile = open('data/imgs/ad_list.csv','r')
     while afile:
         line = afile.readline()
         if not line.strip():
@@ -22,7 +22,7 @@ def add_ad(topic_num, title, shape, url, filename):
 
     ad.url = url
     ad.shape = shape
-    img_path = os.path.join(os.getcwd(), 'data/ads/', filename)
+    img_path = os.path.join(os.getcwd(), 'data/imgs/', filename)
     f = File(open(img_path,'rb'))
     ad.adimage.save(filename, f)
     ad.save()

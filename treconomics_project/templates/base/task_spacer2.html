@@ -7,23 +7,12 @@
 
 {% block exp_block %}
 
+<div class="experimentPageTitle">
 
-    <div class="experimentPageTitle" >
-        <p color="red">The system will automatically timeout and inform you when the time for this search task is up.</p>
-        <ul>
-            {% if msg_id == '0' %}
-            <li>Please search for approximately <b>2 minutes</b> for this practice task.</li>
-            {% else %}
-            <li>Please search for <b>10 minutes</b> for this task.</li>
-            {% endif %}
-        </ul>
+    <h1> {{heading}} </h1>
+        <p> When you are ready, click the "next" button to continue to the next task. </p>
 
-
-        <p>Continue searching until the system times out.</p>
-
-
-        <p> When you are ready click the "next" button to continue to the next task: </p>
-    </div>
+</div>
 
     <div class="surveySubmitButton">
         <a href="{% url 'treconomics:next' %}">
@@ -32,10 +21,7 @@
 
     </div>
 
-
-
 {% endblock %}
-
 
 {% block exp_footer_block %}
     Participant: {{ participant }}  - Condition: {{ condition }} - Task: {{ task }}

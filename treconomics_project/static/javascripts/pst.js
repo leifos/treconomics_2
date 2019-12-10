@@ -28,9 +28,12 @@ $(document).ready(function(){
     function finished(){
     $('#pst_test').fadeOut(100);
     $('#nextbtn').show();
+    $('#finished').show();
+
     alert("Times up for completing the perceptual speed test - click next to continue.")
     };
 
+    $('#finished').hide();
     $('#pst_test').hide();
     $('#nextbtn').hide();
     $('#pst1').hide();

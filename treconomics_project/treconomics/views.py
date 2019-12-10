@@ -514,12 +514,39 @@ def task_spacer_with_details(request, taskid):
     return render(request, 'base/task_spacer_with_details.html', context_dict)
 
 
+#@login_required
+#def task_spacer_msg(request, msg_id):
+#    ec = get_experiment_context(request)
+#    context_dict = {'msg_id': msg_id}
+#    populate_context_dict(ec, context_dict)
+#    return render(request, 'base/task_spacer2.html', context_dict)
+
+
 @login_required
 def task_spacer_msg(request, msg_id):
     ec = get_experiment_context(request)
-    context_dict = {'msg_id': msg_id}
+
+
+    head_msg = {'0': 'Practice Task Completed',
+                '1': 'Task 1 of 4 Completed',
+                '2': 'Task 2 of 4 Completed',
+                '3': 'Task 3 of 4 Completed',
+                '4': 'Task 4 of 4 Completed',
+                'pst': 'Perceptual Speed Test Completed',
+                }
+
+    if msg_id in head_msg:
+        heading = head_msg[msg_id]
+    else:
+        heading = "No msg found"
+
+    context_dict = {'heading': heading}
+
     populate_context_dict(ec, context_dict)
     return render(request, 'base/task_spacer2.html', context_dict)
+
+
+
 
 
 class EndExperimentView(ExperimentContextMixin, TemplateView):

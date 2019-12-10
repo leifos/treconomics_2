@@ -83,21 +83,22 @@ test_flow = [
 
 sigir2020_flow = [
     'startexperiment/', 'preexperiment/UK/',
-    'demographicssurvey/', 'pst-findas/', 'taskspacer',
-    'prepracticetask/0/', 'search/0/', 'postpracticetask/0/', 'taskspacer/',
+    'demographicssurvey/', 'pst-findas/',
+    'prepracticetask/0/', 'search/0/', 'postpracticetask/0/',
     'pretaskquestions/1/', 'taskspacerwithdetails/1/', 'search/1/', 'conceptlistingsurvey/1/1/', 'posttaskquestions/1/',
     'perceptionsurvey/1/', 'systemsurvey/1/',
-    'taskspacer',
+    'taskspacer2/1/',
     'pretaskquestions/2/', 'taskspacerwithdetails/2/', 'search/2/', 'conceptlistingsurvey/2/1/', 'posttaskquestions/2/',
     'perceptionsurvey/2/', 'systemsurvey/2/',
-    'taskspacer',
+    'taskspacer2/2/',
     'pretaskquestions/3/', 'taskspacerwithdetails/3/', 'search/3/', 'conceptlistingsurvey/3/1/', 'posttaskquestions/3/',
     'perceptionsurvey/3/', 'systemsurvey/3/',
-    'taskspacer',
+    'taskspacer2/3/',
     'pretaskquestions/4/', 'taskspacerwithdetails/4/', 'search/4/', 'conceptlistingsurvey/4/1/', 'posttaskquestions/4/',
     'perceptionsurvey/4/', 'systemsurvey/4/',
-    'taskspacer',
+    'taskspacer2/4/',
     'personalitysurvey/',
+    'performance/'
     'endexperiment/',
     'logout/'
 ]
@@ -124,7 +125,7 @@ sigir2020_reduced_flow = [
     'logout/'
 ]
 
-sigir2020_flow = sigir2020_reduced_flow
+#sigir2020_flow = sigir2020_reduced_flow
 
 
 
