@@ -80,11 +80,11 @@ def add_user(username, password, condition, experiment, rotation, data=None):
     print('%s, %s, %d, %d  ' % (username, password, condition, rotation))
 
 
-def add_task(topic_num, title, description, remember, diversify, concepts):
+def add_task(topic_num, title, description, remember, concepts):
     t = TaskDescription.objects.get_or_create(topic_num=topic_num)[0]
     t.title = title
     t.description = description
-    t.diversify = diversify
+    t.diversify = ''
     t.concepts = concepts
     t.remember = remember
     t.save()
