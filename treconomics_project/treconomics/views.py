@@ -604,3 +604,6 @@ def show_user_performance(request, userid):
     context_dict = {'user':u,
                     'performances': performances,}
     return render(request, 'base/show_user_performance.html', context_dict)
+
+def screensize(request):
+    return render(request, 'base/screensize.html')
