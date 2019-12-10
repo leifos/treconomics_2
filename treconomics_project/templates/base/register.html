@@ -59,4 +59,15 @@
         </form>
 
     </div>
+
+    <script>
+        $(document).ready(function(){
+            var width = screen.width;
+            var height = screen.height;
+
+            if ((width !== undefined || height !== undefined) && (width < 1024 || height < 768)) {
+                window.location.href = '/screensize';
+            }
+        });
+    </script>
 {% endblock %}
