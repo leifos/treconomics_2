@@ -11,9 +11,8 @@ from treconomics.experiment_setup import ExperimentSetup
 work_dir = os.getcwd()
 # when deployed this needs to match up with the hostname, and directory to where the project is
 
-
 #my_whoosh_doc_index_dir = os.path.join(work_dir, 'data/fullindex/')
-my_whoosh_doc_index_dir = os.path.join(work_dir, 'data/new500index/')
+my_whoosh_doc_index_dir = os.path.join(work_dir, 'data/small100index/')
 
 my_whoosh_query_index_dir = os.path.join(work_dir, "/trec_query_index/index")
 my_experiment_log_dir = work_dir
