@@ -14,21 +14,26 @@ def populate():
         uname = 'ad'+str(i)+'a'
         add_user(uname,uname,1,1,i)
 
-    #for i in range(0,12):
-    #    uname = 'ad'+str(i)+'b'
-    #    add_user(uname,uname,1,2,i)
+    for i in range(0,12):
+        uname = 'ad'+str(i)+'b'
+        add_user(uname,uname,1,2,i)
 
-    #for i in range(0,12):
-    #    uname = 'ad'+str(i)+'c'
-    #    add_user(uname,uname,1,3,i)
+    for i in range(0,12):
+        uname = 'ad'+str(i)+'c'
+        add_user(uname,uname,1,3,i)
 
-    #for i in range(0,12):
-    #    uname = 'ad'+str(i)+'d'
-    #    add_user(uname,uname,1,4,i)
+    for i in range(0,12):
+        uname = 'ad'+str(i)+'d'
+        add_user(uname,uname,1,4,i)
+
+
+    for i in range(0,12):
+        uname = 'test'+str(i)
+        add_user(uname,uname,2,5,i)
 
 
 
-def add_user(username, password, condition, experiment, rotation, data=None):
+def add_user(username, password, experiment, condition, rotation, data=None):
     u = User.objects.get_or_create(username=username)[0]
     u.set_password(password)
     u.save()
@@ -38,7 +43,7 @@ def add_user(username, password, condition, experiment, rotation, data=None):
                                           experiment=experiment,
                                           rotation=rotation,
                                           data=data)[0]
-    print('%s, %s, %d, %d  ' % (username, password, condition, rotation))
+    print('%s, %s, %d, %d  ' % (username, password, experiment, rotation))
 
 
 def add_task(topic_num, title, description):
