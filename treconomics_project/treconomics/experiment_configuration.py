@@ -97,7 +97,8 @@ sigir2020_flow = [
     'perceptionsurvey/4/', 'systemsurvey/4/',
     'taskspacer2/4/',
     'personalitysurvey/',
-    'performance/'
+    'overall/',
+    'performance/',
     'endexperiment/',
     'logout/'
 ]

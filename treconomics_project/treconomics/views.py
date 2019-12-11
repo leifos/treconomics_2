@@ -208,6 +208,7 @@ def view_next(request):
     except IndexError:
         url_to_visit_next = APP_NAME + workflow[next_step-1]
 
+    print("WORKFLOW is {}".format(workflow[next_step]))
     print('view_next - step : ' + str(next_step))
     print('url to visit next: ' + str(url_to_visit_next))
     return HttpResponseRedirect(url_to_visit_next)

@@ -163,6 +163,13 @@ def view_nasa_survey(request):
                          'survey/nasa_survey.html')
 
 @login_required
+def view_overall_interview(request):
+    return handle_survey(request, OverallInterviewForm, 'Final', '/treconomics/overall/',
+                         'survey/overall_interview.html')
+
+
+
+@login_required
 def view_post_perception_survey(request, taskid):
     return handle_post_task_survey(request, taskid, PostPerceptionSurveyForm, 'PERCEPTION', '/treconomics/perceptionsurvey/',
                          'survey/post_perception_survey.html')

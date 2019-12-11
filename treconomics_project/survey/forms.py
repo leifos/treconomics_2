@@ -199,6 +199,22 @@ class FinalPersonalitySurveyForm(ModelForm):
         exclude = ('user',)
 
 
+class OverallInterviewForm(ModelForm):
+    overall_distracting = forms.CharField(label='Did you find anything distracting when you were searching for relevant documents?', required=True)
+    overall_preference = forms.CharField(label='What system did you find most preferable overall and why? '
+                                               'When advertisements were present, absent, either, or you’re unsure ', required=True)
+    overall_ad_effect = forms.CharField(label='Did the presence of advertisements affect your search positively or negatively? '
+                                              'For example, were they enjoyable or helped you to complete the search task? '
+                                              'Or were they distracting?', required=True)
+
+    def clean(self):
+        return clean_to_zero(self)
+
+    class Meta:
+        model = OverallInterview
+        exclude = ('user',)
+
+
 TOPIC_NOTHING_CHOICES = ( (1, 'Nothing'), (2, ''), (3, ''), (4, ''), (5, 'I Know Details')  )
 TOPIC_NOTATALL_CHOICES = ( (1, 'Not at all'), (2, ''), (3, ''), (4, ''), (5, 'Very Much')  )
 TOPIC_NEVER_CHOICES = ( (1, 'Never'), (2, ''), (3, ''), (4, ''), (5, 'Very Often')  )

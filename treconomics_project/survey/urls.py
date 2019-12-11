@@ -12,5 +12,8 @@ urlpatterns = [
     path('conceptlistingsurvey/<taskid>/<when>/', views.view_concept_listing_survey),
     path('personalitysurvey/', views.view_final_personality_survey),
     path('nasasurvey/', views.view_nasa_survey),
-
+    path('overall/', views.view_overall_interview)
+    # path('shortstresssurvey/', views.view_short_stress_survey),
+    # path('modifiedstresssurvey/', views.view_modified_stress_survey),
+    # path('searchefficacysurvey/', views.view_search_efficacy_survey),
 ]

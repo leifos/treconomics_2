@@ -190,4 +190,19 @@ class PersonalitySurvey(models.Model):
         return "{}".format(self.user.username)
 
 
+class OverallInterview(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    overall_distracting = models.TextField(default="")
+    overall_preference = models.TextField(default="")
+    overall_ad_effect = models.TextField(default="")
+
+    def __unicode__(self):
+        return self.user.username
+
+    def __str__(self):
+        return "{}".format(self.user.username)
+
+
+
+
 
