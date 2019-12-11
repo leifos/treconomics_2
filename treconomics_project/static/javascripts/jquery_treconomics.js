@@ -23,7 +23,7 @@ $(document).ready(function()
 
 
     $('.nextButton').one('click', function(){
-        alert("Press ok to continue")
+        alert("Press ok to continue");
     });
 
 
