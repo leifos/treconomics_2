@@ -1,63 +1,149 @@
 {% extends 'base/base.html' %}
+{% load staticfiles %}
+
 
 {% block exp_info_block %}
- <p> <!-- a href="/treconomics/logout">Logout</a> -->
+<style>
+    .active { color:blue; text-decoration: line-through; }
+</style>
+
+<script type="text/javascript"  src="{% static 'javascripts/pst-numbers.js' %}"></script>
+
+
+<p> <!-- a href="/treconomics/logout">Logout</a> -->
  </p>
 {% endblock %}
 
 {% block exp_block %}
-<script>
-</script>
-
-
-
-<script>
-// Set the date we're counting down to
-var countDownDate = new Date("Jan 5, 2021 15:37:25").getTime();
-
-// Update the count down every 1 second
-var x = setInterval(function() {
-
-  // Get today's date and time
-  var now = new Date().getTime();
-
-  // Find the distance between now and the count down date
-  var distance = countDownDate - now;
-
-  // Time calculations for days, hours, minutes and seconds
-  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-  // Display the result in the element with id="demo"
-  document.getElementById("demo").innerHTML = days + "d " + hours + "h "
-  + minutes + "m " + seconds + "s ";
-
-  // If the count down is finished, write some text
-  if (distance < 0) {
-    clearInterval(x);
-    document.getElementById("demo").innerHTML = "EXPIRED";
-  }
-}, 1000);
-</script>
 
 
 <div>
-<div class="experimentPageTitle">
+<p class="experimentPageTitle">
 <h2>Perceptual Speed Test - Number Comparison</h2>
-<p> </p>
-<p> </p>
-<p> - Test to be added - </p>
+
+
+<div id="pst_instructions">
+    <p> You will be shown a list of numbers.
+        Your task is to identify when the two numbers in the same row are the same.
+
+        <br/>
+        You can indicate they are the same by clicking on the box between the two numbers.
+
+        You can de-select it by by clicking the box again.
+ Selected rows are shown with an X.<br/>
+        You can try practicing with the words below.<br/>
+
+        <table  style="width:40%;  background-color:#e9f5f7;">
+    <tr align="center"><td>123</td><td class="check"></td><td>321</td></tr>
+    <tr align="center">  <td>839</td><td class="check same"></td><td>839</td></tr>
+</table>
+
+</p>
+    <p>
+
+        You will have FIVE pages to complete.<br/>
+        At the bottom of the table you will be able to select each page.<br/>
+        Note that you will only have 2 minutes to correctly identify as many number pairs as possible. <br/>
+        Once you are ready, press the start button to begin.<br/>
+
+    </p>
+
 </div>
+
+    <div id="finished">
+        You've now completed the survey, please click the "next" button to continue.
+
+    </div>
+
+    <div >
+    <div id="startbtn">
+            <button  class="largebutton" type="start">Start</button>
+    </div>
+    </div>
+
+
+    <div id="pst_test" style="padding-top:00px">
+        <h3>Select rows which contain the same number across all pages. Time remaining: <span id="timer"></span></h3>
+
+        <div id="pst1">
+            <div style="padding-top:30px;padding-bottom:10px;">Page 1 of 5</div>
+
+    <table class="tabskbox" style="width:40%;  background-color:#e9f5f7;">
+<tr align="center"> <td>12345</td> <td class="check same"> </td> <td>12345</td></tr>
+<tr align="center"> <td>23415</td> <td class="check"> </td> <td>21345</td></tr>
+        <tr align="center"> <td>21345</td> <td class="check"> </td> <td>23415</td></tr>
+        <tr align="center"> <td>31245</td> <td class="check"> </td> <td>31345</td></tr>
+<tr align="center"> <td>56789</td> <td class="check same"> </td> <td>56789</td></tr>
+    </table>
+    </div>
+        <div id="pst2">
+            <div style="padding-top:30px;padding-bottom:10px;">Page 2 of 5</div>
+        <table style="width:40%;  background-color:#e9f5f7;">
+
+
+    </table>
+        </div>
+
+          <div id="pst3">
+            <div style="padding-top:30px;padding-bottom:10px;">Page 3 of 5</div>
+        <table style="width:40%;  background-color:#e9f5f7;">
+
+    </table>
+        </div>
+
+
+          <div id="pst4">
+            <div style="padding-top:30px;padding-bottom:10px;">Page 4 of 5</div>
+        <table style="width:40%;  background-color:#e9f5f7;">
+
+
+    </table>
+        </div>
+
+                  <div id="pst5">
+            <div style="padding-top:30px;padding-bottom:10px;">Page 5 of 5</div>
+        <table style="width:40%;  background-color:#e9f5f7;">
+
+
+    </table>
+        </div>
+
+
+
+        <div id="pstpages" style="padding-top:40px" >
+            <span class="span_btn" id="btn1">Page 1</span>
+            <span id="btn2" class="span_btn">Page 2</span>
+            <span id="btn3" class="span_btn">Page 3</span>
+            <span id="btn4" class="span_btn">Page 4</span>
+            <span id="btn5" class="span_btn">Page 5</span>
+        </div>
+
+    </div>
+
+
+    </div>
+
+
+
+    <!--- div id="score">0 0</div> --->
+
 <div>
 
+    <form id="survey_form" method="post" action="{{action}}">
+        {% csrf_token %}
+        <input type="hidden" id="correct" name="correct" value="0">
+        <input type="hidden" id="incorrect" name="incorrect" value="0">
 
-  <div class="surveySubmitButton">
-        <a href="{% url 'treconomics:next' %}">
-            <button class="largebutton" type="next">Next</button>
-        </a>
-    </div>
+           <div id="nextbtn" class="surveySubmitButton">
+ <input class="largebutton" type="submit" name="submit" value="Next" />
+</div>
+
+    </form>
+
+</div>
+
+
+
 
 {% endblock %}
 

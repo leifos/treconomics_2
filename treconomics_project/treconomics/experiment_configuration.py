@@ -122,7 +122,7 @@ sigir2020_reduced_flow = [
 
 
 pst_flow = [
-    'startexperiment/', 'pst-findas/','taskspacer','endexperiment/', 'logout/'
+    'startexperiment/', 'pst-numbers/', 'pst-findas/','taskspacer','endexperiment/', 'logout/'
 ]
 
 

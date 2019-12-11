@@ -8,7 +8,7 @@ from treconomics.experiment_functions import get_experiment_context
 from treconomics.experiment_functions import log_event
 from .forms import *
 from treconomics.models import TaskDescription
-from survey.models import PSTCharSearch
+from survey.models import PSTCharSearch, PSTNumberSearch
 
 
 APP_NAME = '/treconomics/'
@@ -118,6 +118,7 @@ def view_pst_findas(request):
             correct = request.POST.get('correct')
             incorrect = request.POST.get('incorrect')
             psta = PSTCharSearch.objects.get_or_create(user=u, correct=correct, incorrect=incorrect)[0]
+            psta.save()
             log_event(event="PST_A_COMPLETED {} {}".format(correct, incorrect), request=request)
             return HttpResponseRedirect('/treconomics/next/')
 
@@ -130,15 +131,26 @@ def view_pst_findas(request):
 
 @login_required
 def view_pst_numbers(request):
+
+    action = '/treconomics/pst-numbers/'
+
     context = RequestContext(request)
     ec = get_experiment_context(request)
     uname = ec["username"]
     condition = ec["condition"]
-    #u = User.objects.get(username=uname)
+    u = User.objects.get(username=uname)
 
-    # provide link to search interface / next system
-    context_dict = {'participant': uname,
-                    'condition': condition }
+    if request.method == 'POST':
+            correct = request.POST.get('correct')
+            incorrect = request.POST.get('incorrect')
+            pstnumbers = PSTNumberSearch.objects.get_or_create(user=u, correct=correct, incorrect=incorrect)[0]
+            pstnumbers.save()
+            log_event(event="PST_NUMBER_COMPLETED {} {}".format(correct, incorrect), request=request)
+            return HttpResponseRedirect('/treconomics/next/')
+    else:
+        log_event(event="PST_NUMBER_STARTED", request=request)
+
+    context_dict = {'participant':uname, 'condition':condition, 'action':action}
 
     return render(request, 'survey/perceptual_speed_test_number_compare.html', context_dict)
 

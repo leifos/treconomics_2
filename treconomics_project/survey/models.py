@@ -65,6 +65,18 @@ class PSTCharSearch(models.Model):
         return "{}".format(self.user.username)
 
 
+class PSTNumberSearch(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    correct = models.IntegerField(default=0)
+    incorrect = models.IntegerField(default=0)
+
+    def __unicode__(self):
+        return self.user.username
+
+    def __str__(self):
+        return "{}".format(self.user.username)
+
+
 ############## PRE TOPIC SURVEY ############### --- needed?
 
 class PreTaskTopicKnowledgeSurvey(models.Model):
