@@ -23,7 +23,7 @@ def populate():
                          'that discuss EXTINCTION PREVENTION MEASURES made by countries '
                          'to protect DIFFERENT WILDLIFE SPECIES </p>',
              remember = '<p> Afterwards, you will be asked to recall these '
-                        'DIFFERENT WILDLIFE SPECIES and their EXTINCTION PREVENTION MEASURES.</p>',
+                        'DIFFERENT WILDLIFE SPECIES and their EXTINCTION PREVENTION MEASURES.</p>', #or countries
              concepts ='<p> Recall as many WILDLIFE SPECIES and their EXTINCTION PREVENTION MEASURES, '
                        'that you found.</p>'
              )

@@ -39,12 +39,12 @@ ED_CHOICES = (
 
 class DemographicsSurvey(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    age = models.IntegerField(default=0, help_text="Please provide your age (in years).")
-    sex = models.CharField(max_length=1, choices=SEX_CHOICES, help_text="Please indicate your gender.")
-    education = models.CharField(max_length=1, choices=ED_CHOICES, help_text="Please indicate your highest level of education.")
+    age = models.IntegerField(default=0, help_text="Please provide your age (in years)")
+    sex = models.CharField(max_length=1, choices=SEX_CHOICES, help_text="Please indicate your gender")
+    education = models.CharField(max_length=1, choices=ED_CHOICES, help_text="Please indicate your highest level of education")
     language = models.CharField(max_length=1, choices=LANGUAGE_CHOICES, help_text="Please indicate your English language ability", default="")
-    search_freq = models.CharField(max_length=1, choices=EXPERTISE_CHOICES, help_text="Please indicate how often you search for news online", default="")
-    browse_freq = models.CharField(max_length=1, choices=EXPERTISE_CHOICES, help_text="Please indicate how often you read news online", default="")
+    search_freq = models.CharField(max_length=1, choices=EXPERTISE_CHOICES, help_text="Please indicate how often you SEARCH FOR news online", default="")
+    browse_freq = models.CharField(max_length=1, choices=EXPERTISE_CHOICES, help_text="Please indicate how often you READ news online", default="")
 
     def __unicode__(self):
         return self.user.username

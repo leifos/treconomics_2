@@ -18,22 +18,22 @@ def clean_to_zero(self):
 #### Starting Survey Forms ######
 
 class DemographicsSurveyForm(ModelForm):
-    age = forms.IntegerField(label="Please provide your age (in years).",
+    age = forms.IntegerField(label="Please provide your age (in years)",
                              max_value=100,
                              min_value=0,
                              required=True)
 
     sex = forms.CharField(max_length=1,
                           widget=forms.Select(choices=SEX_CHOICES),
-                          label="Please indicate your sex.",
+                          label="Please indicate your sex",
                           required=True)
 
     education = forms.CharField(max_length=1, widget=forms.Select(choices=ED_CHOICES),
-                                label="Please indicate your highest level of education.", required=True)
+                                label="Please indicate your highest level of education", required=True)
 
     language = forms.CharField(max_length=1,
                                widget=forms.Select(choices=LANGUAGE_CHOICES),
-                               label="Please indicate your English language proficiency.",
+                               label="Please indicate your English language proficiency",
                                required=True)
 
     search_freq = forms.CharField(max_length=1, widget=forms.Select(choices=EXPERTISE_CHOICES),
@@ -148,46 +148,46 @@ class FinalPersonalitySurveyForm(ModelForm):
     )
 
     personality_distract = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
-                                     label="... tends to block out distractions",
+                                     label="... tends to block out distractions.",
                                      required=True)
     personality_reserved = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
-                                     label="... is reserved",
+                                     label="... is reserved.",
                                      required=True)
     personality_trusting = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
-                                     label="... is generally trusting",
+                                     label="... is generally trusting.",
                                      required=True)
     personality_lazy = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
-                                     label="... tends to be lazy",
+                                     label="... tends to be lazy.",
                                      required=True)
     personality_relaxed = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
-                                     label="... is relaxed, handles stress well",
+                                     label="... is relaxed, handles stress well.",
                                      required=True)
     personality_immersed = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
-                                     label="... tends to be immersed in the task at hand ",
+                                     label="... tends to be immersed in the task at hand.",
                                      required=True)
     personality_artistic = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
-                                     label="... has few artistic interests",
+                                     label="... has few artistic interests.",
                                      required=True)
     personality_social = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
-                                     label="... is outgoing, sociable",
+                                     label="... is outgoing, sociable.",
                                      required=True)
     personality_absorbed = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
-                                     label="... gets absorbed in what I am doing",
+                                     label="... gets absorbed in what I am doing.",
                                      required=True)
     personality_fault = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
-                                     label="... tends to find fault with others",
+                                     label="... tends to find fault with others.",
                                      required=True)
     personality_thorough = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
-                                     label="... does a thorough job",
+                                     label="... does a thorough job.",
                                      required=True)
     personality_nervous = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
-                                     label="... gets nervous easily",
+                                     label="... gets nervous easily.",
                                      required=True)
     personality_imagine = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
-                                     label="... has an active imagination",
+                                     label="... has an active imagination.",
                                      required=True)
     personality_attention = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
-                                     label="... is generally attentive",
+                                     label="... is generally attentive.",
                                      required=True)
 
 
