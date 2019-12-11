@@ -25,10 +25,10 @@ $(document).ready(function()
     $('.surveySubmitButton').click(function(){
 
         var btn = $(this);
-        btn.prop('disabled', true);
+        btn.hide();
         setTimeout(function(){
-        btn.prop('disabled', false);
-    }, 5000);
+        btn.show();
+    }, 20000);
 
     });
 
