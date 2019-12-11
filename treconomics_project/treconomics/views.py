@@ -312,7 +312,9 @@ def post_practice_task(request, taskid):
 
 
     perf["estimated_rels"] = (perf["rels"]/(perf["rels"]+perf["nons"])) * perf["total_marked"]
-    perf["estimated_acc"] = perf["estimated_rels"] / perf["total_marked"]
+    perf["estimated_acc"] = 0.0
+    if (perf["total_marked"]>0):
+        perf["estimated_acc"] = perf["estimated_rels"] / perf["total_marked"]
 
     if perf["estimated_acc"] > 0.5:
         perf["status_message"] = "Passed"

@@ -5,7 +5,7 @@ def populate():
     print('Adding PST Users')
     for i in range(0,12):
         uname = 'pst'+str(i)
-        add_user(uname,uname,0,2,i)
+        add_user(uname,uname,0,0,i)
 
 
     print('Adding AD Users')
