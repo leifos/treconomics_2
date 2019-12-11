@@ -5,18 +5,21 @@
 {% endblock %}
 
 {% block exp_block %}
+  <div>
+        <div class="experimentPageTitle">
 
-    <p>This page shows your performance for each of the search tasks. For each task, the maximum number of
-        relevant documents (determined by professional assessors) is shown alongside your score.</p>
-    <p> Your performance with respect to the original assessors of these topic is as follows.</p>
+            <h2> Task Performance</h2>
+
+
+    <p>This page shows your performance for each of the search tasks
+        given our professional judge's assessments.
+        </p>
 
     {% for  topic in performances %}
         <hr/>
         <p>Search task: <b>{{ topic.title }}</b></p>
 
-        <!--<p><em>Total number of relevant documents: <strong style="color: #3366FF;">{{ topic.total }}</strong></em></p>
-        -->
-        <p>
+          <p>
         <ul>
             <li>Documents you <em><strong>correctly</strong> identified:</em> <strong
                     style="color: #007f00;">{{ topic.rels }}</strong></li>
@@ -26,15 +29,19 @@
         </ul></p>
 
         <p>
-            <strong>Your topic score: <span style="color: #3366FF;">{{ topic.score }}</span></strong>
+            <strong>Your accuracy was : <span style="color: #3366FF;">{{ topic.accuracy }}</span></strong>
         </p>
     {% endfor %}
 
     <hr/>
-        <p><strong>Your average score across all topics: <span style="color: #3366FF;">{{ avg_wellness }}</span></strong></p>
+        <p><strong>Your average accuracy across all topics: <span style="color: #3366FF;">{{ avg_acc }}
+        </span></strong></p>
 
 
     <p>When you have examined the results above, please click the <em>Next</em> button below to continue.</p>
+
+        </div>
+    </div>
 
     <div class="surveySubmitButton">
         <a href="{% url 'treconomics:next' %}">

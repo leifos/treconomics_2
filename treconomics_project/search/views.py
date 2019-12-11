@@ -547,7 +547,7 @@ def view_performance(request):
 
     topics = experiment_setups[condition].topics
 
-    avg_wellness = 0.0
+    avg_acc = 0.0
     performances = []
     for t in topics:
         perf = get_performance(uname, t)
@@ -560,16 +560,16 @@ def view_performance(request):
         # Should log the performance of each topic here.
         log_performance(request, perf)
         performances.append(perf)
-        avg_wellness += perf["score"]
+        avg_acc += perf["accuracy"]
 
-    avg_wellness = avg_wellness / float(len(topics))
+    avg_acc = avg_acc / float(len(topics))
 
     for p in performances:
         logging.debug(p)
 
     context_dict = {'participant': uname,
                     'condition': condition,
-                    'performances': performances, 'avg_wellness': avg_wellness}
+                    'performances': performances, 'avg_acc': avg_acc}
     return render(request, 'base/performance_experiment.html', context_dict)
 
 

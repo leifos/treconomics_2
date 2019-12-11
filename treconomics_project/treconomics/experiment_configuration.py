@@ -106,21 +106,12 @@ sigir2020_flow = [
 sigir2020_reduced_flow = [
     'startexperiment/', 'preexperiment/UK/',
     'taskspacer',
-    'prepracticetask/0/', 'search/0/', 'postpracticetask/0/', 'taskspacer2/0/',
-     'taskspacer2/1/', 'taskspacer2/2/', 'taskspacer2/3/', 'taskspacer2/4/',
-    'pretaskquestions/1/', 'taskspacerwithdetails/1/', 'search/1/', 'conceptlistingsurvey/1/1/', 'posttaskquestions/1/',
-
-    'taskspacer',
-    'pretaskquestions/2/', 'taskspacerwithdetails/2/', 'search/2/', 'conceptlistingsurvey/2/1/', 'posttaskquestions/2/',
-
-    'taskspacer',
-    'pretaskquestions/3/', 'taskspacerwithdetails/3/', 'search/3/', 'conceptlistingsurvey/3/1/', 'posttaskquestions/3/',
-
-    'taskspacer',
-    'pretaskquestions/4/', 'taskspacerwithdetails/4/', 'search/4/', 'conceptlistingsurvey/4/1/', 'posttaskquestions/4/',
-
-    'taskspacer',
-
+    'prepracticetask/0/', 'search/0/', 'postpracticetask/0/','taskspacer2/0/',
+    'taskspacerwithdetails/1/', 'search/1/', 'taskspacer2/1/',
+    'taskspacerwithdetails/2/', 'search/2/','taskspacer2/2/',
+    'taskspacerwithdetails/3/', 'search/3/', 'taskspacer2/3/',
+    'taskspacerwithdetails/4/', 'search/4/', 'taskspacer2/4/',
+    'performance/','performance/','performance/',
     'endexperiment/',
     'logout/'
 ]
