@@ -654,3 +654,15 @@ span.report_header.fail {
 	background: #FF0000;
 	color: #FFF;
 }
+
+div#crowdSourceRegistrationArea {
+	display: none;  /* Required to prevent the register button from showing UNLESS JS enabled, screen res is okay, and ads can be viewed. */
+}
+
+div#crowdSourceRegistrationWarningArea {
+	color: #F00;
+}
+
+li#registrationWarning-resolution, li#registrationWarning-adblockers {
+	display: none;
+}

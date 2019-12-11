@@ -42,6 +42,5 @@ urlpatterns = [
 
 
             path('timeout/', views.show_timeout_message, name='timeout'),
-            path('screensize/', views.screensize, name='screensize'),
 
 ]

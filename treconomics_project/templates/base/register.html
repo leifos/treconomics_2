@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block exp_block %}
 
@@ -43,15 +44,17 @@
         <li>In order to conduct this experiment you need to use:
             <ul>
             <li>
-            <b>Safari, Firefox or Chrome, only</b></li>
-                <li>ensuring that <b>pop-ups are enabled</b> for the site</li>
-                <li>and that <b>Ad Blockers are disabled</b> for this site.</li>
-                <li>In addition, you need to use <b>laptop or desktop computer</b></li>
-                <li>with <b>screen resolution of at least 1024x768 or higher</b></li>
+            <b>Safari, Firefox or Chrome only, ensuring that:</b></li>
+            <ul></ul>
+                <li><b>JavaScript is enabled</b>;</li>
+                <li><b>pop-ups are enabled</b> for this site;</li>
+                <li>that <b>ad blockers are disabled</b> for this site;</li>
+                <li>you are using a <b>laptop or desktop computer</b>;</li>
+                <li>you device has a resolution of <b>at least 1024x768</b>; and</li>
                 <li>and use a <b>mouse.</b></li>
-
+                </ul>
             </ul>
-                If you use any of these conditions are not met, then your HIT may not be accepted.</li>
+                If any of these conditions are not met, then your HIT may not be accepted.</li>
 
         <li>You must complete all search tasks successfully to be paid.</li>
          <li>All the collected data will be treated as confidential and it will not be possible to
@@ -63,10 +66,25 @@
 
 
 <h2><b>Register</b></h2>
+
+        <div id="crowdSourceRegistrationWarningArea">
+            <p><b>Please correct the following issue(s) before registering for this experiment.</b></p>
+
+            <ul>
+                <li class="registrationWarning-list" id="registrationWarning-javascript"><b>Enable JavaScript</b> &mdash; at least for this domain.</li>
+                <li class="registrationWarning-list" id="registrationWarning-resolution">Ensure that your screen is a size of <b>at least 1024x768 in resolution.</b></li>
+                <li class="registrationWarning-list" id="registrationWarning-adblockers">Ensure that <b>all ad blockers are disabled</b> for this domain.</li>
+            </ul>
+
+            <p>Once these issues have been corrected, click <a href="#" onclick="location.reload();">here</a> to let us check if the problems have been removed.</p>
+
+            <p>Once we are satisfied, this message will be removed, and a registration form will appear in its place.</p>
+        </div>
+
+        <div id="crowdSourceRegistrationArea">
         <p>
             Register to undertake this study by entering your Prolific ID:
         </p>
-
 
         <form action="{% url 'treconomics:register-amt-user' %}" method="post">
             {% csrf_token %}
@@ -76,21 +94,14 @@
                     <td class="searchlabel">Enter your Prolific ID:</td>
                     <td><input class="loginbox" type="text" name="username" value="" id="username" size="50"
                                tabindex="1"/></td>
-                    <td><input class="button" type="submit" name="submit" value="Register" tabindex="2"/></td>
+                    <td><input class="button" type="submit" name="submit" value="Register" id="crowdsourceRegisterButton" tabindex="2"/></td>
                 </tr>
             </table>
         </form>
+        </div>
 
     </div>
 
-    <script>
-        $(document).ready(function(){
-            var width = screen.width;
-            var height = screen.height;
-
-            if ((width !== undefined || height !== undefined) && (width < 1024 || height < 768)) {
-                window.location.href = '/screensize';
-            }
-        });
-    </script>
+    <script src="{% static 'javascripts/ads.js' %}"></script>
+    <script src="{% static 'javascripts/registration_checks.js' %}"></script>
 {% endblock %}
