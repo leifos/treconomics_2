@@ -22,11 +22,12 @@ $(document).ready(function()
 	   });
 
 
-    $('.nextButton').one('click', function(){
-        $(this).disable();
-        $(this).prop( "disabled", true );
-    });
+$('.nextButton').click(function(){
+	$(this).hide();
+	document.writeln("loading....");
 
+
+});
 
 
     $('#end-task-link').click(function() {
