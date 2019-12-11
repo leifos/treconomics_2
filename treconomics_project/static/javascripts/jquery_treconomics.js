@@ -22,6 +22,16 @@ $(document).ready(function()
 	   });
 
 
+    $('.surveySubmitButton').click(function(){
+
+        var btn = $(this);
+        btn.prop('disabled', true);
+        setTimeout(function(){
+        btn.prop('disabled', false);
+    }, 5000);
+
+    });
+
 
     $('#end-task-link').click(function() {
 		target = null;
