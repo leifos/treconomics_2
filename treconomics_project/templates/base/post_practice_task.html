@@ -11,16 +11,29 @@
     <h1>Practice Task Completed</h1>
     <p>
         <strong>You have now completed the practice task.</strong>
-
 </p>
+
+    <hr/>
+ <p>
+    Of the <span style="color: #3366FF;">{{ performance.total_marked}}</span> documents you bookmarked,
+     <span style="color: #3366FF;">{{ performance.estimated_rels|floatformat:0 }}</span> were relevant
+according to gold standard labels from professional judges, giving an accuracy of:
+ <span style="color: #3366FF;">{{ performance.estimated_acc|floatformat:2}} </span>.
+    Note that we consider your task successful,
+    if you find a number of documents with accuracy greater than <span style="color: #3366FF;">0.5</span>.</p>
+
+    <p>Note, the practice task scores do not count to your HIT, we are providing them as guidance only.</p>
+
+<hr/>
+
 <p>
-    Note that after each search task, you will be asked to list as many of the examples as you can remember. <br/>
+    After each search task, you will be asked to list as many of the examples as you can remember. <br/>
     These examples MUST come from the documents that you have bookmarked.
 
 </p>
 <p>
 <div id="taskbox">
-    For this practice about piracy at sea, relevant and different examples of SHIPS/BOATS and the SEA the incident happened, would include, for instance:
+    For this practice about piracy at sea, examples of SHIPS/BOATS and the SEA the incident happened, would include, for instance:
     <ul>
     <li>The Petro Ranger in the South China Sea </li>
     <li>The Cheung Son in the South China Sea </li>

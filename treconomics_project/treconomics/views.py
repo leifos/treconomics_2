@@ -11,7 +11,7 @@ from treconomics.models import DocumentsExamined
 from treconomics.models import TaskDescription
 from treconomics.models import UserProfile
 from treconomics.experiment_functions import get_experiment_context, print_experiment_context
-from treconomics.experiment_functions import log_event, populate_context_dict
+from treconomics.experiment_functions import log_event, populate_context_dict, get_performance
 
 from treconomics.experiment_configuration import experiment_setups, user_conditions
 
@@ -19,10 +19,7 @@ from treconomics.experiment_configuration import experiment_setups, user_conditi
 from survey.models import DemographicsSurvey
 from survey.models import PreTaskTopicKnowledgeSurvey
 from survey.models import PostTaskTopicRatingSurvey
-# from survey.models import NasaSystemLoad, NasaQueryLoad, NasaNavigationLoad, NasaAssessmentLoad
-# from survey.models import SearchEfficacy
-# from survey.models import ConceptListingSurvey
-# from survey.models import ShortStressSurvey
+
 from survey.forms import PreTaskTopicKnowledgeSurveyForm
 from survey.forms import PostTaskTopicRatingSurveyForm
 
@@ -299,6 +296,8 @@ def post_practice_task(request, taskid):
     uname = ec["username"]
     condition = ec["condition"]
 
+    topicnum = ec["topicnum"]
+
     # Save out to profile what task has just been completed
     # This is probably not necessary ---- as the step  and taskid coming defines this.
     u = User.objects.get(username=uname)
@@ -309,7 +308,19 @@ def post_practice_task(request, taskid):
     # if participant has completed all the tasks, go to the post experiment view
     # else direct the participant to the pre task view
 
-    context_dict = {'participant': uname, 'condition': condition}
+    perf = get_performance(uname, topicnum)
+
+
+    perf["estimated_rels"] = (perf["rels"]/(perf["rels"]+perf["nons"])) * perf["total_marked"]
+    perf["estimated_acc"] = perf["estimated_rels"] / perf["total_marked"]
+
+    if perf["estimated_acc"] > 0.5:
+        perf["status_message"] = "Passed"
+    else:
+        perf["status_message"] = "Failed"
+
+
+    context_dict = {'participant': uname, 'condition': condition, 'performance': perf}
 
     populate_context_dict(ec, context_dict)
     print(context_dict)
