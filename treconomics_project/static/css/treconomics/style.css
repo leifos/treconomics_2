@@ -30,10 +30,13 @@ p.autocomplete-item {
 
 .check {
     border: 1px solid black;
-    padding: 5px;
+    margin: 20px;
+
     border-radius: 5px;
-    width: 20px;
+    width: 60px;
     height:20px;
+    font-size: 10px;
+
 }
 
 
