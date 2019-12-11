@@ -106,7 +106,8 @@ sigir2020_flow = [
 sigir2020_reduced_flow = [
     'startexperiment/', 'preexperiment/UK/',
     'taskspacer',
-    'prepracticetask/0/', 'search/0/', 'postpracticetask/0/', 'taskspacer/',
+    'prepracticetask/0/', 'search/0/', 'postpracticetask/0/', 'taskspacer2/0/',
+     'taskspacer2/1/', 'taskspacer2/2/', 'taskspacer2/3/', 'taskspacer2/4/',
     'pretaskquestions/1/', 'taskspacerwithdetails/1/', 'search/1/', 'conceptlistingsurvey/1/1/', 'posttaskquestions/1/',
 
     'taskspacer',
@@ -130,9 +131,7 @@ sigir2020_reduced_flow = [
 
 
 pst_flow = [
-    'startexperiment/', 'pst-findas/','taskspacer','pst-findas/',
-    'pst-findas/','pst-findas/','pst-findas/','pst-findas/',
-    'endexperiment/', 'logout/'
+    'startexperiment/', 'pst-findas/','taskspacer','endexperiment/', 'logout/'
 ]
 
 
@@ -173,7 +172,7 @@ exp_sigir2020a = ExperimentSetup(
 
 
 exp_sigir2020b = ExperimentSetup(
-    workflow=sigir2020_flow ,
+    workflow=sigir2020_reduced_flow ,
     engine=search_engine,
     practice_topic='367',
     topics=[ '435', '408','347', '341'],
@@ -203,7 +202,7 @@ exp_sigir2020c = ExperimentSetup(
 
 
 exp_sigir2020d = ExperimentSetup(
-    workflow=sigir2020_flow ,
+    workflow=sigir2020_flow,
     engine=search_engine,
     practice_topic='367',
     topics=[ '408','435', '341', '347'],
@@ -215,6 +214,24 @@ exp_sigir2020d = ExperimentSetup(
     trie=suggestion_trie,
     autocomplete=True,
     timeout=[300, 600, 600, 600, 600])  # 300s = 5min; 600s = 10min; 1200s = 20min
+
+
+exp_sigir2020test = ExperimentSetup(
+    workflow=sigir2020_reduced_flow,
+    engine=search_engine,
+    practice_topic='367',
+    topics=[ '408','435', '341', '347'],
+    rpp=10,
+    practice_interface=4,
+    interface=[1, 2, 3, 4],
+    rotation_type=1,
+    description='BM25 - interfaces with different Ads',
+    trie=suggestion_trie,
+    autocomplete=True,
+    timeout=[300, 600, 600, 600, 600])  # 300s = 5min; 600s = 10min; 1200s = 20min
+
+
+
 
 
 exp_pst = ExperimentSetup(
@@ -233,7 +250,8 @@ exp_pst = ExperimentSetup(
 
 
 # these correspond to conditions
-experiment_setups = [exp_pst, exp_sigir2020a, exp_sigir2020b, exp_sigir2020a, exp_sigir2020b]
+#CONDITIONS
+experiment_setups = [exp_pst, exp_sigir2020a, exp_sigir2020b, exp_sigir2020c, exp_sigir2020d, exp_sigir2020test]
 
 
 user_conditions = []

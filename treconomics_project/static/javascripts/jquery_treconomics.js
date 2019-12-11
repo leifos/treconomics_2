@@ -22,15 +22,10 @@ $(document).ready(function()
 	   });
 
 
-    $('.surveySubmitButton').click(function(){
-
-        var btn = $(this);
-        btn.hide();
-        setTimeout(function(){
-        btn.show();
-    }, 20000);
-
+    $('.nextButton').one('click', function(){
+        alert("Press ok to continue")
     });
+
 
 
     $('#end-task-link').click(function() {
