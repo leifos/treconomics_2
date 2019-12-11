@@ -12,7 +12,7 @@
 
 qrels_path = 'TREC2005.qrels.txt'  # Where is the TREC QRELs file to use?
 input_file = 'query.in'  # Where is the list of queries to execute in batch? CSV (topicnumber,terms)
-index_path = 'small100index2/'  # Where is the new index?
+index_path = 'small100index/'  # Where is the new index?
 stopwords_file = 'stopwords.txt'  # Where are the stopwords (for the querying process)?
 implicit_or = True  # OR (True) or AND (False) query terms?
 bm25_beta = 0.75  # What value of beta should we use for the retrieval model?

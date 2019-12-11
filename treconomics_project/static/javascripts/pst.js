@@ -40,16 +40,19 @@ $(document).ready(function(){
     $('#pst2').hide();
     $('#pst3').hide();
     $('#pst4').hide();
+    $('#pst5').hide();
 
  $('#btn1').click(function() {
     $('#pst1').show();
     $('#pst2').hide();
     $('#pst3').hide();
     $('#pst4').hide();
+    $('#pst5').hide();
             $('#btn1').css({"background-color":"grey"});
             $('#btn2').css({"background-color":"white"});
             $('#btn3').css({"background-color":"white"});
             $('#btn4').css({"background-color":"white"});
+            $('#btn5').css({"background-color":"white"});
 
  });
 
@@ -58,10 +61,12 @@ $(document).ready(function(){
     $('#pst1').hide();
     $('#pst3').hide();
     $('#pst4').hide();
+    $('#pst5').hide();
              $('#btn1').css({"background-color":"white"});
             $('#btn2').css({"background-color":"grey"});
             $('#btn3').css({"background-color":"white"});
             $('#btn4').css({"background-color":"white"});
+            $('#btn5').css({"background-color":"white"});
  });
 
  $('#btn3').click(function() {
@@ -69,10 +74,12 @@ $(document).ready(function(){
     $('#pst1').hide();
     $('#pst3').show();
     $('#pst4').hide();
+    $('#pst5').hide();
             $('#btn1').css({"background-color":"white"});
             $('#btn2').css({"background-color":"white"});
             $('#btn3').css({"background-color":"grey"});
             $('#btn4').css({"background-color":"white"});
+            $('#btn5').css({"background-color":"white"});
  });
 
 
@@ -81,11 +88,27 @@ $(document).ready(function(){
     $('#pst1').hide();
     $('#pst3').hide();
     $('#pst4').show();
+    $('#pst5').hide();
             $('#btn1').css({"background-color":"white"});
             $('#btn2').css({"background-color":"white"});
             $('#btn3').css({"background-color":"white"});
             $('#btn4').css({"background-color":"grey"});
+            $('#btn5').css({"background-color":"white"});
  });
+
+  $('#btn5').click(function() {
+    $('#pst2').hide();
+    $('#pst1').hide();
+    $('#pst3').hide();
+    $('#pst4').hide();
+    $('#pst5').show();
+            $('#btn1').css({"background-color":"white"});
+            $('#btn2').css({"background-color":"white"});
+            $('#btn3').css({"background-color":"white"});
+            $('#btn4').css({"background-color":"white"});
+            $('#btn5').css({"background-color":"grey"});
+ });
+
 
 
      $('#startbtn').click(function() {
