@@ -23,7 +23,8 @@ $(document).ready(function()
 
 
     $('.nextButton').one('click', function(){
-        alert("Press ok to continue");
+        $(this).disable();
+        $(this).prop( "disabled", true );
     });
 
 
