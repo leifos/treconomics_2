@@ -671,17 +671,17 @@ li#registrationWarning-resolution, li#registrationWarning-adblockers {
 table.perceptual-numbers tr td.check {
 	display: inline-block;
 	border: 1px solid black;
-	margin: 5px 0 5px 0;
+	margin: 7px 0 7px 0;
 	border-radius: 5px;
 	width: 20px;
-	font-size: 10pt;
+	font-size: 12pt;
 	font-weight: bold;
 	min-height: 1em;
 	line-height: 1em;
 }
 
 table.perceptual-numbers tr td.number {
-	font-size: 10pt;
+	font-size: 12pt;
 	text-align: right;
 }
 
