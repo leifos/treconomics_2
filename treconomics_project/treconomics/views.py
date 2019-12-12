@@ -313,10 +313,10 @@ def post_practice_task(request, taskid):
 
     denom = perf["rels"]+perf["nons"]
     if denom != 0:
-        perf["estimated_rels"] = (perf["rels"]/()) * perf["total_marked"]
+        perf["estimated_rels"] = (perf["rels"]/denom) * perf["total_marked"]
     else:
         perf["estimated_rels"] = 0.0
-        
+
     perf["estimated_acc"] = 0.0
     if (perf["total_marked"]>0):
         perf["estimated_acc"] = perf["estimated_rels"] / perf["total_marked"] if perf["total_marked"] != 0 else 0.0
