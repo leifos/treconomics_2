@@ -142,10 +142,12 @@ search_engine = Whooshtrec(
     whoosh_index_dir=my_whoosh_doc_index_dir,
     stopwords_file=stopword_file,
     model=1,
-    newschema=True)
+    newschema=True,
+    implicit_or=True)
 
 search_engine.key_name = 'bm25'
 search_engine.set_fragmenter(frag_type=2, surround=40)
+search_engine.set_model(1, pval=0.75)
 
 
 exp_sigir2020a = ExperimentSetup(
