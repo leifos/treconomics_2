@@ -124,6 +124,7 @@ class PostPerceptionSurvey(models.Model):
     perception_enjoyment = models.IntegerField(default=0)
     perception_satisfaction = models.IntegerField(default=0)
     perception_checking = models.IntegerField(default=0)
+    perception_ads = models.IntegerField(default=0)
     perception_tiredness = models.IntegerField(default=0)
 
     def __unicode__(self):
@@ -144,6 +145,7 @@ class SystemSurvey(models.Model):
     system_ease = models.IntegerField(default=0)
     system_confusing = models.IntegerField(default=0)
     system_focus = models.IntegerField(default=0)
+    system_congruence = models.IntegerField(default=0)
 
     def __unicode__(self):
         return self.user.username
@@ -195,6 +197,7 @@ class OverallInterview(models.Model):
     overall_distracting = models.TextField(default="")
     overall_preference = models.TextField(default="")
     overall_ad_effect = models.TextField(default="")
+    overall_comments = models.TextField(default="")
 
     def __unicode__(self):
         return self.user.username

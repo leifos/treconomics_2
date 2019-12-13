@@ -80,6 +80,9 @@ class PostPerceptionSurveyForm(ModelForm):
     perception_checking = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
                                                label="I checked each document carefully before saving.",
                                                required=True)
+    perception_ads = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
+                                               label="If present, I understood why the advertisements were being shown.",
+                                               required=True)
     perception_tiredness = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
                                               label="I felt tired when completing this task.",
                                               required=True)
@@ -114,6 +117,9 @@ class PostSystemSurveyForm(ModelForm):
                                 required=True)
     system_focus = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
                                 label="The system was engaging.",
+                                required=True)
+    system_congruence = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
+                                label="If present, the advertisements were related to the topic.",
                                 required=True)
 
     def clean(self):
@@ -206,6 +212,7 @@ class OverallInterviewForm(ModelForm):
     overall_ad_effect = forms.CharField(label='Did the presence of advertisements affect your search positively or negatively? '
                                               'For example, were they enjoyable or helped you to complete the search task? '
                                               'Or were they distracting?', required=True)
+    overall_comments = forms.CharField(label='Please list any comments / feedback / suggestions you have about the experiment here', required=True)
 
     def clean(self):
         return clean_to_zero(self)
