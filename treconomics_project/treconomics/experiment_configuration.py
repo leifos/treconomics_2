@@ -34,39 +34,6 @@ event_logger.addHandler(event_logger_handler)
 
 # workflow must always start with startexperiment/
 
-
-snippet_flow = [
-    'startexperiment/', 'preexperiment/UK/',
-    'demographicssurvey/',
-    'prepracticetask/0/','taskspacer2/0/', 'search/0/', 'postpracticetask/0/', 'taskspacer',
-    'snippetpretask/1/','taskspacer2/1/', 'search/1/', 'snippetposttask/1/','systemsnippetposttask/1/',
-        'taskspacer',
-    'snippetpretask/2/', 'taskspacer2/2/','search/2/', 'snippetposttask/2/','systemsnippetposttask/2/',
-        'taskspacer',
-    'snippetpretask/3/','taskspacer2/3/', 'search/3/', 'snippetposttask/3/','systemsnippetposttask/3/',
-     'taskspacer',
-    'snippetpretask/4/','taskspacer2/4/', 'search/4/', 'snippetposttask/4/','systemsnippetposttask/4/',
-    'taskspacer', 'snippetexitsurvey/', 'performance/', 'endexperiment/',
-    'logout/'
-]
-
-diversity_flow = [
-    'startexperiment/', 'preexperiment/UK/',
-    'demographicssurvey/',
-    'prepracticetask/0/', 'search/0/', 'diversityperformancepractice/', 'postpracticetask/0/', 'taskspacer/',
-    'snippetpretask/1/', 'taskspacerwithdetails/1/', 'search/1/', 'diversityposttask/1/','systemdiversityposttask/1/',
-        'taskspacer',
-    'snippetpretask/2/','taskspacerwithdetails/2/','search/2/', 'diversityposttask/2/','systemdiversityposttask/2/',
-        'taskspacer',
-    'snippetpretask/3/','taskspacerwithdetails/3/', 'search/3/', 'diversityposttask/3/','systemdiversityposttask/3/',
-     'taskspacer',
-    'snippetpretask/4/','taskspacerwithdetails/4/', 'search/4/', 'diversityposttask/4/','systemdiversityposttask/4/',
-    'taskspacer', 'diversityexitsurvey/', 'diversityperformance/', 'endexperiment/',
-    'logout/'
-]
-
-
-
 test_flow = [
     'startexperiment/', 'preexperiment/UK/', 'search/1/', 'search/2/','search/3/', 'search/4/',
     #'demographicssurvey/', 'pst-findas/', 'pst-numbers/', 'taskspacer',
@@ -82,7 +49,7 @@ test_flow = [
 
 sigir2020_flow = [
     'startexperiment/', 'preexperiment/UK/',
-    'demographicssurvey/', 'pst-findas/',
+    'demographicssurvey/', 'pst-findas/', 'pst-numbers/',
     'prepracticetask/0/', 'search/0/', 'postpracticetask/0/',
     'pretaskquestions/1/', 'taskspacerwithdetails/1/', 'search/1/', 'conceptlistingsurvey/1/1/', 'posttaskquestions/1/',
     'perceptionsurvey/1/', 'systemsurvey/1/',
