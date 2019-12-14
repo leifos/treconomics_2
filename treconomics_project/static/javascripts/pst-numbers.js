@@ -117,9 +117,14 @@ $(document).ready(function(){
         $('#btn1').css({"background-color":"grey"});
         $('#startbtn').hide();
         $('#pst_instructions').hide();
+        correct = 0;
+        incorrect = 0;
         countdown(2, 0);
         setTimeout(finished, 120000)
+
      });
+
+
 
 
     $('.check').click(function(){
@@ -127,7 +132,7 @@ $(document).ready(function(){
         if ($(this).hasClass("checked")){
             $(this).removeClass("checked");
             $(this).html(" ");
-            if ($(this).hasClass("same")){
+            if ($(this).hasClass("diff")){
                 correct = correct - 1;
                 }
              else {
@@ -137,7 +142,7 @@ $(document).ready(function(){
 
             $(this).addClass("checked");
             $(this).html("X");
-            if ($(this).hasClass("same")){
+            if ($(this).hasClass("diff")){
                 correct = correct + 1;}
              else {
                 incorrect = incorrect + 1;}
@@ -151,7 +156,9 @@ $(document).ready(function(){
 
      });
 
-
+    $('.practice').click(function(){
+        $('#practice_result').html("<b>Correct: "+ correct + "  Incorrect: " + incorrect + "</b>" );
+    });
 
 
 

@@ -117,6 +117,8 @@ $(document).ready(function(){
         $('#btn1').css({"background-color":"grey"});
         $('#startbtn').hide();
         $('#pst_instructions').hide();
+        correct = 0;
+        incorrect = 0;
         countdown(2, 0);
         setTimeout(finished, 120000)
      });
@@ -150,6 +152,10 @@ $(document).ready(function(){
 
      });
 
+ $('.practice').click(function(){
+        $('#practice_result').html("<b>Correct: "+ correct + "  Incorrect: " + incorrect + "</b>" );
+
+    });
 
 
 
