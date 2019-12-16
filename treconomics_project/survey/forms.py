@@ -154,7 +154,7 @@ class FinalPersonalitySurveyForm(ModelForm):
     )
 
     personality_distract = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
-                                     label="... tends to block out distractions.",
+                                     label="... is able to block out distractions.",
                                      required=True)
     personality_reserved = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
                                      label="... is reserved.",
@@ -167,9 +167,6 @@ class FinalPersonalitySurveyForm(ModelForm):
                                      required=True)
     personality_relaxed = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
                                      label="... is relaxed, handles stress well.",
-                                     required=True)
-    personality_immersed = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
-                                     label="... tends to be immersed in the task at hand.",
                                      required=True)
     personality_artistic = forms.ChoiceField(widget=RadioSelect, choices=PERSONALITY_CHOICES,
                                      label="... has few artistic interests.",

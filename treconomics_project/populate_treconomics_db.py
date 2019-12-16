@@ -32,7 +32,7 @@ def populate():
              title='Curbing Population Growth',
              description='<p>Find and bookmark articles that discuss '
                          'DIFFERENT COUNTRIES that have been successful in '
-                         'CURBING POPULATION GROWTH and the measures they have taken to do so.</p>',
+                         'REDUCING POPULATION GROWTH and the measures they have taken to do so.</p>',
              remember='<p> Afterwards, you will be asked to recall these '
                       'DIFFERENT COUNTRIES and their MEASURES to reduce population growth.</p>',
              concepts ='<p> Recall as many COUNTRIES and the MEASURES they use to control population growth, '
