@@ -119,7 +119,7 @@ class PostSystemSurveyForm(ModelForm):
                                 label="The system was engaging.",
                                 required=True)
     system_congruence = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
-                                label="If present, the advertisements were related to the topic.",
+                                label="If present, the system related advertising.",
                                 required=True)
 
     def clean(self):
