@@ -172,7 +172,6 @@ class PersonalitySurvey(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     personality_distract = models.IntegerField(default=0)
     personality_absorbed = models.IntegerField(default=0)
-    personality_immersed = models.IntegerField(default=0)
     personality_attention = models.IntegerField(default=0)
     personality_reserved = models.IntegerField(default=0)
     personality_trusting = models.IntegerField(default=0)
