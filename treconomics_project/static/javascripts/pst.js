@@ -30,7 +30,7 @@ $(document).ready(function(){
     $('#nextbtn').show();
     $('#finished').show();
 
-    alert("Times up for completing the perceptual speed test - click next to continue.")
+    alert("Time is up for completing the perceptual speed test - click next to continue.")
     };
 
     $('#finished').hide();
