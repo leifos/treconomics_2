@@ -12,11 +12,11 @@ work_dir = os.getcwd()
 # when deployed this needs to match up with the hostname, and directory to where the project is
 
 #my_whoosh_doc_index_dir = os.path.join(work_dir, 'data/fullindex/')
-my_whoosh_doc_index_dir = os.path.join(work_dir, 'data/small100index/')
+my_whoosh_doc_index_dir = os.path.join(work_dir, 'data/nytindex2/')
 
 my_whoosh_query_index_dir = os.path.join(work_dir, "/trec_query_index/index")
 my_experiment_log_dir = work_dir
-qrels_file = os.path.join(work_dir, "data/TREC2005.qrels.txt")
+qrels_file = os.path.join(work_dir, "data/sorted.nyt.aq.qrels")
 stopword_file = os.path.join(work_dir, "data/stopwords.txt")
 data_dir = os.path.join(work_dir, "data")
 
