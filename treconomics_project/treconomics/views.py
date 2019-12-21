@@ -12,7 +12,7 @@ from treconomics.models import TaskDescription
 from treconomics.models import UserProfile
 from treconomics.experiment_functions import get_experiment_context, print_experiment_context
 from treconomics.experiment_functions import log_event, populate_context_dict, get_performance
-
+from treconomics.experiment_functions import log_performance
 from treconomics.experiment_configuration import experiment_setups, user_conditions
 
 
@@ -330,7 +330,9 @@ def post_practice_task(request, taskid):
     context_dict = {'participant': uname, 'condition': condition, 'performance': perf}
 
     populate_context_dict(ec, context_dict)
-    print(context_dict)
+    #print(context_dict)
+    log_performance(request, perf)
+
 
     return render(request, 'base/post_practice_task.html', context_dict)
 

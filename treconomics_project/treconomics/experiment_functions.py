@@ -91,8 +91,8 @@ def time_search_experiment_out(request):
 def log_performance(request, perf):
     ec = get_experiment_context(request)
 
-    msg = ec["username"] + " " + str(ec["condition"]) + " 0 0 " + perf["num"] + " VIEW_PERFORMANCE "
-    msg = msg + " " + str(perf["total"]) + " " + str(perf["score"]) + " " + str(perf["rels"]) + " " + str(perf["nons"])
+    msg = ec["username"] + " " + str(ec["condition"]) + " 0 0 " + perf["topicnum"] + " VIEW_PERFORMANCE "
+    msg = msg + " " + str(perf["total_marked"]) + " " + str(perf["accuracy"]) + " " + str(perf["rels"]) + " " + str(perf["nons"])
     event_logger.info(msg)
 
 
