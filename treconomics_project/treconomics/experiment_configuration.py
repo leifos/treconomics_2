@@ -9,7 +9,10 @@ from ifind.search.engines.whooshtrec import Whooshtrec
 from treconomics.experiment_setup import ExperimentSetup
 
 work_dir = os.getcwd()
-# when deployed this needs to match up with the hostname, and directory to where the project is
+
+# getcwd() doesn't seem to work on the droplet; hardcode the path.
+if socket.gethostname() == 'treconomics-server':
+    work_dir = '/home/treconomics/treconomics_2/treconomics_project/'
 
 #my_whoosh_doc_index_dir = os.path.join(work_dir, 'data/fullindex/')
 my_whoosh_doc_index_dir = os.path.join(work_dir, 'data/nytindex3/')
