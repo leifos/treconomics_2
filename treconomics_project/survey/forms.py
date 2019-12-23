@@ -203,20 +203,20 @@ class FinalPersonalitySurveyForm(ModelForm):
 
 
 class OverallInterviewForm(ModelForm):
-    overall_distracting = forms.CharField(label='Did you find anything distracting when you were searching for relevant documents?', required=True)
-    overall_preference = forms.CharField(label='What system did you find most preferable overall and why? '
-                                               'When advertisements were present, absent, either, or you’re unsure ', required=True)
-    overall_ad_effect = forms.CharField(label='Did the presence of advertisements affect your search positively or negatively? '
-                                              'For example, were they enjoyable or helped you to complete the search task? '
-                                              'Or were they distracting?', required=True)
-    overall_comments = forms.CharField(label='Please list any comments / feedback / suggestions you have about the experiment here', required=True)
+    #overall_distracting = forms.CharField(label='Did you find anything distracting when you were searching for relevant documents?', required=True)
+    #overall_preference = forms.CharField(label='What system did you find most preferable overall and why? '
+    #                                           'When advertisements were present, absent, either, or you’re unsure ', required=True)
+    #overall_ad_effect = forms.CharField(label='Did the presence of advertisements affect your search positively or negatively? '
+    #                                          'For example, were they enjoyable or helped you to complete the search task? '
+    #                                          'Or were they distracting?', required=True)
+    overall_comments = forms.CharField(widget=forms.Textarea(attrs={"rows":16, "cols":80}),label='Please list any comments / feedback / suggestions you have about the experiment here', required=False)
 
     def clean(self):
         return clean_to_zero(self)
 
     class Meta:
         model = OverallInterview
-        exclude = ('user',)
+        exclude = ('user','overall_ad_effect','overall_preference','overall_distracting' )
 
 
 TOPIC_NOTHING_CHOICES = ( (1, 'Nothing'), (2, ''), (3, ''), (4, ''), (5, 'I Know Details')  )

@@ -194,9 +194,9 @@ class PersonalitySurvey(models.Model):
 
 class OverallInterview(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    overall_distracting = models.TextField(default="")
-    overall_preference = models.TextField(default="")
-    overall_ad_effect = models.TextField(default="")
+    #overall_distracting = models.TextField(default="")
+    #overall_preference = models.TextField(default="")
+    #overall_ad_effect = models.TextField(default="")
     overall_comments = models.TextField(default="")
 
     def __unicode__(self):

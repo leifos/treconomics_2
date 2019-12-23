@@ -32,10 +32,20 @@
     </p>
 
     <p>
-        For each search task, you'll be given a topic (like the one shown below).
+        For each search task, you'll be given a topic (like the one shown below in blue).
         </p>
+
+         <div id="taskbox">
+            <p>{% autoescape off %} {{ taskdescription }} {% endautoescape %} </p>
+
+             <b>Your goal is to find and save several relevant and different examples for the topic. </b>
+
+        </div>
+
+          <hr/>
+
     <p>
-        You will be able to enter queries and look at results, just like you would in a normal search engine.
+        The system will let you enter queries and look at results, just like you would in a normal search engine.
     </p>
 
         <p>When you view a document which contains a relevant example, then you can click the
@@ -46,35 +56,23 @@
         <p>Once you find a number of relevant examples, you can click <b>end task</b>
             to proceed, otherwise the system will automatically time out after about 8 minutes.</p>
 
- <div id="taskbox">
-            <p>{% autoescape off %} {{ taskdescription }} {% endautoescape %} </p>
-        </div>
-
-
-
-    <h2><b>Goal</b></h2>
-       <p> <b>Your goal is to find and save several relevant and different examples for each topic </b>
-        </p>
 
 <p>
         After searching, you will be asked to list as many examples as possible that you have just found.
 
         </p>
 
-
-
     <hr/>
-
-
 
         <p>To get familiar with the system, we would like you to:
         <ul>
-            <li> Select "Show Task" to remind you what the topic of the search task is.</li>
+        <li> Select <b>Show Task</b> to remind you what the topic of the search task is.</li>
             <li> Search for documents about this topic by entering queries. </li>
             <li> Try entering a few different queries.</li>
-            <li> Save a document by bookmarking it.</li>
-            <li> Scroll down to click on the "Next" page button, and</li>
-            <li> Review your list of documents by selecting "View Saved".</li>
+        <li> Save a document by <b>bookmarking it</b>.</li>
+            <li> Scroll down to click on the <b>Next</b> page button, and</li>
+        <li> Review your list of documents by selecting <b>View Saved</b>.</li>
+        <li>Note the system will automatically time out after 4 minutes and show you your performance.</li>
         </ul>
         </p>
 
