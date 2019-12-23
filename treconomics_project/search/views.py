@@ -811,3 +811,32 @@ def goto_ad(request, adid, pos):
     ad = TopicAds.objects.get(id=adid)
     return redirect(ad.adimage.url)
 
+
+
+def check_document(request, whoosh_docid):
+    """
+    Displays the document
+    :param request:
+    :param whoosh_docid: the way of identifying the selected document
+    :return:
+    """
+    # get document from index
+    fields = ixr.stored_fields(int(whoosh_docid))
+    title = fields["title"]
+    content = fields["content"]
+    doc_num = fields["docid"]
+    doc_date = fields["timedate"]
+    doc_source = fields["source"]
+    doc_id = whoosh_docid
+
+
+
+    context_dict = {'docid': doc_id,
+                        'docnum': doc_num,
+                        'title': title,
+                        'doc_date': doc_date,
+                        'doc_source': doc_source,
+                        'content': content}
+
+    return render(request, 'trecdo/check_document.html', context_dict)
+

@@ -38,6 +38,8 @@ urlpatterns = [
             path('hover/', search_views.view_log_hover),
             path('autocomplete/', search_views.autocomplete_suggestion),
             path('doc/<whoosh_docid>/', search_views.show_document),
+            path('checkdoc/<whoosh_docid>/', search_views.check_document),
+
             path('goto_ad/<adid>/<pos>/', search_views.goto_ad),
 
 

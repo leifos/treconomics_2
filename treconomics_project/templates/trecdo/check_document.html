@@ -1,0 +1,44 @@
+{% extends 'base/base.html' %}
+{% load treconomics_tags %}
+
+{% load static %}
+
+{% block exp_info_block %}
+    <script type="text/javascript">
+        var APP_ROOT = '{{ application_root }}';
+
+    </script>
+
+{% endblock %}
+
+
+{% block document_content %}
+
+
+<div class="results_squash">
+<h1 class="document_title">{{ title }}</h1>
+<p class="document_source_date"><b>{{doc_source}}</b> <span> <b>{{doc_date}}</b></span></p>
+</div>
+
+
+
+<div class="results_squash">
+
+<div class="article"> {% autoescape off %} {{ content|linebreaksbrbr:doc_source }} {% endautoescape %}  </div>
+</div>
+
+
+
+{% endblock %}
+
+
+{% block side_results %}
+
+{% endblock %}
+
+
+
+
+{% block exp_footer_block %}
+ TREC DocID: {{ docnum }} - Whoosh DocNum: {{ docid }}
+{% endblock %}
