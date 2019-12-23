@@ -12,7 +12,7 @@ work_dir = os.getcwd()
 # when deployed this needs to match up with the hostname, and directory to where the project is
 
 #my_whoosh_doc_index_dir = os.path.join(work_dir, 'data/fullindex/')
-my_whoosh_doc_index_dir = os.path.join(work_dir, 'data/nytindex2/')
+my_whoosh_doc_index_dir = os.path.join(work_dir, 'data/nytindex3/')
 
 my_whoosh_query_index_dir = os.path.join(work_dir, "/trec_query_index/index")
 my_experiment_log_dir = work_dir
@@ -49,8 +49,9 @@ test_flow = [
 
 sigir2020_flow = [
     'startexperiment/', 'preexperiment/UK/',
-    'demographicssurvey/', 'pst-findas/', 'pst-numbers/',
+    'demographicssurvey/',
     'prepracticetask/0/', 'search/0/', 'postpracticetask/0/',
+    'pst-findas/', 'taskspacer2/0/',
     'pretaskquestions/1/', 'taskspacerwithdetails/1/', 'search/1/', 'conceptlistingsurvey/1/1/', 'posttaskquestions/1/',
     'perceptionsurvey/1/', 'systemsurvey/1/',
     'taskspacer2/1/',
@@ -63,6 +64,7 @@ sigir2020_flow = [
     'pretaskquestions/4/', 'taskspacerwithdetails/4/', 'search/4/', 'conceptlistingsurvey/4/1/', 'posttaskquestions/4/',
     'perceptionsurvey/4/', 'systemsurvey/4/',
     'taskspacer2/4/',
+    'pst-numbers/',
     'personalitysurvey/',
     'overall/',
     'performance/',
