@@ -80,13 +80,13 @@ class PostPerceptionSurveyForm(ModelForm):
     perception_checking = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
                                                label="I checked each document carefully before saving.",
                                                required=True)
-    perception_ads = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
-                                               label="If present, I understood why the advertisements were being shown.",
-                                               required=True)
+
     perception_tiredness = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
                                               label="I felt tired when completing this task.",
                                               required=True)
-
+    perception_ads = forms.ChoiceField(widget=RadioSelect, choices=PERCEPTION_CHOICES,
+                                               label="If present, I understood why the advertisements were being shown.",
+                                               required=False)
     def clean(self):
         return clean_to_zero(self)
 
@@ -119,7 +119,7 @@ class PostSystemSurveyForm(ModelForm):
                                 label="The system was engaging.",
                                 required=True)
     system_congruence = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
-                                label="If present, the system related advertising.",
+                                label="If present, the system showed related advertising.",
                                 required=False)
 
     def clean(self):

@@ -568,12 +568,29 @@ def task_spacer_msg(request, msg_id):
                 'pst': 'Perceptual Speed Test Completed',
                 }
 
+
+    body_msg = {'0': 'Before undertaking the four search tasks, we would like you to first complete a perceptual speed test.',
+                '1': '',
+                '2': '',
+                '3': '',
+                '4': 'You have now completed all tasks. In the last few remaining screens, we would like'
+                     'you to complete another perceptual speed test, and then answer a few more questions.',
+                'pst':'Now you have completed the perceptual speed test, we would like you to undertake the search tasks.'
+    }
+
     if msg_id in head_msg:
         heading = head_msg[msg_id]
     else:
-        heading = "No msg found"
+        heading = 'No msg found'
 
-    context_dict = {'heading': heading}
+    if msg_id in body_msg:
+        body = body_msg[msg_id]
+    else:
+        body = ''
+
+
+
+    context_dict = {'heading': heading, 'body':body}
 
     populate_context_dict(ec, context_dict)
     return render(request, 'base/task_spacer2.html', context_dict)
