@@ -132,7 +132,8 @@ class PostSystemSurveyForm(ModelForm):
 
 class ConceptListingSurveyForm(ModelForm):
      concepts = forms.CharField(widget=forms.Textarea(attrs={"rows":16, "cols":80}),
-                                label="For the given topic, please list the relevant entities or descriptions, one per line.",
+                                label="For the given topic, please list the relevant examples that contain "
+                                      "both parts listed above, one example per line.",
                                 required=True)
 
      def clean(self):
