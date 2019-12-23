@@ -17,38 +17,123 @@
             });
         })
     </script>
+
 <div class="experimentPageTitle">
-    <h1> Experiment Instructions </h1>
-
-    <p>
-        First of all, <strong>thank you</strong> for agreeing to participate in this
-        experiment about searching for news.<br/>
-
-        Beforehand, you'll first complete a short visual perception test.
-        Then, during the main experiment, we would like you to perform four different search tasks
-        (and a practice task) using our news search system.
-    </p>
-
-
-<!--    #I think this bit below needs to come after the PS test.&#45;&#45;Olivia-->
+    <h1> Study Instructions </h1>
 
     <h2><b>Your Role</b></h2>
-    <p>Imagine that you are taking a journalist class and need to write a number of short posts/articles
+    <p>For this study, imagine that you are taking a <b>journalist class</b> and need to write a number of news stories
             on various topics.
     </p>
         <p>
-            To provide the evidence for your articles,
-            you need to find several different examples for each topic to demonstrate
-            your understanding about the topic.
-
+            To provide the evidence for your news stories,
+            you need to search and find several different news articles that contain examples relevant to each topic.
+            These articles and examples will demonstrate your knowledge about the topic.
         </p>
 
+    <p> As part of the study you will be using our <b>News Search Engine</b> that connects to the New York Times database from 1987-2007. </p>
 
+       <p> <b>Your goal is to find and save several relevant and different documents and then list the examples for each topic. </b>
+        </p>
+
+    <hr/>
+
+    <h2><b>Study Outline</b></h2>
+    <p>The study should take <b>approximately one hour and twenty minutes</b> in total.</p>
+
+    <p> The study will consiste of the following stages:</p>
+    <ul>
+        <li><b>Short Demongraphics Questionnaire</b> (2 min)</li>
+        <li> <b>Practice Search Task</b> (5 mins)</li>
+        <ul>
+            <li>After the practice task, your performance will be shown, so you can decide to continue or not.</li>
+        </ul>
+        <li><b>Perceptual Speed Test #1</b> - how well you can find a's in words (3 mins).</li>
+        <li><b>Search Tasks x 4</b></li>
+        <ul>
+            <li> <b>Pre-Task Topic Questionnaire</b> (1 min). </li>
+            <li> <b>Search</b> - use our search engine to complete the search task (up to 8 mins).</li>
+            <li> <b>Concept Listing</b>  (2 min) - report what examples you found.</li>
+            <li> <b>Post-Task Topic Questionnaire</b> (1 min) - questions about the topic/task. </li>
+            <li> <b>System Questionnaire</b> (1 min) - questions about the system. </li>
+            <li> <b> Perception Questionnaire</b> (1 min) - questions about your experiences with the system. </li>
+            </ul>
+        <li> <b> Perceptual Test Test #2</b> - how well you can compare numbers (3 mins).</li>
+        <li> <b> Personality Questionnaire </b> (3 mins).</li>
+        <li> <b> Final Thoughts</b> - free text box to give your feedback on the study, tasks, systems, etc. </li>
+        <li> <b>Report</b> - shows your task performance.</li>
+        <li> <b> Thank you and completion link.</b></li>
+
+    </ul>
+
+    <hr/>
+    <h2><b>Confirmation of Participation and Commitment</b></h2>
+
+    <p> Please remember that the data you provide will be
+        anonymous, and will be used only for the purposes of this study.</p>
+
+    <div class="ConfirmButton">
+        <p><strong> If you are happy to undertake the study described above and committed to doing your best on the
+        search tasks, then please click the <em>Consent and Confirm</em> button below.</strong></p>
+            <button class="largebutton" type="next">Consent and Confirm</button>
+    </div>
+
+    <div  class="surveySubmitButton nextButton">
+        <p>Thank you for agreeing, now click the  <em>Next</em> button to continue.</p>
+        <a class="nextButton" href="{% url 'treconomics:next' %}">
+            <button  class="largebutton nextButton" type="next">Next</button>
+        </a>
+    </div>
+
+    </div>
+{% endblock %}
+
+
+{% block exp_footer_block %}
+    Participant: {{ participant }}  - Condition: {{ condition }}
+{% endblock %}
+
+
+<!--
+  <p>
+        First of all, <strong>thank you</strong> for agreeing to participate in this
+        study about searching for news.<br/>
+
+        Beforehand, you'll first complete a short visual perception test.
+        Then, during the main experiment, we would like you to perform four different search tasks
+        (and a practice task) using our news search system. </p>
+
+-->
+
+<!--    #I think this bit below needs to come after the PS test.&#45;&#45;Olivia-->
+
+
+
+    <!--
+    <p> Before you start searching, we will ask you a few questions about you.</p>
+
+    <p>We will then give you a few minutes to get comfortable with the system by undertaking a <b>practice
+        task.</b></p>
+
+    <p>You'll then move onto the <b>four individual main search tasks</b>.
+
+        Before each task, you will complete a
+        <b>pre-task questionnaire</b>
+        about your knowledge of the search topic.
+
+        After you complete the task, you will complete a
+        <b>post-task questionnaire</b> about the search experience.</p>
+
+<p> At the end of the experiment, there will be one final questionnaire about your overall experience. </p>
+-->
+
+
+ <!--
     <h2><b>The Search System</b></h2>
-    <p>The search system that you will use connects to a database of about 1 million newspaper articles from the
-            <em>New York Times</em>, <em>The Associated Press</em> and <em>Xinhua</em> news agencies. The articles
-            within the database range from 1996 to 2000. The search system you'll be using looks similar to a web search
-            engine, such as Google.
+    <p>The search system that you will use connects to a database of about 1.8 million newspaper articles from the
+            <em>New York Times</em>. The articles within the database range from 1987 to 2007.
+        The search system you'll be using looks similar to a web search
+            engine.
     </p>
     <h2><b>The Search Tasks</b></h2>
     <p>
@@ -67,60 +152,4 @@
         After searching, you will be asked to list as many examples as possible that you have just found.
 
         </p>
-
-    <h2><b>Goal</b></h2>
-       <p> <b>Your goal is to find and save several relevant and different examples for each topic </b>
-        </p>
-
-    <hr/>
-
-    <h2><b>Experiment Outline</b></h2>
-        <p>The experiment should take approximately one hour in total i.e. about 10 minutes per task.</p>
-
-
-    <p> Before you start searching, we will ask you a few questions about you.</p>
-
-    <p>We will then give you a few minutes to get comfortable with the system by undertaking a <b>practice
-        task.</b></p>
-
-    <p>You'll then move onto the <b>four individual main search tasks</b>.
-
-        Before each task, you will complete a
-        <b>pre-task questionnaire</b>
-        about your knowledge of the search topic.
-
-        After you complete the task, you will complete a
-        <b>post-task questionnaire</b> about the search experience.</p>
-
-<p> At the end of the experiment, there will be one final questionnaire about your overall experience. </p>
-
-    <hr/>
-    <h2><b>Confirmation of Participation and Commitment</b></h2>
-
-    <p> If you have any questions, please ask the researcher now. Please remember that the data you provide will be
-        anonymous, and will be used only for the purposes of this study.</p>
-
-
-
-    <div class="ConfirmButton">
-        <p><strong> If you are happy to undertake the experiment described above and committed to doing your best on the
-        search tasks, then please click the <em>Consent and Confirm</em> button below.</strong></p>
-            <button class="largebutton" type="next">Consent and Confirm</button>
-    </div>
-
-
-
-    <div  class="surveySubmitButton nextButton">
-        <p>Thank you for agreeing, now click the  <em>Next</em> button to continue.</p>
-        <a class="nextButton" href="{% url 'treconomics:next' %}">
-            <button  class="largebutton nextButton" type="next">Next</button>
-        </a>
-    </div>
-
-    </div>
-{% endblock %}
-
-
-{% block exp_footer_block %}
-    Participant: {{ participant }}  - Condition: {{ condition }}
-{% endblock %}
+-->

@@ -159,6 +159,7 @@ class ConceptListingSurvey(models.Model):
      user = models.ForeignKey(User, on_delete=models.CASCADE)
      task_id = models.IntegerField(default=0)
      topic_num = models.IntegerField(default=0)
+     interface = models.IntegerField(default=0)
      concepts = models.TextField(default=0)
      when=models.IntegerField(default=0)
 

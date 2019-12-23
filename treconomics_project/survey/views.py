@@ -59,6 +59,7 @@ def view_concept_listing_survey(request, taskid, when):
      uname = ec["username"]
      condition = ec["condition"]
      topicnum = ec["topicnum"]
+     interface = ec["interface"]
      t = TaskDescription.objects.get(topic_num=topicnum)
      errors = ""
 
@@ -73,6 +74,7 @@ def view_concept_listing_survey(request, taskid, when):
              obj.user = u
              obj.task_id = ec["taskid"]
              obj.topic_num = ec["topicnum"]
+             obj.interface = interface
              obj.when = when
              obj.save()
              log_event(event="CONCEPT_LISTING_COMPLETED", request=request)

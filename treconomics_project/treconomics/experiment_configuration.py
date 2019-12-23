@@ -75,7 +75,7 @@ sigir2020_flow = [
 
 sigir2020_reduced_flow = [
     'startexperiment/', 'preexperiment/UK/',
-    'taskspacer',
+    'taskspacer', 'overall/', 'conceptlistingsurvey/1/1/',
     'prepracticetask/0/', 'search/0/', 'postpracticetask/0/','taskspacer2/0/',
     'taskspacerwithdetails/1/', 'search/1/', 'taskspacer2/1/',
     'taskspacerwithdetails/2/', 'search/2/','taskspacer2/2/',
@@ -119,11 +119,14 @@ search_engine.set_fragmenter(frag_type=2, surround=40)
 search_engine.set_model(1, pval=0.75)
 
 
+timeouts = [240, 480, 480, 480, 480]
+topics = ['347', '341', '435', '408']
+
 exp_sigir2020a = ExperimentSetup(
     workflow=sigir2020_flow ,
     engine=search_engine,
     practice_topic='367',
-    topics=['347', '341', '435', '408'],
+    topics=topics,
     rpp=10,
     practice_interface=4,
     interface=[1, 2, 3, 4],
@@ -131,14 +134,14 @@ exp_sigir2020a = ExperimentSetup(
     description='BM25 - interfaces with different Ads',
     trie=suggestion_trie,
     autocomplete=True,
-    timeout=[300, 600, 600, 600, 600])  # 300s = 5min; 600s = 10min; 1200s = 20min
+    timeout=timeouts)  # 300s = 5min; 600s = 10min; 1200s = 20min
 
 
 exp_sigir2020b = ExperimentSetup(
     workflow=sigir2020_reduced_flow ,
     engine=search_engine,
     practice_topic='367',
-    topics=[ '435', '408','347', '341'],
+    topics=topics,
     rpp=10,
     practice_interface=4,
     interface=[1, 2, 3, 4],
@@ -146,14 +149,14 @@ exp_sigir2020b = ExperimentSetup(
     description='BM25 - interfaces with different Ads',
     trie=suggestion_trie,
     autocomplete=True,
-    timeout=[300, 600, 600, 600, 600])  # 300s = 5min; 600s = 10min; 1200s = 20min
+    timeout=timeouts)  # 300s = 5min; 600s = 10min; 1200s = 20min
 
 
 exp_sigir2020c = ExperimentSetup(
     workflow=sigir2020_flow ,
     engine=search_engine,
     practice_topic='367',
-    topics=['341','347', '408', '435' ],
+    topics=topics,
     rpp=10,
     practice_interface=4,
     interface=[1, 2, 3, 4],
@@ -161,14 +164,14 @@ exp_sigir2020c = ExperimentSetup(
     description='BM25 - interfaces with different Ads',
     trie=suggestion_trie,
     autocomplete=True,
-    timeout=[300, 600, 600, 600, 600])  # 300s = 5min; 600s = 10min; 1200s = 20min
+    timeout=timeouts)  # 300s = 5min; 600s = 10min; 1200s = 20min
 
 
 exp_sigir2020d = ExperimentSetup(
     workflow=sigir2020_flow,
     engine=search_engine,
     practice_topic='367',
-    topics=[ '408','435', '341', '347'],
+    topics=topics,
     rpp=10,
     practice_interface=4,
     interface=[1, 2, 3, 4],
@@ -176,14 +179,14 @@ exp_sigir2020d = ExperimentSetup(
     description='BM25 - interfaces with different Ads',
     trie=suggestion_trie,
     autocomplete=True,
-    timeout=[300, 600, 600, 600, 600])  # 300s = 5min; 600s = 10min; 1200s = 20min
+    timeout=timeouts)  # 300s = 5min; 600s = 10min; 1200s = 20min
 
 
 exp_sigir2020test = ExperimentSetup(
     workflow=sigir2020_reduced_flow,
     engine=search_engine,
     practice_topic='367',
-    topics=[ '408','435', '341', '347'],
+    topics=topics,
     rpp=10,
     practice_interface=4,
     interface=[1, 2, 3, 4],
@@ -191,7 +194,7 @@ exp_sigir2020test = ExperimentSetup(
     description='BM25 - interfaces with different Ads',
     trie=suggestion_trie,
     autocomplete=True,
-    timeout=[300, 600, 600, 600, 600])  # 300s = 5min; 600s = 10min; 1200s = 20min
+    timeout=timeouts)  # 300s = 5min; 600s = 10min; 1200s = 20min
 
 
 
@@ -201,7 +204,7 @@ exp_pst = ExperimentSetup(
     workflow=pst_flow,
     engine=search_engine,
     practice_topic='367',
-    topics=['347', '341', '435', '408'],
+    topics=topics,
     rpp=10,
     practice_interface=4,
     interface=[1, 2, 3, 4],

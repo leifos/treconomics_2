@@ -120,7 +120,7 @@ class PostSystemSurveyForm(ModelForm):
                                 required=True)
     system_congruence = forms.ChoiceField(widget=RadioSelect, choices=SYSTEM_CHOICES,
                                 label="If present, the system related advertising.",
-                                required=True)
+                                required=False)
 
     def clean(self):
         return clean_to_zero(self)
@@ -140,7 +140,7 @@ class ConceptListingSurveyForm(ModelForm):
 
      class Meta:
          model = ConceptListingSurvey
-         exclude = ('user', 'task_id', 'topic_num', 'when')
+         exclude = ('user', 'task_id', 'topic_num', 'when', 'interface')
 
 
 
