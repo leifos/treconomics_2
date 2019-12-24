@@ -72,6 +72,13 @@ function taskPopup(url) {
 }
 
 /*
+Open a popup window displaying an advert.
+*/
+function adPopup(url) {
+    launchPopup(url, 650, 650, 90, 1094, "NewsSearch Experiment: Advertisement");
+}
+
+/*
 Returns a boolean value indicating whether or not the browser being used has an active popup blocker.
 Returns true if the function believes a popup window is present, and false if otherwise. Parameter popupReference is a reference to a popup window.
 Solution adapted from http://davidwalsh.name/popup-block-javascript.

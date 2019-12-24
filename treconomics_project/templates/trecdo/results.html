@@ -22,7 +22,7 @@
 <div class="search_result" id="{{ top_ad.topic_num }}" rank="ad-top" page="{{ page }}" whooshid="0">
             <div class="results_squash">
                 <div class="ad">
-    <a href="JavaScript:taskPopup('/treconomics/goto_ad/{{top_ad.id}}/top-rp/');">
+    <a href="JavaScript:adPopup('/treconomics/goto_ad/{{top_ad.id}}/top-rp/');">
         <img height="150" src="{{top_ad.adimage.url}}" alt="{{top_ad.title}}" />
         <a></div></div></div>
     {% else %}
@@ -69,7 +69,7 @@
  {% if bot_ad %}
     <div class="search_result" id="{{ bot_ad.topic_num }}" rank="ad-bot" page="{{ page }}" whooshid="0">
             <div class="results_squash"><div class="ad">
-    <a href="JavaScript:taskPopup('/treconomics/goto_ad/{{bot_ad.id}}/bot-rp/');">
+    <a href="JavaScript:adPopup('/treconomics/goto_ad/{{bot_ad.id}}/bot-rp/');">
         <img height="150" src="{{bot_ad.adimage.url}}" alt="{{bot_ad.title}}" />
         <a>
             </div></div></div>
@@ -90,7 +90,7 @@
         {% for ad in side_ads %}
             <div class="search_result"  id="{{ ad.topic_num }}" rank="ad-side" page="{{ page }}" whooshid="0">
                 <div class="ad">
-    <a href="JavaScript:taskPopup('/treconomics/goto_ad/{{ad.id}}/side-rp/');">
+    <a href="JavaScript:adPopup('/treconomics/goto_ad/{{ad.id}}/side-rp/');">
         <img width="200" src="{{ad.adimage.url}}" alt="{{ad.title}}" />
         <a></div></div>
         {% endfor %}
