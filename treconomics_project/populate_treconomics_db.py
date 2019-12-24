@@ -21,7 +21,7 @@ def populate():
              title='Wildlife Extinction',
              description='<p>Find and bookmark articles '
                          'that discuss EXTINCTION PREVENTION MEASURES made by countries '
-                         'to protect DIFFERENT WILDLIFE SPECIES </p>',
+                         'to protect DIFFERENT WILDLIFE SPECIES. </p>',
              remember = '<p> Afterwards, you will be asked to recall these '
                         'DIFFERENT WILDLIFE SPECIES and their EXTINCTION PREVENTION MEASURES.</p>', #or countries
              concepts ='<p> Recall as many WILDLIFE SPECIES and their EXTINCTION PREVENTION MEASURES, '
@@ -32,7 +32,7 @@ def populate():
              title='Curbing Population Growth',
              description='<p>Find and bookmark articles that discuss '
                          'DIFFERENT COUNTRIES that have been successful in '
-                         'REDUCING POPULATION GROWTH and the measures they have taken to do so.</p>',
+                         'reducing population growth and the MEASURES they have taken to do so.</p>',
              remember='<p> Afterwards, you will be asked to recall these '
                       'DIFFERENT COUNTRIES and their MEASURES to reduce population growth.</p>',
              concepts ='<p> Recall as many COUNTRIES and the MEASURES they use to control population growth, '
