@@ -29,12 +29,13 @@
         </ul></p>
 
         <p>
-            <strong>Your accuracy was : <span style="color: #3366FF;">{{ topic.accuracy }}</span></strong>
+
+            <strong>Your accuracy was : <span style="color: #3366FF;">{{ topic.accuracy|floatformat:2 }}</span></strong>
         </p>
     {% endfor %}
 
     <hr/>
-        <p><strong>Your average accuracy across all topics: <span style="color: #3366FF;">{{ avg_acc }}
+        <p><strong>Your average accuracy across all topics: <span style="color: #3366FF;">{{ avg_acc|floatformat:2 }}
         </span></strong></p>
 
 
