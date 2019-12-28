@@ -15,15 +15,25 @@
 
     <hr/>
  <p>
-    Of the <span style="color: #3366FF;">{{ performance.total_marked}}</span> documents you bookmarked,
-     <span style="color: #3366FF;">{{ performance.estimated_rels|floatformat:0 }}</span> were relevant
-according to gold standard labels from professional judges, giving an accuracy of:
- <span style="color: #3366FF;">{{ performance.estimated_acc|floatformat:2}}. </span>
- </p><p>
-    Note that we consider your task successful,
-    if you find a number of documents with accuracy greater than <span style="color: #3366FF;">0.5</span>.</p>
+      <p><strong>Number of documents saved: <span style="color: #3366FF;">{{ performance.total_marked}}</span></strong></p>
+    <p><strong>Number of relevant documents saved: <span style="color: #3366FF;">{{ performance.estimated_rels|floatformat:0 }}</span><br/> according to gold standard labels from professional judges</strong> </p>
+    <p> <strong>Accuracy: <span style="color: #3366FF;">{{performance.estimated_acc|floatformat:2}}</span></strong> (Accuracy greater than <span style="color: #3366FF;">0.5</span>. required.)</p>
+    <p>
+        {% if performance.estimated_acc > 0.5 %}
+        <b style="color:green">Success - Your accuracy for the practice task was high enough.</b> Keep up the good work, and make sure you complete the tasks as accurately as possible to make sure you are fully rewarded.
+        {% else %}
+        <b style="color:red">Warning - Your accuracy was too low.</b> If you continue at this accuracy you may not be rewarded or your reward may be reduced.
 
-    <p>Note, the practice task scores do not count to your HIT. We are providing them as guidance only.</p>
+        {% endif %}
+
+    </p>
+
+
+ </p><!--p>
+    Note that  if your average performance is not above <span style="color: #3366FF;">0.5</span>. then you may not be rewarded for your HIT or that your reward is reduced.
+</p--->
+
+    <p>Note that the practice task scores do not count to your HIT. We are providing them as guidance only.</p>
 
 <hr/>
 

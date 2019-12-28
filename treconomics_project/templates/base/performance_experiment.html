@@ -32,11 +32,34 @@
 
             <strong>Your accuracy was : <span style="color: #3366FF;">{{ topic.accuracy|floatformat:2 }}</span></strong>
         </p>
+
+            {% if performance.estimated_acc > 0.5 %}
+                <b style="font-color:green">Success - Your accuracy was high enough.</b>
+
+            {% else %}
+                <b style="font-color:red">Warning - Your accuracy was too low.</b>
+
+            {% endif %}
+
     {% endfor %}
 
     <hr/>
         <p><strong>Your average accuracy across all topics: <span style="color: #3366FF;">{{ avg_acc|floatformat:2 }}
         </span></strong></p>
+
+            <p>
+                {% if performance.estimated_acc > 0.5 %}
+                <b style="color:green">Overall your performance indicates that you successfully completed the study.</b>
+
+            {% else %}
+                <b style="color:red">Overall your performance indicates that you did NOT successfully complete the study.
+                    This means you may not be rewarded for your HIT or that your total reward is reduced.
+
+                    </b>
+
+            {% endif %}
+
+            </p>
 
 
     <p>When you have examined the results above, please click the <em>Next</em> button below to continue.</p>
