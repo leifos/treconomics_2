@@ -1,16 +1,25 @@
 #!/bin/bash
 
 if [ "$1" != "keepdata" ]; then
-    rm treconomics.db
-    rm experiment.log
+    echo "Just a sanity check."
+    echo "This script will delete the log and database."
+    read -p "ARE YOU ABSOLUTELY SURE YOU WANT TO DO THIS? [Y/N]" -n 1 -r
+    echo
+
+    if [[ $REPLY =~ ^[Nn]$ ]]; then
+        exit 1
+    fi
 fi
 
-rm survey/migrations/*
-rm survey/migrations/__pycache__/*
-rm treconomics/migrations/*
-rm treconomics/migrations/__pycache__/*
-
 if [ "$1" != "keepdata" ]; then
+    rm treconomics.db
+    rm experiment.log
+
+    rm survey/migrations/*
+    rm survey/migrations/__pycache__/*
+    rm treconomics/migrations/*
+    rm treconomics/migrations/__pycache__/*
+
     python manage.py makemigrations
     python manage.py makemigrations treconomics
     python manage.py makemigrations survey

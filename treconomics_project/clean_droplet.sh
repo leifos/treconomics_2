@@ -2,7 +2,7 @@
 
 if [ "$1" != "keepdata" ]; then
     echo "You do not want to keep ANY data. The log and database will be wiped if you continue."
-    echo "If you want to keep data, run this script with ./clean_droplet.sh keepdata"
+    echo "Maybe you just want to restart the server -- try restart_server.sh instead."
     read -p "Do you want to continue? [Y/N]" -n 1 -r
     echo
 
@@ -11,7 +11,9 @@ if [ "$1" != "keepdata" ]; then
     fi
 fi
 
-./clean_start.sh $1
+if [ "$1" != "keepdata" ]; then
+    ./clean_start.sh $1
+fi
 
 echo Need root privileges now... be prepared to enter the sudo password.
 
