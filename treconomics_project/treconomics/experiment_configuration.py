@@ -233,10 +233,9 @@ for topic_rotation in range(1,5):
 # add additional user conditions here.
 user_conditions.append([1,0])
 user_conditions.append([1,1])
-user_conditions.append([1,2])
 user_conditions.append([1,3])
 user_conditions.append([1,4])
-user_conditions.append([1,5])
+
 
 
 #print(user_conditions)
