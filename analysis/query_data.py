@@ -255,11 +255,11 @@ class QueryLogEntry(object):
             if self.hover_depth > len(self.query_response.results):
                 continue
         
-            if self.qrel_handler.get_value(self.topic, self.query_response.results[i].docid) > 0:
+            if self.qrel_handler.get_value(self.topic, self.query_response.results[i].docid.decode('utf-8')) > 0:
                 relevant_count = relevant_count + 1
             
         for i in range(0, self.hover_depth):
-            docid_at_rank = self.query_response.results[i].docid
+            docid_at_rank = self.query_response.results[i].docid.decode('utf-8')
             qrel_judgement = is_relevant(self.qrel_handler, self.topic, docid_at_rank)
             
             if qrel_judgement >= 1:
