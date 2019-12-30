@@ -72,11 +72,6 @@ def get_key(model, exclude_fields):
 
     return return_str[:-1]
 
-
-
-
-
-
 def get_demographics(users):
     from survey.models import DemographicsSurvey
     exclude = ['id', 'user']  # Exclude the following fields from output
@@ -120,9 +115,10 @@ def get_task_survey(users, model, exclude=['id', 'user', 'user_id']):
             for field in fields:
                 val = survey.__dict__[field]
                 
-                if type(val) == unicode:
+                if type(val) == str:
                     val = val.replace(',', '')
-                    val = val.replace('\r\n', ' ')
+                    val = val.replace('\r', ' ')
+                    val = val.replace('\n', '|')
                 
                 output_line = '{0}{1},'.format(output_line, val)
 
@@ -148,19 +144,34 @@ if __name__ == '__main__':
     users_to_include = get_include_ids(sys.argv[1])
     users = get_user_accounts(users_to_include)
     demographics = get_demographics(users)
-    
-    # from snippets.models import BehaveDiversityPostTaskSurvey
-    # from snippets.models import SystemDiversityPostTaskSurvey
-    # from snippets.models import DiversityExitSurvey
-    # from snippets.models import SnippetPreTaskTopicKnowledgeSurvey
-    
-    # pre_task_knowledge = get_task_survey(users, SnippetPreTaskTopicKnowledgeSurvey)
-    # post_task_behavioural = get_task_survey(users, BehaveDiversityPostTaskSurvey)
-    # post_task_system = get_task_survey(users, SystemDiversityPostTaskSurvey)
-    # exit_survey = get_task_survey(users, DiversityExitSurvey)
+
+    from survey.models import ConceptListingSurvey
+    from survey.models import OverallInterview
+    from survey.models import PersonalitySurvey
+    from survey.models import PostPerceptionSurvey
+    from survey.models import PostTaskTopicRatingSurvey
+    from survey.models import PreTaskTopicKnowledgeSurvey
+    from survey.models import PSTCharSearch
+    from survey.models import PSTNumberSearch
+    from survey.models import SystemSurvey
+
+    concept_listing = get_task_survey(users, ConceptListingSurvey)
+    overall_interview = get_task_survey(users, OverallInterview)
+    personality_survey = get_task_survey(users, PersonalitySurvey)
+    post_perception_survey = get_task_survey(users, PostPerceptionSurvey)
+    post_task_topic_rating_survey = get_task_survey(users, PostTaskTopicRatingSurvey)
+    pre_task_topic_knowledge_survey = get_task_survey(users, PreTaskTopicKnowledgeSurvey)
+    pst_char_search = get_task_survey(users, PSTCharSearch)
+    pst_number_search = get_task_survey(users, PSTNumberSearch)
+    system_survey = get_task_survey(users, SystemSurvey)
     
     write('demographics.csv', demographics)
-    # write('pre_task_knowledge.csv', pre_task_knowledge)
-    # write('post_task_behavioural.csv', post_task_behavioural)
-    # write('post_task_system.csv', post_task_system)
-    # write('exit_survey.csv', exit_survey)
+    write('concept_listing.csv', concept_listing)
+    write('overall_interview.csv', overall_interview)
+    write('personality_survey.csv', personality_survey)
+    write('post_task_topic_rating_survey.csv', post_perception_survey)
+    write('post_task_topic_rating_survey.csv', post_perception_survey)
+    write('pre_task_topic_knowledge_survey.csv', pre_task_topic_knowledge_survey)
+    write('pst_char_search.csv', pst_char_search)
+    write('pst_number_search.csv', pst_number_search)
+    write('system_survey.csv', system_survey)
