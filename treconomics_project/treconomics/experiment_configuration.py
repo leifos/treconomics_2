@@ -252,7 +252,9 @@ user_conditions.append([2,8])
 user_conditions.append([2,9])
 user_conditions.append([2,10])
 user_conditions.append([2,11])
-
+user_conditions.append([3,3])
+user_conditions.append([3,7])
+user_conditions.append([4,2])
 
 
 #print(user_conditions)
