@@ -174,7 +174,7 @@ class Whooshtrec(Engine):
         query.terms = query.terms.strip()
         #query.terms = unicode(query.terms)
         query.parsed_terms = self.parser.parse(query.terms)
-        print(query.parsed_terms)
+        #print(query.parsed_terms)
 
 
     def _request(self, query):
@@ -201,7 +201,7 @@ class Whooshtrec(Engine):
         page = query.skip
         pagelen = query.top
 
-        print(query.parsed_terms)
+        #print(query.parsed_terms)
         log.debug("Query Issued: {0} Page: {1} Page Length: {2}".format(query.parsed_terms, page, pagelen))
         search_page = self.searcher.search_page(query.parsed_terms, page, pagelen=pagelen)
         setattr(search_page, 'actual_page', page)
