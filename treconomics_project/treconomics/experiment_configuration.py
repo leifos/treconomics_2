@@ -125,13 +125,19 @@ search_engine.set_model(1, pval=0.75)
 
 
 timeouts = [240, 480, 480, 480, 480]
-topics = ['347', '341', '435', '408']
+topics_a = ['347', '341', '435', '408']
+topics_b = ['341', '347', '408','435']
+
+topics_c = ['435', '408', '347', '341']
+topics_d = ['408', '435', '341', '347']
+
+
 
 exp_sigir2020a = ExperimentSetup(
     workflow=sigir2020_flow ,
     engine=search_engine,
     practice_topic='367',
-    topics=topics,
+    topics=topics_a,
     rpp=10,
     practice_interface=4,
     interface=[1, 2, 3, 4],
@@ -143,10 +149,10 @@ exp_sigir2020a = ExperimentSetup(
 
 
 exp_sigir2020b = ExperimentSetup(
-    workflow=sigir2020_reduced_flow ,
+    workflow=sigir2020_flow ,
     engine=search_engine,
     practice_topic='367',
-    topics=topics,
+    topics=topics_b,
     rpp=10,
     practice_interface=4,
     interface=[1, 2, 3, 4],
@@ -161,7 +167,7 @@ exp_sigir2020c = ExperimentSetup(
     workflow=sigir2020_flow ,
     engine=search_engine,
     practice_topic='367',
-    topics=topics,
+    topics=topics_c,
     rpp=10,
     practice_interface=4,
     interface=[1, 2, 3, 4],
@@ -176,7 +182,7 @@ exp_sigir2020d = ExperimentSetup(
     workflow=sigir2020_flow,
     engine=search_engine,
     practice_topic='367',
-    topics=topics,
+    topics=topics_d,
     rpp=10,
     practice_interface=4,
     interface=[1, 2, 3, 4],
@@ -188,10 +194,10 @@ exp_sigir2020d = ExperimentSetup(
 
 
 exp_sigir2020test = ExperimentSetup(
-    workflow=sigir2020_reduced_flow,
+    workflow=sigir2020_flow,
     engine=search_engine,
     practice_topic='367',
-    topics=topics,
+    topics=topics_d,
     rpp=10,
     practice_interface=4,
     interface=[1, 2, 3, 4],
@@ -209,7 +215,7 @@ exp_pst = ExperimentSetup(
     workflow=pst_flow,
     engine=search_engine,
     practice_topic='367',
-    topics=topics,
+    topics=topics_a,
     rpp=10,
     practice_interface=4,
     interface=[1, 2, 3, 4],
@@ -227,14 +233,25 @@ experiment_setups = [exp_pst, exp_sigir2020a, exp_sigir2020b, exp_sigir2020c, ex
 
 user_conditions = []
 for topic_rotation in range(1,5):
-    for interface_rotation in range(0,13):
+    for interface_rotation in range(0,12):
         user_conditions.append([topic_rotation, interface_rotation])
 
 # add additional user conditions here.
-user_conditions.append([1,0])
+user_conditions.append([1,10])
 user_conditions.append([1,1])
 user_conditions.append([1,3])
-user_conditions.append([1,4])
+user_conditions.append([2,0])
+user_conditions.append([2,1])
+user_conditions.append([2,2])
+user_conditions.append([2,3])
+user_conditions.append([2,4])
+user_conditions.append([2,5])
+user_conditions.append([2,6])
+user_conditions.append([2,7])
+user_conditions.append([2,8])
+user_conditions.append([2,9])
+user_conditions.append([2,10])
+user_conditions.append([2,11])
 
 
 
