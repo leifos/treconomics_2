@@ -255,6 +255,16 @@ user_conditions.append([2,11])
 user_conditions.append([3,3])
 user_conditions.append([3,7])
 user_conditions.append([4,2])
+user_conditions.append([2,1])
+user_conditions.append([2,2])
+user_conditions.append([2,4])
+user_conditions.append([3,1])
+user_conditions.append([3,2])
+user_conditions.append([4,5])
+user_conditions.append([4,7])
+user_conditions.append([4,11])
+
+
 
 
 #print(user_conditions)
