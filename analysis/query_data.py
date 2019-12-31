@@ -23,7 +23,7 @@ from utils import get_query_performance_metrics, get_time_diff, is_relevant
 
 PAGE_SIZE = 10
 
-KEY = 'username condition interface taskid topic actions no_pages doc_count doc_depth doc_rel_count doc_rel_depth hover_count hover_trec_rel_count hover_trec_nonrel_count hover_depth doc_trec_rel_count doc_trec_nonrel_count doc_clicked_trec_rel_count doc_clicked_trec_nonrel_count query_time system_query_delay session_time document_time serp_lag new_total_serp pat1 pat2 pat3 pat4 pat5 pat10 pat15 pat20 pat25 pat30 pat40 pat50 rprec total_trec_rel_docs doc_trec_unjudged_count task_view_clicks'
+KEY = 'username condition interface taskid topic actions no_pages doc_count doc_depth doc_rel_count doc_rel_depth hover_count hover_trec_rel_count hover_trec_nonrel_count hover_depth doc_trec_rel_count doc_trec_nonrel_count doc_clicked_trec_rel_count doc_clicked_trec_nonrel_count query_time system_query_delay session_time document_time serp_lag new_total_serp pat1 pat2 pat3 pat4 pat5 pat10 pat15 pat20 pat25 pat30 pat40 pat50 rprec total_trec_rel_docs doc_trec_unjudged_count task_view_clicks ads_raw_hover_total ads_raw_hover_top ads_raw_hover_bot ads_raw_hover_side ads_unique_hover_total ads_unique_hover_top ads_unique_hover_bot ads_unique_hover_side ads_clicks_raw_sum ads_clicks_top_doc ads_clicks_bot_doc ads_clicks_side_doc ads_clicks_top_serp ads_clicks_bot_serp ads_clicks_side_serp'
 
 print(KEY)
 
@@ -100,7 +100,9 @@ class QueryLogEntry(object):
         # Advert hover and clicks
         self.ad_hovers_raw = {'ad-top': 0, 'ad-side': 0, 'ad-bot': 0} # The raw count of hover events for each of the ad positions.
         self.ad_hovers_unique = {'ad-top': 0, 'ad-side': 0, 'ad-bot': 0} # Hovers on adverts that are unique (i.e. no repeats on the same advert).
-        self.ad_hovers_seen = {} # A list of the advert IDs that have been hovered over (helps with calculating ad_hovers_unique) -- key is topic ID, value is a list of ad IDs.
+        self.ad_hovers_seen = [] # A list of the advert IDs that have been hovered over (helps with calculating ad_hovers_unique).
+
+        self.ad_clicks_raw = {'top-lp': 0, 'bot-lp': 0, 'side-lp': 0, 'top-rp': 0, 'bot-rp': 0, 'side-rp': 0} # The raw count of clicks on adverts in each of the positions.
         
         # issue query to whoosh and get performance values
         self.p = []
@@ -143,20 +145,27 @@ class QueryLogEntry(object):
             self.doc_clicked_trec_nonrel_count
         )
         
-        """
-        times = "{0} {1} {2} {3} {4} {5} {6} {7} {8}".format(
-            self.query_time, self.session_time, self.document_time, serp_time,
-            self.serp_lag, self.imposed_query_delay, self.engine_query_delay, self.imposed_document_delay, "0.0"
-        )
-        """
         times = "{0} {1} {2} {3} {4} {5}".format(
             self.query_time, self.system_query_delay, self.session_time, self.document_time, self.serp_lag, self.new_total_serp
         )
         
         task_view_str = str(self.task_view_clicks)
+
+        ad_details_str = self.generate_ad_details_str()
         
-        s = "{0} {1} {2} {3} {4}".format(counts, times, performances, self.doc_trec_unjudged_count, task_view_str)
+        s = "{0} {1} {2} {3} {4} {5}".format(counts, times, performances, self.doc_trec_unjudged_count, task_view_str, ad_details_str)
         return s
+    
+    def generate_ad_details_str(self):
+        """
+        Generates a string of summary details relating to advert hovers and clicks.
+        """
+        hovers_raw_sum = self.ad_hovers_raw['ad-top'] + self.ad_hovers_raw['ad-bot'] + self.ad_hovers_raw['ad-side']
+        hovers_unique_sum = self.ad_hovers_unique['ad-top'] + self.ad_hovers_unique['ad-bot'] + self.ad_hovers_unique['ad-side']
+
+        clicks_raw_sum = self.ad_clicks_raw['top-lp'] + self.ad_clicks_raw['bot-lp'] + self.ad_clicks_raw['side-lp'] + self.ad_clicks_raw['top-rp'] + self.ad_clicks_raw['bot-rp'] + self.ad_clicks_raw['side-rp']
+
+        return f"{hovers_raw_sum} {self.ad_hovers_raw['ad-top']} {self.ad_hovers_raw['ad-bot']} {self.ad_hovers_raw['ad-side']} {hovers_unique_sum} {self.ad_hovers_unique['ad-top']} {self.ad_hovers_unique['ad-bot']} {self.ad_hovers_unique['ad-side']} {clicks_raw_sum} {self.ad_clicks_raw['top-lp']} {self.ad_clicks_raw['bot-lp']} {self.ad_clicks_raw['side-lp']} {self.ad_clicks_raw['top-rp']} {self.ad_clicks_raw['bot-rp']} {self.ad_clicks_raw['side-rp']}"
 
     def update_times(self, curr_time):
 
@@ -320,17 +329,27 @@ class QueryLogEntry(object):
                 self.ad_hovers_raw[vals[-1]] = self.ad_hovers_raw[vals[-1]] + 1
 
                 # Calculate unique hovers (i.e. hover events for ads that have not been hovered over before)
-                ad_topic = vals[-4]
                 ad_id = vals[-3]
 
-                if ad_topic not in self.ad_hovers_seen:
-                    self.ad_hovers_seen[ad_topic] = []
-
-                if ad_id not in self.ad_hovers_seen[ad_topic]:
-                    self.ad_hovers_seen[ad_topic].append(ad_id)
+                if ad_id not in self.ad_hovers_seen:
+                    self.ad_hovers_seen.append(ad_id)
                     self.ad_hovers_unique[vals[-1]] = self.ad_hovers_unique[vals[-1]] + 1
 
-             
+        if 'AD_CLICKED' in vals:
+            ad_position = vals[-4]
+            ad_id = vals[-5]
+
+            self.ad_clicks_raw[ad_position] = self.ad_clicks_raw[ad_position] + 1
+
+            # Possible position values
+            # 'top-lp' is on DOC
+            # 'bot-lp' is on DOC
+            # 'side-lp' is on DOC
+
+            # 'top-rp' is on SERP
+            # 'bot-rp' is on SERP
+            # 'side-rp' is on SERP
+        
         if 'DOC_MARKED_RELEVANT' in vals:
             r = int(vals[13])
             if r > 0:
