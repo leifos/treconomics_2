@@ -222,7 +222,7 @@ class QueryLogEntry(object):
             self.doc_click_time = curr_time
         
         # Added in VIEW_SAVED_DOCS to cater for the event where a searcher flips to the saved document screen instead.
-        if self.doc_click_time and self.curr_event in ['QUERY_START', 'VIEW_SAVED_DOCS', 'PRACTICE_SEARCH_TASK_COMPLETED','TASK_ENDED','SESSION_COMPLETED','EXPERIMENT_TIMEOUT','SNIPPET_POSTTASK_SURVEY_STARTED','SEARCH_TASK_COMPLETED']:
+        if self.doc_click_time and self.curr_event in ['QUERY_START', 'VIEW_SAVED_DOCS', 'TASK_ENDED','SESSION_COMPLETED','SEARCH_TASK_COMPLETE']:
             self.document_time = self.document_time + get_time_diff(self.doc_click_time, curr_time)
             self.doc_click_time = False
         # DMAX - End new document time measures
@@ -385,7 +385,7 @@ class QueryLogEntry(object):
         self.last_time = '{date} {time}'.format(date=vals[0], time=vals[1])
         
         # When the task finished, what are we looking for?
-        if (vals[8] not in ['CONCEPT_LISTING_COMPLETED', 'TASK_COMPLETED', 'PRACTICE_SEARCH_TASK_COMPLETED']):
+        if vals[8] != 'SEARCH_TASK_COMPLETE':
             self.last_interaction_event = vals[9]
             self.last_interaction_time = '{date} {time}'.format(date=vals[0], time=vals[1])
 
@@ -473,7 +473,7 @@ class ExpLogEntry(object):
         self.last_event_time = '{date} {time}'.format(date=vals[0],time=vals[1])
 
         event = vals[9]
-        if event in ['PRACTICE_SEARCH_TASK_COMPLETED','TASK_COMPLETED','CONCEPT_LISTING_COMPLETED']:
+        if event == 'SEARCH_TASK_COMPLETE':
             #print 'search task complete - event'
             if self.current_query and not self.query_ended_previously:
                 #print "end of search session"

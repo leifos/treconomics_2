@@ -3,9 +3,6 @@ topic
 condition
 interface
 accuracy
-total_marked
-relevant_docs
-nonrelevant_docs
 queries_issued
 documents_clicked
 documents_clicked_per_query
