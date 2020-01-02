@@ -23,9 +23,17 @@ from utils import get_query_performance_metrics, get_time_diff, is_relevant
 
 PAGE_SIZE = 10
 
-KEY = 'username condition interface taskid topic actions no_pages doc_count doc_depth doc_rel_count doc_rel_depth hover_count hover_trec_rel_count hover_trec_nonrel_count hover_depth doc_trec_rel_count doc_trec_nonrel_count doc_clicked_trec_rel_count doc_clicked_trec_nonrel_count query_time system_query_delay session_time document_time serp_lag new_total_serp pat1 pat2 pat3 pat4 pat5 pat10 pat15 pat20 pat25 pat30 pat40 pat50 rprec total_trec_rel_docs doc_trec_unjudged_count task_view_clicks ads_raw_hover_total ads_raw_hover_top ads_raw_hover_bot ads_raw_hover_side ads_unique_hover_total ads_unique_hover_top ads_unique_hover_bot ads_unique_hover_side ads_clicks_raw_sum ads_clicks_top_doc ads_clicks_bot_doc ads_clicks_side_doc ads_clicks_top_serp ads_clicks_bot_serp ads_clicks_side_serp'
+# Print the key.
+key_f = open('query_data_key.txt', 'r')
+key_str = ""
 
-print(KEY)
+for key_line in key_f:
+    key_line = key_line.strip()
+    key_str = f"{key_str} {key_line}"
+
+print(key_str[1:])
+key_f.close()
+# End print key.
 
 class QueryLogEntry(object):
     
