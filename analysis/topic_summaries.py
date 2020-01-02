@@ -139,6 +139,8 @@ def get_summary_data(per_query_summary_path, filtered_log_data):
             entry_dict['clicked_trec_nonrel'] = 0
             entry_dict['hover_trec_rel'] = 0
             entry_dict['hover_trec_nonrel'] = 0
+            entry_dict['marked_trec_rel'] = 0
+            entry_dict['marked_trec_nonrel'] = 0
 
             # Blanks for values related to adverts go here.
             entry_dict['ads_hover_total'] = 0
@@ -168,10 +170,12 @@ def get_summary_data(per_query_summary_path, filtered_log_data):
                 entry_dict['p20'] += [float(line[32])]
 
                 # Used for calculating probabilities
-                entry_dict['clicked_trec_rel'] += int(line[17])  # Is this correct, and is the one below correct?
+                entry_dict['clicked_trec_rel'] += int(line[17])
                 entry_dict['clicked_trec_nonrel'] += int(line[18])
                 entry_dict['hover_trec_rel'] += int(line[12])
                 entry_dict['hover_trec_nonrel'] += int(line[13])
+                entry_dict['marked_trec_rel'] += int(line[15])
+                entry_dict['marked_trec_nonrel'] += int(line[16])
 
                 # Adding the task view clicked
                 entry_dict['task_view_count'] = int(line[40])
@@ -265,11 +269,10 @@ def main(log_path, per_query_summary_path, qrels, filter_practice_topic=True):
                 query_summary_entry['pm'] = (float(log_entry['total_marked'])) / (float(query_summary_entry['clicked_trec_rel']) + float(query_summary_entry['clicked_trec_nonrel']))
             
             if query_summary_entry['clicked_trec_rel'] > 0:
-                query_summary_entry['pmr'] = float(log_entry['relevant_docs']) / float(query_summary_entry['clicked_trec_rel'])
+                query_summary_entry['pmr'] = float(query_summary_entry['marked_trec_rel']) / float(query_summary_entry['clicked_trec_rel'])
             
-            # This may not be correct. I think I am missing some data.
             if query_summary_entry['clicked_trec_nonrel'] > 0:
-                query_summary_entry['pmn'] = (float(log_entry['nonrelevant_docs'])) / float(query_summary_entry['clicked_trec_nonrel'])
+                query_summary_entry['pmn'] = (float(query_summary_entry['marked_trec_nonrel'])) / float(query_summary_entry['clicked_trec_nonrel'])
             
             if (query_summary_entry['hover_trec_rel'] + query_summary_entry['hover_trec_nonrel']) > 0:
                 query_summary_entry['pc'] = (float(query_summary_entry['clicked_trec_rel']) + float(query_summary_entry['clicked_trec_nonrel'])) / (query_summary_entry['hover_trec_rel'] + query_summary_entry['hover_trec_nonrel'])
