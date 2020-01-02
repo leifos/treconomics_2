@@ -293,7 +293,9 @@ def main(log_path, per_query_summary_path, qrels, filter_practice_topic=True):
                     f"{query_summary_entry['queries_issued']}," \
                     f"{query_summary_entry['documents_clicked']}," \
                     f"{query_summary_entry['documents_clicked'] / float(query_summary_entry['queries_issued'])}," \
-                    f"{sum(query_summary_entry['document_click_depths']) / float(query_summary_entry['queries_issued'])}," 
+                    f"{sum(query_summary_entry['document_click_depths']) / float(query_summary_entry['queries_issued'])},"
+                    f"{query_summary_entry['hover_count']}," \
+                    f"{(query_summary_entry['hover_count']) / float(query_summary_entry['queries_issued'])}," \
                     f"{query_summary_entry['serp_pages']}," \
                     f"{query_summary_entry['serp_pages'] / float(query_summary_entry['queries_issued'])}," \
                     f"{get_time_diff(log_entry['start'], log_entry['end'])}," \
