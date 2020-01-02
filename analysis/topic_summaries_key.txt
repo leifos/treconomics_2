@@ -31,3 +31,11 @@ pcr
 pcn
 was_task_view_clicked
 task_view_count
+ads_hover_total
+ads_hover_top
+ads_hover_bot
+ads_hover_side
+ads_clicks_total
+ads_clicks_top
+ads_clicks_bot
+ads_clicks_side

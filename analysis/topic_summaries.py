@@ -141,6 +141,15 @@ def get_summary_data(per_query_summary_path, filtered_log_data):
             entry_dict['hover_trec_nonrel'] = 0
 
             # Blanks for values related to adverts go here.
+            entry_dict['ads_hover_total'] = 0
+            entry_dict['ads_hover_top'] = 0
+            entry_dict['ads_hover_bot'] = 0
+            entry_dict['ads_hover_side'] = 0
+
+            entry_dict['ads_clicks_total'] = 0
+            entry_dict['ads_clicks_top'] = 0
+            entry_dict['ads_clicks_bot'] = 0
+            entry_dict['ads_clicks_side'] = 0
 
             # Now add the data from the query_data.txt line. Check query_data_key.txt for positions.
             # Remember that positions are zero-based...
@@ -172,6 +181,15 @@ def get_summary_data(per_query_summary_path, filtered_log_data):
                     entry_dict['was_task_view_clicked'] = 1
                 
                 # Add code for advert data processing here.
+                entry_dict['ads_hover_total'] += int(line[41])
+                entry_dict['ads_hover_top'] += int(line[42])
+                entry_dict['ads_hover_bot'] += int(line[43])
+                entry_dict['ads_hover_side'] += int(line[44])
+
+                entry_dict['ads_clicks_total'] += int(line[49])
+                entry_dict['ads_clicks_top'] += (int(line[50]) + int(line[53]))
+                entry_dict['ads_clicks_bot'] += (int(line[51]) + int(line[54]))
+                entry_dict['ads_clicks_side'] += (int(line[52]) + int(line[55]))
 
     f.close()
     return summary_data
@@ -275,7 +293,7 @@ def main(log_path, per_query_summary_path, qrels, filter_practice_topic=True):
                     f"{query_summary_entry['queries_issued']}," \
                     f"{query_summary_entry['documents_clicked']}," \
                     f"{query_summary_entry['documents_clicked'] / float(query_summary_entry['queries_issued'])}," \
-                    f"{sum(query_summary_entry['document_click_depths']) / float(query_summary_entry['queries_issued'])}," \
+                    f"{sum(query_summary_entry['document_click_depths']) / float(query_summary_entry['queries_issued'])}," 
                     f"{query_summary_entry['serp_pages']}," \
                     f"{query_summary_entry['serp_pages'] / float(query_summary_entry['queries_issued'])}," \
                     f"{get_time_diff(log_entry['start'], log_entry['end'])}," \
@@ -299,7 +317,17 @@ def main(log_path, per_query_summary_path, qrels, filter_practice_topic=True):
                     f"{query_summary_entry['pcn']}," \
 
                     f"{query_summary_entry['was_task_view_clicked']}," \
-                    f"{query_summary_entry['task_view_count']}" \
+                    f"{query_summary_entry['task_view_count']}," \
+
+                    f"{query_summary_entry['ads_hover_total']}," \
+                    f"{query_summary_entry['ads_hover_top']}," \
+                    f"{query_summary_entry['ads_hover_bot']}," \
+                    f"{query_summary_entry['ads_hover_side']}," \
+
+                    f"{query_summary_entry['ads_clicks_total']}," \
+                    f"{query_summary_entry['ads_clicks_top']}," \
+                    f"{query_summary_entry['ads_clicks_bot']}," \
+                    f"{query_summary_entry['ads_clicks_side']}," \
     )
 
 if __name__ == '__main__':
