@@ -177,17 +177,29 @@ class ExperimentSetup(object):
 
 if __name__ == '__main__':
 
+    topics_a = ['347', '341', '435', '408']
+    topics_b = ['341', '347', '408','435']
+
+    topics_c = ['435', '408', '347', '341']
+    topics_d = ['408', '435', '341', '347']
+
+    topic_conditions = [topics_a, topics_b, topics_c, topics_d]
+
     es = ExperimentSetup(workflow=None, engine=None, practice_topic='341',
                            topics=['347', '367', '354','999'],
                            rpp=10,
-                           practice_interface=1,
+                           practice_interface=4,
                            interface= [1, 2, 3, 4],
-                           rotation_type=2,
+                           rotation_type=1,
                          tasks=4)
 
 
-    for r in range(0, 13):
-        print ("User on rotation", r)
-        for t in range(0, 5):
-            des = es.get_exp_dict(t, r)
-            print("Taskno: {0} Rotation: {1} Topic: {2} Interface:  {4}").format(t,  r, des['topic'], des['interface'])
+    print("Cond,Rotation,Taskno,Topic,Interface")
+    for i in range(0,4):
+        es.topics = topic_conditions[i]
+        top_cond = i+1
+        for r in range(0, 12):
+
+            for t in range(1, 5):
+                des = es.get_exp_dict(t, r)
+                print("{0},{1},{2},{3},{4}".format(top_cond,  r, t, des['topic'], des['interface']))
