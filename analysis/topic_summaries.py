@@ -269,6 +269,12 @@ def main(log_path, per_query_summary_path, filter_practice_topic=True):
             if query_summary_entry['hover_trec_nonrel'] > 0:
                 query_summary_entry['pcn'] = float(query_summary_entry['clicked_trec_nonrel']) / query_summary_entry['hover_trec_nonrel']
 
+            if float(query_summary_entry['documents_clicked'])>0:
+                query_summary_entry['per_document_time'] = query_summary_entry['total_document_time'] / float(query_summary_entry['documents_clicked'])
+            else:
+                query_summary_entry['per_document_time'] = 0.0
+
+
             #Print everything out. Check order is correct for key.
             print(  f"{user}," \
                     f"{topic}," \
@@ -288,7 +294,7 @@ def main(log_path, per_query_summary_path, filter_practice_topic=True):
                     f"{query_summary_entry['total_query_time']}," \
                     f"{query_summary_entry['total_query_time'] / float(query_summary_entry['queries_issued'])}," \
                     f"{query_summary_entry['total_document_time']}," \
-                    f"{query_summary_entry['total_document_time'] / float(query_summary_entry['documents_clicked'])}," \
+                    f"{query_summary_entry['per_document_time']}," \
                     f"{query_summary_entry['total_serp_time']}," \
                     f"{query_summary_entry['time_per_snippet']}," \
 
