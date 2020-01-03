@@ -11,15 +11,6 @@ import os
 import sys
 from utils import get_time_diff
 
-# As we are using ifind mashed into this repository, we need to add that to our path before we can import from it.
-path_cwd = os.getcwd()
-path_levelup = os.path.abspath(os.path.join(path_cwd, '..'))
-path_treconomics_base = os.path.join(path_levelup, 'treconomics_project')
-sys.path.append(path_treconomics_base)
-# End appending of treconomics_project path
-
-from ifind.seeker.trec_qrel_handler import TrecQrelHandler
-
 EXAMINED_TOPICS = ['341', '347', '367', '408', '435']  # What topics are expected?
 PRACTICE_TOPIC = '367'  # ID of the practice topic
 
@@ -49,8 +40,22 @@ def get_log_data(log_path):
         if username not in details:
             details[username] = {}
         
+        if topic not in details[username]:
+            details[username][topic] = {}
+        
+        # The start of the practice search task, or a standard search task.
+        if action in ['PRACTICE_SEARCH_TASK_COMMENCED', 'SEARCH_TASK_COMMENCED']:
+            details[username][topic]['start'] = date_time
+        
+        # If we his this action, the task has been completed.
+        if action == 'SEARCH_TASK_COMPLETE':
+            details[username][topic]['end'] = date_time
+        
+        details[username][topic]['condition'] = condition
+        details[username][topic]['interface'] = interface
+        
         # Log file is a mess. Jesus.
-        if topic != 'VIEW_PERFORMANCE':
+        if action != 'VIEW_PERFORMANCE':
             if topic not in details[username]:
                 details[username][topic] = {}
             
@@ -59,7 +64,7 @@ def get_log_data(log_path):
                 details[username][topic]['start'] = date_time
             
             # If we hit this action, the task has been completed.
-            if action in ['TASK_ENDED', 'CONCEPT_LISTING_COMPLETED']:
+            if action == 'SEARCH_TASK_COMPLETE':
                 details[username][topic]['end'] = date_time
             
             details[username][topic]['condition'] = condition
@@ -67,13 +72,12 @@ def get_log_data(log_path):
             
         # A user performance summary line -- store everything recorded here!
         # This seems to be vastly reduced from previous studies (in terms of what is reported).
-        if topic == 'VIEW_PERFORMANCE':  # Topic is right; the log file is inconsistent.
-            perf_topic = line[7]
-
-            details[username][perf_topic]['total_marked'] = line[9]
-            details[username][perf_topic]['accuracy'] = line[10]
-            details[username][perf_topic]['relevant_docs'] = line[11]
-            details[username][perf_topic]['nonrelevant_docs'] = line[12]
+        # We don't use any of this information except for accuracy.
+        else:
+            details[username][topic]['total_marked'] = line[10]
+            details[username][topic]['accuracy'] = line[11]
+            details[username][topic]['relevant_docs'] = line[12]
+            details[username][topic]['nonrelevant_docs'] = line[13]
     
     f.close()
     return details
@@ -194,43 +198,21 @@ def get_summary_data(per_query_summary_path, filtered_log_data):
                 entry_dict['ads_clicks_top'] += (int(line[50]) + int(line[53]))
                 entry_dict['ads_clicks_bot'] += (int(line[51]) + int(line[54]))
                 entry_dict['ads_clicks_side'] += (int(line[52]) + int(line[55]))
+        
+        if len(query_data[user]) != len(EXAMINED_TOPICS):
+            sys.stderr.write("WARNING: User " + user + " is missing one or more topics. You will find an inconsistent number of users per topic." + os.linesep)
+            sys.stderr.flush()
 
     f.close()
     return summary_data
 
-def compute_qrel_stats(qrels):
-    """
-    Returns a dictionary of basic statistics about each topic, given a QRELs handler.
-    Uses the topic list defined by EXAMINED_TOPICS.
-    """
-    return_dict = {}
-
-    for topic in EXAMINED_TOPICS:
-        return_dict[topic] = {}
-        doc_list = qrels.get_doc_list(topic)
-
-        return_dict[topic]['total_listed_docs'] = len(doc_list)
-        return_dict[topic]['total_rels'] = 0
-        return_dict[topic]['total_nonrels'] = 0
-
-        for doc in doc_list:
-            judgement = qrels.get_value(topic, doc)
-
-            if judgement < 1:
-                return_dict[topic]['total_nonrels'] += 1
-            else:
-                return_dict[topic]['total_rels'] += 1
-    
-    return return_dict
-
-def main(log_path, per_query_summary_path, qrels, filter_practice_topic=True):
+def main(log_path, per_query_summary_path, filter_practice_topic=True):
     """
     Main function -- preps the data structures, and outputs the topic summaries.
     """
     log_data = get_log_data(log_path)
     filtered_log_data = log_data
     query_summarised_data = get_summary_data(per_query_summary_path, filtered_log_data)
-    qrel_stats = compute_qrel_stats(qrels)
 
     # Print the key.
     key_f = open('topic_summaries_key.txt', 'r')
@@ -250,6 +232,10 @@ def main(log_path, per_query_summary_path, qrels, filter_practice_topic=True):
                 continue
             
             log_entry = filtered_log_data[user][topic]
+
+            if topic not in query_summarised_data[user]:
+                break
+
             query_summary_entry = query_summarised_data[user][topic]
 
             query_summary_entry['time_per_snippet'] = 0.0
@@ -283,15 +269,12 @@ def main(log_path, per_query_summary_path, qrels, filter_practice_topic=True):
             if query_summary_entry['hover_trec_nonrel'] > 0:
                 query_summary_entry['pcn'] = float(query_summary_entry['clicked_trec_nonrel']) / query_summary_entry['hover_trec_nonrel']
 
-            # Print everything out. Check order is correct for key.
+            #Print everything out. Check order is correct for key.
             print(  f"{user}," \
                     f"{topic}," \
                     f"{log_entry['condition']}," \
                     f"{log_entry['interface']}," \
                     f"{log_entry['accuracy']}," \
-                    f"{log_entry['total_marked']}," \
-                    f"{log_entry['relevant_docs']}," \
-                    f"{log_entry['nonrelevant_docs']}," \
 
                     f"{query_summary_entry['queries_issued']}," \
                     f"{query_summary_entry['documents_clicked']}," \
@@ -332,15 +315,14 @@ def main(log_path, per_query_summary_path, qrels, filter_practice_topic=True):
                     f"{query_summary_entry['ads_clicks_total']}," \
                     f"{query_summary_entry['ads_clicks_top']}," \
                     f"{query_summary_entry['ads_clicks_bot']}," \
-                    f"{query_summary_entry['ads_clicks_side']}," \
+                    f"{query_summary_entry['ads_clicks_side']}" \
     )
 
 if __name__ == '__main__':
-    if len(sys.argv) != 4:
-        print(f"Usage: {sys.argv[0]} <log_path> <per_query_summary_path> <qrels_path>")
+    if len(sys.argv) != 3:
+        print(f"Usage: {sys.argv[0]} <log_path> <per_query_summary_path>")
         sys.exit(1)
     
     log_path = sys.argv[1]
     per_query_summary_path = sys.argv[2]
-    qrels = TrecQrelHandler(sys.argv[3])
-    main(log_path, per_query_summary_path, qrels, filter_practice_topic=True)
+    main(log_path, per_query_summary_path, filter_practice_topic=True)
