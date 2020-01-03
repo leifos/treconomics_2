@@ -52,19 +52,14 @@ class QueryLogEntry(object):
         # "Traditional" SERP components
         self.topic = vals[8]
         self.event_count = 0
-        self.doc_count = 0
         self.doc_depth = 0
         self.hover_count = 0  # Added by David
         self.hover_depth = 0  # Added by David
         self.hover_trec_rel_count = 0
         self.hover_trec_nonrel_count = 0
-        self.doc_rel_count = 0
         self.doc_marked_list = []
         self.doc_unmarked_list = []
         self.doc_rel_depth = 0
-        self.doc_trec_rel_count = 0  # Records documents MARKED that are trec rel
-        self.doc_trec_nonrel_count = 0  # Records documents MARKED that are not trec rel
-        self.doc_trec_unjudged_count = 0 # Records documents MARKED that are UNJUDGED in the trec qrels
         self.pages = 0
         self.curr_page = 1
         self.session_start_time = '{date} {time}'.format(date=vals[0],time=vals[1])
@@ -83,9 +78,17 @@ class QueryLogEntry(object):
         self.doc_click_time = False
         self.task_view_clicks = 0
 
-        # Probability variables, added by David (2016-11-30)
-        self.doc_clicked_trec_rel_count = 0
-        self.doc_clicked_trec_nonrel_count = 0
+        # Probability variables, added by David (2016-11-30), updated (2020-01-03)
+        self.doc_clicked_count = 0  # Total number of documents clicked
+        self.doc_clicked_count_rel = 0  # Total number of documents clicked that are TREC relevant (judgement of 1 or 2)
+        self.doc_clicked_count_nonrel = 0  # Total number of documents clicked that are TREC nonrelevant (explicit judgement of 0)
+        self.doc_clicked_count_unassessed = 0  # Total number of documents clicked that were unassessed by TREC (judgement of None)
+
+        # Adding in document saved values (2020-01-03)
+        self.doc_saved_count = 0  # Total number of documents saved
+        self.doc_saved_count_rel = 0  # Total number of documents saved and TREC relevant
+        self.doc_saved_count_nonrel = 0  # Total number of documents saved, but assessed as not relevant by TRECcers
+        self.doc_saved_count_unassessed = 0  # Total number of documents saved, but not assessed by TRECcers
         
         self.query_response = None  # Stores the results for parsing later on.
         
@@ -137,31 +140,31 @@ class QueryLogEntry(object):
         performances = ' '.join(self.perf)
         serp_time = self.view_serp_time + self.snippet_time
         
-        counts = "{0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10} {11} {12}".format(
-            self.pages,
-            self.doc_count,
-            self.doc_depth,
-            self.doc_rel_count,
-            self.doc_rel_depth,
-            self.hover_count,
-            self.hover_trec_rel_count,
-            self.hover_trec_nonrel_count,
-            self.hover_depth,
-            self.doc_trec_rel_count,
-            self.doc_trec_nonrel_count,
-            self.doc_clicked_trec_rel_count,
-            self.doc_clicked_trec_nonrel_count
-        )
+        counts = f"{self.pages} " \
+                 f"{self.doc_depth} " \
+                 f"{self.doc_rel_depth} " \
+                 f"{self.hover_count} " \
+                 f"{self.hover_trec_rel_count} " \
+                 f"{self.hover_trec_nonrel_count} "\
+                 f"{self.hover_depth} "\
+                  "" \
+                 f"{self.doc_clicked_count} "\
+                 f"{self.doc_clicked_count_rel} "\
+                 f"{self.doc_clicked_count_nonrel} "\
+                 f"{self.doc_clicked_count_unassessed} "\
+                  "" \
+                 f"{self.doc_saved_count} "\
+                 f"{self.doc_saved_count_rel} "\
+                 f"{self.doc_saved_count_nonrel} "\
+                 f"{self.doc_saved_count_unassessed}"
         
-        times = "{0} {1} {2} {3} {4} {5}".format(
-            self.query_time, self.system_query_delay, self.session_time, self.document_time, self.serp_lag, self.new_total_serp
-        )
+        times = f"{self.query_time} {self.system_query_delay} {self.session_time} {self.document_time} {self.serp_lag} {self.new_total_serp}"
         
         task_view_str = str(self.task_view_clicks)
 
         ad_details_str = self.generate_ad_details_str()
-        
-        s = "{0} {1} {2} {3} {4} {5}".format(counts, times, performances, self.doc_trec_unjudged_count, task_view_str, ad_details_str)
+
+        s = f"{counts} {times} {performances} {task_view_str} {ad_details_str}"
         return s
     
     def generate_ad_details_str(self):
@@ -313,18 +316,16 @@ class QueryLogEntry(object):
             if self.doc_depth < m:
                 self.doc_depth = m
 
-            self.doc_count = self.doc_count + 1
-            qrel_judgement = is_relevant(self.qrel_handler, vals[8], vals[11])
-            
-            if qrel_judgement >= 1:
-                self.doc_clicked_trec_rel_count = self.doc_clicked_trec_rel_count + 1
+            qrel_judgement = self.qrel_handler.get_value_if_exists(vals[8], vals[11])
+
+            self.doc_clicked_count += 1
+
+            if qrel_judgement is None:
+                self.doc_clicked_count_unassessed += 1
+            elif qrel_judgement < 1:
+                self.doc_clicked_count_nonrel += 1
             else:
-                self.doc_clicked_trec_nonrel_count = self.doc_clicked_trec_nonrel_count + 1
-            
-            # if is_relevant(self.qrel_handler, vals[7], vals[10]) <= 0:
-            #     self.doc_clicked_trec_nonrel_count = self.doc_clicked_trec_nonrel_count + 1
-            # else:
-            #     self.doc_clicked_trec_rel_count = self.doc_clicked_trec_rel_count + 1
+                self.doc_clicked_count_rel += 1
         
         if 'DOCUMENT_HOVER_IN' in vals:
             try:
@@ -361,19 +362,20 @@ class QueryLogEntry(object):
         if 'DOC_MARKED_RELEVANT' in vals:
             r = int(vals[13])
             if r > 0:
-                self.doc_rel_count = self.doc_rel_count + 1
+                qrel_judgement = self.qrel_handler.get_value_if_exists(vals[8], vals[11])
+                
+                self.doc_saved_count += 1
                 self.doc_marked_list.append(vals[11])
-                qrel_judgement = is_relevant(self.qrel_handler, vals[8], vals[11])
-                m = int(vals[14]) # The ranking depth
-                
-                if qrel_judgement >= 1:
-                    self.doc_trec_rel_count = self.doc_trec_rel_count + 1
+
+                if qrel_judgement is None:
+                    self.doc_saved_count_unassessed += 1
+                elif qrel_judgement < 1:
+                    self.doc_saved_count_nonrel += 1
                 else:
-                    self.doc_trec_nonrel_count = self.doc_trec_nonrel_count + 1
-                    
-                    if qrel_judgement == -1:
-                        self.doc_trec_unjudged_count = self.doc_trec_unjudged_count + 1
+                    self.doc_saved_count_rel += 1
                 
+                m = int(vals[14]) # The ranking depth
+
                 if self.doc_rel_depth < m:
                     self.doc_rel_depth = m
         
@@ -494,40 +496,20 @@ class ExpLogEntry(object):
                 if docid in query_object.doc_marked_list:
                     query_object.doc_marked_list.remove(docid)
             
-            query_object.doc_rel_count = len(query_object.doc_marked_list)
-            query_object.doc_trec_unjudged_count = 0
-            query_object.doc_trec_nonrel_count = 0
-            query_object.doc_trec_rel_count = 0
-            
+            query_object.doc_saved_count = len(query_object.doc_marked_list)
+            query_object.doc_saved_count_rel = 0
+            query_object.doc_saved_count_nonrel = 0
+            query_object.doc_saved_count_unassessed = 0
+
             for docid in query_object.doc_marked_list:
-                qrel_judgement = is_relevant(self.qrel_handler, topic, docid)
-                
-                if qrel_judgement >= 1:
-                    query_object.doc_trec_rel_count = query_object.doc_trec_rel_count + 1
+                qrel_judgement = self.qrel_handler.get_value_if_exists(topic, docid)
+
+                if qrel_judgement is None:
+                    query_object.doc_saved_count_unassessed += 1
+                elif qrel_judgement < 1:
+                    query_object.doc_saved_count_nonrel += 1
                 else:
-                    query_object.doc_trec_nonrel_count = query_object.doc_trec_nonrel_count + 1
-                    
-                    if qrel_judgement == -1:
-                        query_object.doc_trec_unjudged_count = query_object.doc_trec_unjudged_count + 1
-                
-                # if is_relevant(self.qrel_handler, topic, docid) <= 0:
-                #     query_object.doc_trec_nonrel_count = query_object.doc_trec_nonrel_count + 1
-                # else:
-                #     query_object.doc_trec_rel_count = query_object.doc_trec_rel_count + 1
-            
-        
-        # for query_object in self.queries:
-        #     for docid in all_docs_unmarked:
-        #         if docid in query_object.doc_marked_list:
-        #             topic = self.key.split(' ')[4]
-        #
-        #             query_object.doc_marked_list.remove(docid)
-        #             query_object.doc_rel_count = query_object.doc_rel_count - 1
-        #
-        #             if is_relevant(self.qrel_handler, topic, docid) == 0:
-        #                 query_object.doc_clicked_trec_nonrel_count = query_object.doc_clicked_trec_nonrel_count - 1
-        #             else:
-        #                 query_object.doc_clicked_trec_rel_count = query_object.doc_clicked_trec_rel_count - 1
+                    query_object.doc_saved_count_rel += 1
             
 def main():
     if len(sys.argv) == 5:
