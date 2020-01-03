@@ -52,14 +52,20 @@ class QueryLogEntry(object):
         # "Traditional" SERP components
         self.topic = vals[8]
         self.event_count = 0
-        self.doc_depth = 0
+        self.click_depth = 0
+        self.click_depth_rel = 0
+        self.click_depth_nonrel = 0
+        self.click_depth_unassessed = 0
+        self.doc_saved_depth = 0
         self.hover_count = 0  # Added by David
         self.hover_depth = 0  # Added by David
+        self.hover_depth_rel = 0
+        self.hover_depth_nonrel = 0
+        self.hover_depth_unassessed = 0
         self.hover_trec_rel_count = 0
         self.hover_trec_nonrel_count = 0
         self.doc_marked_list = []
         self.doc_unmarked_list = []
-        self.doc_rel_depth = 0
         self.pages = 0
         self.curr_page = 1
         self.session_start_time = '{date} {time}'.format(date=vals[0],time=vals[1])
@@ -83,6 +89,10 @@ class QueryLogEntry(object):
         self.doc_clicked_count_rel = 0  # Total number of documents clicked that are TREC relevant (judgement of 1 or 2)
         self.doc_clicked_count_nonrel = 0  # Total number of documents clicked that are TREC nonrelevant (explicit judgement of 0)
         self.doc_clicked_count_unassessed = 0  # Total number of documents clicked that were unassessed by TREC (judgement of None)
+        
+        self.seen_depth = 0  # The number of items "seen" by the user (i.e. greatest hover or click depth, whatever is bigger)
+        self.seen_rel = 0  # The number of items "seen" in the above that are TREC relevant.
+        self.seen_nonrel = 0  # The number of items "seen" in the above that are not TREC relevant.
 
         # Adding in document saved values (2020-01-03)
         self.doc_saved_count = 0  # Total number of documents saved
@@ -127,6 +137,7 @@ class QueryLogEntry(object):
             #print "Issuing {0}".format(q.terms)
             
             response = engine.search(q)  # Search using BM25.
+            self.results = response.results
             
             self.perf = get_query_performance_metrics(self.qrel_handler, response.results, topicnum)
             self.query_response = response
@@ -139,14 +150,21 @@ class QueryLogEntry(object):
         
         performances = ' '.join(self.perf)
         serp_time = self.view_serp_time + self.snippet_time
+        seen_values = self.compute_seen_values()
         
         counts = f"{self.pages} " \
-                 f"{self.doc_depth} " \
-                 f"{self.doc_rel_depth} " \
+                 f"{self.click_depth} " \
+                 f"{self.click_depth_rel} " \
+                 f"{self.click_depth_nonrel} " \
+                 f"{self.click_depth_unassessed} " \
+                 f"{self.doc_saved_depth} " \
                  f"{self.hover_count} " \
                  f"{self.hover_trec_rel_count} " \
                  f"{self.hover_trec_nonrel_count} "\
                  f"{self.hover_depth} "\
+                 f"{self.hover_depth_rel} "\
+                 f"{self.hover_depth_nonrel} "\
+                 f"{self.hover_depth_unassessed} "\
                   "" \
                  f"{self.doc_clicked_count} "\
                  f"{self.doc_clicked_count_rel} "\
@@ -156,10 +174,14 @@ class QueryLogEntry(object):
                  f"{self.doc_saved_count} "\
                  f"{self.doc_saved_count_rel} "\
                  f"{self.doc_saved_count_nonrel} "\
-                 f"{self.doc_saved_count_unassessed}"
+                 f"{self.doc_saved_count_unassessed} "\
+                  "" \
+                 f"{self.seen_depth} "\
+                 f"{self.seen_rel} "\
+                 f"{self.seen_nonrel}"\
         
         times = f"{self.query_time} {self.system_query_delay} {self.session_time} {self.document_time} {self.serp_lag} {self.new_total_serp}"
-        
+
         task_view_str = str(self.task_view_clicks)
 
         ad_details_str = self.generate_ad_details_str()
@@ -167,6 +189,30 @@ class QueryLogEntry(object):
         s = f"{counts} {times} {performances} {task_view_str} {ad_details_str}"
         return s
     
+    def compute_seen_values(self):
+        """
+        Works out the values for "seen" documents.
+        Added 2020-01-03
+        """
+        # Calculations for "seen" documents -- up to a given depth.
+        # If the hover depth is greater use that; otherwise use the greatest click depth.
+        # Added 2020-01-03
+        #print(query_object.results)
+        self.seen_depth = self.hover_depth
+
+        # This won't happen very often... if at all.
+        if self.click_depth > self.seen_depth:
+            self.seen_depth = self.click_depth
+        
+        for i in range(0, self.seen_depth):
+            qrel_judgement = self.qrel_handler.get_value(self.topic, self.results[i].docid.decode('utf-8'))
+
+            if qrel_judgement < 1:
+                self.seen_nonrel += 1
+            else:
+                self.seen_rel += 1
+
+
     def generate_ad_details_str(self):
         """
         Generates a string of summary details relating to advert hovers and clicks.
@@ -313,8 +359,8 @@ class QueryLogEntry(object):
         if 'DOC_MARKED_VIEWED' in vals:
             m = int(vals[14])
             #n = (self.curr_page - 1)* PAGE_SIZE + m
-            if self.doc_depth < m:
-                self.doc_depth = m
+            if self.click_depth < m:
+                self.click_depth = m
 
             qrel_judgement = self.qrel_handler.get_value_if_exists(vals[8], vals[11])
 
@@ -322,18 +368,37 @@ class QueryLogEntry(object):
 
             if qrel_judgement is None:
                 self.doc_clicked_count_unassessed += 1
+                
+                if self.click_depth_unassessed < m:
+                    self.click_depth_unassessed = m
+
             elif qrel_judgement < 1:
                 self.doc_clicked_count_nonrel += 1
+
+                if self.click_depth_nonrel < m:
+                    self.click_depth_nonrel = m
             else:
                 self.doc_clicked_count_rel += 1
+
+                if self.click_depth_rel < m:
+                    self.click_depth_rel = m
         
         if 'DOCUMENT_HOVER_IN' in vals:
             try:
                 m = int(vals[-1])
                 self.hover_count += 1
-            
+
                 if m > self.hover_depth:
                     self.hover_depth = m
+
+                qrel_judgement = self.qrel_handler.get_value_if_exists(vals[8], vals[11])
+
+                if qrel_judgement is None:
+                    self.hover_depth_unassessed += 1
+                elif qrel_judgement < 1:
+                    self.hover_depth_nonrel += 1
+                else:
+                    self.hover_depth_rel += 1
             except ValueError: # Assume that an advert has been hovered over (either ad-top, ad-side, ad-bot)
                 self.ad_hovers_raw[vals[-1]] = self.ad_hovers_raw[vals[-1]] + 1
 
@@ -376,8 +441,8 @@ class QueryLogEntry(object):
                 
                 m = int(vals[14]) # The ranking depth
 
-                if self.doc_rel_depth < m:
-                    self.doc_rel_depth = m
+                if self.doc_saved_depth < m:
+                    self.doc_saved_depth = m
         
         if 'DOC_MARKED_NONRELEVANT' in vals:
             self.doc_unmarked_list.append(vals[11])
@@ -444,7 +509,6 @@ class ExpLogEntry(object):
                 self.last_query_focus_time = '{date} {time}'.format(date=vals[0],time=vals[1])
         
         # End de-dentation
-
         
         if ('QUERY_ISSUED' in vals):
             # new query, create a query log entry
@@ -510,6 +574,7 @@ class ExpLogEntry(object):
                     query_object.doc_saved_count_nonrel += 1
                 else:
                     query_object.doc_saved_count_rel += 1
+            
             
 def main():
     if len(sys.argv) == 5:
