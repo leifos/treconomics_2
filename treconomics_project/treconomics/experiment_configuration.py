@@ -269,10 +269,28 @@ user_conditions.append([4,2])
 user_conditions.append([4,5])
 
 user_conditions.append([2,2])
-user_conditions.append([2,4])
-user_conditions.append([2,7])
-user_conditions.append([1,3])
 
+
+user_conditions.append([4,5])
+user_conditions.append([4,5])
+user_conditions.append([4,2])
+user_conditions.append([4,11])
+user_conditions.append([4,5])
+user_conditions.append([4,2])
+user_conditions.append([4,11])
+user_conditions.append([4,5])
+user_conditions.append([4,2])
+user_conditions.append([4,11])
+user_conditions.append([4,5])
+user_conditions.append([4,2])
+user_conditions.append([4,11])
+user_conditions.append([4,5])
+user_conditions.append([4,5])
+user_conditions.append([4,2])
+user_conditions.append([4,11])
+user_conditions.append([4,5])
+user_conditions.append([4,2])
+user_conditions.append([4,11])
 
 
 
