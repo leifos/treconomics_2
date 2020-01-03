@@ -141,10 +141,13 @@ def get_summary_data(per_query_summary_path, filtered_log_data):
             # Blanks for values used to compute probabilities.
             entry_dict['clicked_trec_rel'] = 0
             entry_dict['clicked_trec_nonrel'] = 0
+            entry_dict['clicked_trec_unassessed'] = 0
             entry_dict['hover_trec_rel'] = 0
             entry_dict['hover_trec_nonrel'] = 0
+            entry_dict['marked'] = 0
             entry_dict['marked_trec_rel'] = 0
             entry_dict['marked_trec_nonrel'] = 0
+            entry_dict['marked_trec_unassessed'] = 0
 
             # Blanks for values related to adverts go here.
             entry_dict['ads_hover_total'] = 0
@@ -160,44 +163,47 @@ def get_summary_data(per_query_summary_path, filtered_log_data):
             # Now add the data from the query_data.txt line. Check query_data_key.txt for positions.
             # Remember that positions are zero-based...
             for line in query_data[user][topic]:
-                entry_dict['total_query_time'] += float(line[19])
-                entry_dict['total_document_time'] += float(line[22])
-                entry_dict['hover_count'] += int(line[11])
-                entry_dict['documents_clicked'] += int(line[7])
-                entry_dict['document_click_depths'] += [int(line[8])]
+                entry_dict['total_query_time'] += float(line[21])
+                entry_dict['total_document_time'] += float(line[24])
+                entry_dict['hover_count'] += int(line[9])
+                entry_dict['documents_clicked'] += int(line[13])
+                entry_dict['document_click_depths'] += [int(line[7])]
                 entry_dict['serp_pages'] += int(line[6])
-                entry_dict['total_serp_time'] += float(line[24])
+                entry_dict['total_serp_time'] += float(line[26])
 
-                entry_dict['p1'] += [float(line[25])]
-                entry_dict['p5'] += [float(line[29])]
-                entry_dict['p10'] += [float(line[30])]
-                entry_dict['p20'] += [float(line[32])]
+                entry_dict['p1'] += [float(line[27])]
+                entry_dict['p5'] += [float(line[31])]
+                entry_dict['p10'] += [float(line[32])]
+                entry_dict['p20'] += [float(line[34])]
 
                 # Used for calculating probabilities
-                entry_dict['clicked_trec_rel'] += int(line[17])
-                entry_dict['clicked_trec_nonrel'] += int(line[18])
-                entry_dict['hover_trec_rel'] += int(line[12])
-                entry_dict['hover_trec_nonrel'] += int(line[13])
-                entry_dict['marked_trec_rel'] += int(line[15])
-                entry_dict['marked_trec_nonrel'] += int(line[16])
+                entry_dict['clicked_trec_rel'] += int(line[14])
+                entry_dict['clicked_trec_nonrel'] += int(line[15])
+                entry_dict['clicked_trec_unassessed'] += int(line[16])
+                entry_dict['hover_trec_rel'] += int(line[10])
+                entry_dict['hover_trec_nonrel'] += int(line[11])
+                entry_dict['marked'] += int(line[17])
+                entry_dict['marked_trec_rel'] += int(line[18])
+                entry_dict['marked_trec_nonrel'] += int(line[19])
+                entry_dict['marked_trec_unassessed'] += int(line[20])
 
                 # Adding the task view clicked
-                entry_dict['task_view_count'] = int(line[40])
+                entry_dict['task_view_count'] = int(line[41])
                 entry_dict['was_task_view_clicked'] = 0
 
                 if entry_dict['task_view_count'] > 0:
                     entry_dict['was_task_view_clicked'] = 1
                 
                 # Add code for advert data processing here.
-                entry_dict['ads_hover_total'] += int(line[41])
-                entry_dict['ads_hover_top'] += int(line[42])
-                entry_dict['ads_hover_bot'] += int(line[43])
-                entry_dict['ads_hover_side'] += int(line[44])
+                entry_dict['ads_hover_total'] += int(line[42])
+                entry_dict['ads_hover_top'] += int(line[43])
+                entry_dict['ads_hover_bot'] += int(line[44])
+                entry_dict['ads_hover_side'] += int(line[45])
 
-                entry_dict['ads_clicks_total'] += int(line[49])
-                entry_dict['ads_clicks_top'] += (int(line[50]) + int(line[53]))
-                entry_dict['ads_clicks_bot'] += (int(line[51]) + int(line[54]))
-                entry_dict['ads_clicks_side'] += (int(line[52]) + int(line[55]))
+                entry_dict['ads_clicks_total'] += int(line[50])
+                entry_dict['ads_clicks_top'] += (int(line[51]) + int(line[54]))
+                entry_dict['ads_clicks_bot'] += (int(line[52]) + int(line[55]))
+                entry_dict['ads_clicks_side'] += (int(line[53]) + int(line[56]))
         
         if len(query_data[user]) != len(EXAMINED_TOPICS):
             sys.stderr.write("WARNING: User " + user + " is missing one or more topics. You will find an inconsistent number of users per topic." + os.linesep)
@@ -274,22 +280,35 @@ def main(log_path, per_query_summary_path, filter_practice_topic=True):
             else:
                 query_summary_entry['per_document_time'] = 0.0
 
+            # Accuracy is a little unreliable in the logs, so we can compute it here.
+            # It's the number of saved TREC rel docs / total number of saved docs.
+            if query_summary_entry['marked'] == 0:
+                accuracy = 0.0
+            else:
+                accuracy = query_summary_entry['marked_trec_rel'] / float(query_summary_entry['marked'])
 
             #Print everything out. Check order is correct for key.
             print(  f"{user}," \
                     f"{topic}," \
                     f"{log_entry['condition']}," \
                     f"{log_entry['interface']}," \
-                    f"{log_entry['accuracy']}," \
+                    f"{accuracy}," \
 
                     f"{query_summary_entry['queries_issued']}," \
                     f"{query_summary_entry['documents_clicked']}," \
+                    f"{query_summary_entry['clicked_trec_rel']}," \
+                    f"{query_summary_entry['clicked_trec_nonrel']}," \
+                    f"{query_summary_entry['clicked_trec_unassessed']}," \
                     f"{query_summary_entry['documents_clicked'] / float(query_summary_entry['queries_issued'])}," \
                     f"{sum(query_summary_entry['document_click_depths']) / float(query_summary_entry['queries_issued'])},"
                     f"{query_summary_entry['hover_count']}," \
                     f"{(query_summary_entry['hover_count']) / float(query_summary_entry['queries_issued'])}," \
                     f"{query_summary_entry['serp_pages']}," \
                     f"{query_summary_entry['serp_pages'] / float(query_summary_entry['queries_issued'])}," \
+                    f"{query_summary_entry['marked']}," \
+                    f"{query_summary_entry['marked_trec_rel']}," \
+                    f"{query_summary_entry['marked_trec_nonrel']}," \
+                    f"{query_summary_entry['marked_trec_unassessed']}," \
                     f"{get_time_diff(log_entry['start'], log_entry['end'])}," \
                     f"{query_summary_entry['total_query_time']}," \
                     f"{query_summary_entry['total_query_time'] / float(query_summary_entry['queries_issued'])}," \
