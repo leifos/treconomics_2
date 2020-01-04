@@ -541,7 +541,7 @@ class QueryLogEntry(object):
         # If required, include the performance measures.
         if self.search_engine:
             for key in PERFORMANCE_COLUMNS:
-                return_str = f"{return_str}{SEPARATOR}{self.perfomance[key]}"
+                return_str = f"{return_str}{SEPARATOR}{self.performance[key]}"
         
         return return_str
 
