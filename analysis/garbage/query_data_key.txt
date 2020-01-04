@@ -64,3 +64,9 @@ ads_clicks_side_doc
 ads_clicks_top_serp
 ads_clicks_bot_serp
 ads_clicks_side_serp
+pm
+pmr
+pmn
+pc
+pcr
+pcn

@@ -186,7 +186,9 @@ class QueryLogEntry(object):
 
         ad_details_str = self.generate_ad_details_str()
 
-        s = f"{counts} {times} {performances} {task_view_str} {ad_details_str}"
+        probabilities = self.compute_probabilities()
+
+        s = f"{counts} {times} {performances} {task_view_str} {ad_details_str} {probabilities}"
         return s
     
     def compute_seen_values(self):
@@ -211,7 +213,37 @@ class QueryLogEntry(object):
                 self.seen_nonrel += 1
             else:
                 self.seen_rel += 1
+    
+    def compute_probabilities(self):
+        """
+        Works out interaction probabilities on a per-query basis.
+        """
+        pm = 0.0
+        pmr = 0.0
+        pmn = 0.0
+        pc = 0.0
+        pcr = 0.0
+        pcn = 0.0
 
+        if self.doc_clicked_count > 0:
+            pm = self.doc_saved_count / float(self.doc_clicked_count)
+        
+        if self.doc_clicked_count_rel > 0:
+            pmr = self.doc_saved_count_rel / float(self.doc_clicked_count_rel)
+        
+        if self.doc_clicked_count_nonrel > 0:
+            pmn = (self.doc_saved_count_nonrel + self.doc_saved_count_unassessed) / float(self.doc_clicked_count_nonrel + self.doc_clicked_count_unassessed)
+
+        if self.seen_depth > 0:
+            pc = self.doc_clicked_count / float(self.seen_depth)
+        
+        if self.seen_rel > 0:
+            pcr = self.doc_clicked_count_rel / float(self.seen_rel)
+        
+        if self.seen_nonrel > 0:
+            pcn = (self.doc_clicked_count_nonrel + self.doc_clicked_count_unassessed) / float(self.seen_nonrel)
+
+        return f"{pm:0.3f} {pmr:0.3f} {pmn:0.3f} {pc:0.3f} {pcr:0.3f} {pcn:0.3f}"
 
     def generate_ad_details_str(self):
         """
@@ -546,34 +578,34 @@ class ExpLogEntry(object):
                 self.current_query.end_query_session('{date} {time}'.format(date=vals[0],time=vals[1]))
                 self.query_ended_previously = True
         
-        # Code for removing documents that were previously marked, but are then reselected as non-relevant.
-        all_docs_unmarked = []
+        # # Code for removing documents that were previously marked, but are then reselected as non-relevant.
+        # all_docs_unmarked = []
         
-        for query_object in self.queries:
-            all_docs_unmarked = all_docs_unmarked + query_object.doc_unmarked_list
-            query_object.doc_unmarked_list = []
+        # for query_object in self.queries:
+        #     all_docs_unmarked = all_docs_unmarked + query_object.doc_unmarked_list
+        #     query_object.doc_unmarked_list = []
         
-        topic = self.key.split(' ')[4]
+        # topic = self.key.split(' ')[4]
         
-        for query_object in self.queries:
-            for docid in all_docs_unmarked:
-                if docid in query_object.doc_marked_list:
-                    query_object.doc_marked_list.remove(docid)
+        # for query_object in self.queries:
+        #     for docid in all_docs_unmarked:
+        #         if docid in query_object.doc_marked_list:
+        #             query_object.doc_marked_list.remove(docid)
             
-            query_object.doc_saved_count = len(query_object.doc_marked_list)
-            query_object.doc_saved_count_rel = 0
-            query_object.doc_saved_count_nonrel = 0
-            query_object.doc_saved_count_unassessed = 0
+        #     query_object.doc_saved_count = len(query_object.doc_marked_list)
+        #     query_object.doc_saved_count_rel = 0
+        #     query_object.doc_saved_count_nonrel = 0
+        #     query_object.doc_saved_count_unassessed = 0
 
-            for docid in query_object.doc_marked_list:
-                qrel_judgement = self.qrel_handler.get_value_if_exists(topic, docid)
+        #     for docid in query_object.doc_marked_list:
+        #         qrel_judgement = self.qrel_handler.get_value_if_exists(topic, docid)
 
-                if qrel_judgement is None:
-                    query_object.doc_saved_count_unassessed += 1
-                elif qrel_judgement < 1:
-                    query_object.doc_saved_count_nonrel += 1
-                else:
-                    query_object.doc_saved_count_rel += 1
+        #         if qrel_judgement is None:
+        #             query_object.doc_saved_count_unassessed += 1
+        #         elif qrel_judgement < 1:
+        #             query_object.doc_saved_count_nonrel += 1
+        #         else:
+        #             query_object.doc_saved_count_rel += 1
             
             
 def main():
