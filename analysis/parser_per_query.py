@@ -144,32 +144,32 @@ class LogReader(object):
         The method makes use of the SEPARATOR variable to separate columns. Can switch between CSV/TSV by changing this variable.
         """
         pass
-        # if show_key:
-        #     header_key = ""
+        if show_key:
+            header_key = ""
             
-        #     # Generate the key header string from the KEY_LIST.
-        #     for key in KEY_LIST:
-        #         if header_key == "":
-        #             header_key = f"{key}"
-        #         else:
-        #             header_key = f"{header_key}{SEPARATOR}{key}"
+            # Generate the key header string from the KEY_LIST.
+            for key in KEY_LIST:
+                if header_key == "":
+                    header_key = f"{key}"
+                else:
+                    header_key = f"{header_key}{SEPARATOR}{key}"
             
-        #     # Add in no_of_actions.
-        #     header_key = f"{header_key}{SEPARATOR}no_of_actions"
+            # Add in no_of_actions.
+            header_key = f"{header_key}{SEPARATOR}no_of_actions"
 
-        #     # Now add in the remaining columns from QueryLogEntry.
-        #     for key in QUERY_SESSION_COLUMNS:
-        #         header_key = f"{header_key}{SEPARATOR}{key}"
+            # Now add in the remaining columns from QueryLogEntry.
+            for key in QUERY_SESSION_COLUMNS:
+                header_key = f"{header_key}{SEPARATOR}{key}"
             
-        #     # And finally, add in the performance column headers (if required).
-        #     if self.search_engine:
-        #         for key in PERFORMANCE_COLUMNS:
-        #             header_key = f"{header_key}{SEPARATOR}{key}"
+            # And finally, add in the performance column headers (if required).
+            if self.search_engine:
+                for key in PERFORMANCE_COLUMNS:
+                    header_key = f"{header_key}{SEPARATOR}{key}"
             
-        #     print(header_key)
+            print(header_key)
 
-        # for key in self.entries.keys():
-        #     print(self.entries[key])
+        for key in self.entries.keys():
+            print(self.entries[key])
 
 
 class LogEntryReader(object):
