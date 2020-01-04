@@ -59,6 +59,10 @@ QUERY_SESSION_COLUMNS = ['time_system_query_delay',
                          'document_saved_depth_trec_rel',
                          'document_saved_depth_trec_nonrel',
                          'document_saved_depth_trec_unassessed',
+                         'seen',
+                         'seen_trec_rel',
+                         'seen_trec_nonrel',
+                         'seen_trec_unassessed',
                          'ad_hover_count',
                          'ad_hover_count_top',
                          'ad_hover_count_side',
@@ -140,32 +144,32 @@ class LogReader(object):
         The method makes use of the SEPARATOR variable to separate columns. Can switch between CSV/TSV by changing this variable.
         """
         pass
-        if show_key:
-            header_key = ""
+        # if show_key:
+        #     header_key = ""
             
-            # Generate the key header string from the KEY_LIST.
-            for key in KEY_LIST:
-                if header_key == "":
-                    header_key = f"{key}"
-                else:
-                    header_key = f"{header_key}{SEPARATOR}{key}"
+        #     # Generate the key header string from the KEY_LIST.
+        #     for key in KEY_LIST:
+        #         if header_key == "":
+        #             header_key = f"{key}"
+        #         else:
+        #             header_key = f"{header_key}{SEPARATOR}{key}"
             
-            # Add in no_of_actions.
-            header_key = f"{header_key}{SEPARATOR}no_of_actions"
+        #     # Add in no_of_actions.
+        #     header_key = f"{header_key}{SEPARATOR}no_of_actions"
 
-            # Now add in the remaining columns from QueryLogEntry.
-            for key in QUERY_SESSION_COLUMNS:
-                header_key = f"{header_key}{SEPARATOR}{key}"
+        #     # Now add in the remaining columns from QueryLogEntry.
+        #     for key in QUERY_SESSION_COLUMNS:
+        #         header_key = f"{header_key}{SEPARATOR}{key}"
             
-            # And finally, add in the performance column headers (if required).
-            if self.search_engine:
-                for key in PERFORMANCE_COLUMNS:
-                    header_key = f"{header_key}{SEPARATOR}{key}"
+        #     # And finally, add in the performance column headers (if required).
+        #     if self.search_engine:
+        #         for key in PERFORMANCE_COLUMNS:
+        #             header_key = f"{header_key}{SEPARATOR}{key}"
             
-            print(header_key)
+        #     print(header_key)
 
-        for key in self.entries.keys():
-            print(self.entries[key])
+        # for key in self.entries.keys():
+        #     print(self.entries[key])
 
 
 class LogEntryReader(object):
@@ -307,6 +311,11 @@ class QueryLogEntry(object):
         self.document_saved_depth_trec_nonrel = 0  # A subset of the above for TREC nonrelevant documents only.
         self.document_saved_depth_trec_unassessed = 0  # A subset of the above for TREC unassessed documents only.
 
+        self.seen = 0  # How many snippets have been seen by the subject?
+        self.seen_trec_rel = 0  # How many snippets have been seen that are TREC relevant?
+        self.seen_trec_nonrel = 0  # How many snippets have been seen that are TREC nonrelevant?
+        self.seen_trec_unassessed = 0  # How many snippets have been seen that are TREC unassessed?
+
         self.ad_hover_count = 0  # How many adverts have been hovered over?
         self.ad_hover_count_top = 0  # Same as above, but filtering on the top set only.
         self.ad_hover_count_side = 0  # Same as above, but filtering on the side set.
@@ -326,8 +335,9 @@ class QueryLogEntry(object):
         self.time_session_end = None  # When did the session end? Saved in end_query_session().
         self.time_session_overall = 0.0  # The overall session time. From QUERY_FOCUS to the end event.
 
-        # For storing perfomance measures.
-        self.performance = None
+        # For storing performance measures.
+        self.performance = None  # A dictionary of performance measures.
+        self.rankings = None  # The document rankings.
 
         # Got a search engine? Use the damn search engine!
         if self.search_engine:
@@ -344,7 +354,9 @@ class QueryLogEntry(object):
 
         response = self.search_engine.search(query)
         measures = get_query_performance_metrics(self.qrel_handler, response.results, self.topic)
+
         self.performance = {}
+        self.rankings = response.results
 
         for key in PERFORMANCE_COLUMNS:
             self.performance[key] = measures[key]
@@ -526,7 +538,37 @@ class QueryLogEntry(object):
             self.time_session_end = end_time
             self.time_session_overall = get_time_diff(self.time_session_start, self.time_session_end)
         
-        # At the end of the query session, we can recompute values here if required.
+        # At the end of the session, we can work out seen depths.
+        # These require the search engine to get the rankings.
+        if ('seen' in QUERY_SESSION_COLUMNS or 'seen_trec_rel' in QUERY_SESSION_COLUMNS or 'seen_trec_nonrel' in QUERY_SESSION_COLUMNS or 'seen_trec_unassessed' in QUERY_SESSION_COLUMNS) and not self.search_engine:
+            raise ValueError("You want to display a 'seen' value, but have not specified a search engine. The search engine needs to be present to get a list of rankings. Try again with the search engine configured.")
+
+        # The seen depth is usuall the hover depth.
+        seen_depth = self.document_hover_depth
+        position = 0
+
+        # If True, the click depth is deeper. Maybe a hover event didn't reach in time. Whatever; change the value.
+        if self.document_click_depth > seen_depth:
+            seen_depth = self.document_click_depth
+        
+        # We can assume we have document rankings now, as the search engine presence check was done above.
+        # Loop through the rankings to seen_depth. Update the seen counters.
+        for document in self.rankings:
+            if position == seen_depth:
+                break
+            
+            docid = document.docid.decode('utf-8')
+            qrel_judgement = self.qrel_handler.get_value_if_exists(self.topic, docid)
+
+            if qrel_judgement is None:
+                self.seen_trec_unassessed += 1
+            elif qrel_judgement < 1:
+                self.seen_trec_nonrel += 1
+            else:
+                self.seen_trec_rel += 1
+            
+            self.seen += 1
+            position += 1
 
     def __str__(self):
         return_str = ""
