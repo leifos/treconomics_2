@@ -188,22 +188,22 @@ def get_summary_data(per_query_summary_path, filtered_log_data):
                 entry_dict['marked_trec_unassessed'] += int(line[20])
 
                 # Adding the task view clicked
-                entry_dict['task_view_count'] = int(line[41])
+                entry_dict['task_view_count'] = float(line[41])
                 entry_dict['was_task_view_clicked'] = 0
 
                 if entry_dict['task_view_count'] > 0:
                     entry_dict['was_task_view_clicked'] = 1
                 
                 # Add code for advert data processing here.
-                entry_dict['ads_hover_total'] += int(line[42])
-                entry_dict['ads_hover_top'] += int(line[43])
-                entry_dict['ads_hover_bot'] += int(line[44])
-                entry_dict['ads_hover_side'] += int(line[45])
+                entry_dict['ads_hover_total'] += float(line[42])
+                entry_dict['ads_hover_top'] += float(line[43])
+                entry_dict['ads_hover_bot'] += float(line[44])
+                entry_dict['ads_hover_side'] += float(line[45])
 
-                entry_dict['ads_clicks_total'] += int(line[50])
-                entry_dict['ads_clicks_top'] += (int(line[51]) + int(line[54]))
-                entry_dict['ads_clicks_bot'] += (int(line[52]) + int(line[55]))
-                entry_dict['ads_clicks_side'] += (int(line[53]) + int(line[56]))
+                entry_dict['ads_clicks_total'] += float(line[50])
+                entry_dict['ads_clicks_top'] += (float(line[51]) + float(line[54]))
+                entry_dict['ads_clicks_bot'] += (float(line[52]) + float(line[55]))
+                entry_dict['ads_clicks_side'] += (float(line[53]) + float(line[56]))
         
         if len(query_data[user]) != len(EXAMINED_TOPICS):
             sys.stderr.write("WARNING: User " + user + " is missing one or more topics. You will find an inconsistent number of users per topic." + os.linesep)
