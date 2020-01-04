@@ -84,37 +84,20 @@ def get_query_performance_metrics(qrels, results, topic_num):
     Returns performance metrics for a given list of results, results, and a TREC topic, topic_num.
     List returned is in the format [p@1, p@2, p@3, p@4, p@5, p@10, p@15, p@20, p@125, p@30, p@40, p@50, Rprec, total rel. docs]
     """
-
+    return_dict = {}
     atk = [1,2,3,4,5,10,15,20,25,30,40,50]
-
-    patk = []
 
     for k in atk:
         p =  str(calculate_precision(qrels, results, topic_num, k))
-        patk.append(p)
-
-    """
-    p_at_1 = str(calculate_precision(qrels, results, topic_num, 1))
-    p_at_2 = str(calculate_precision(qrels, results, topic_num, 2))
-    p_at_3 = str(calculate_precision(qrels, results, topic_num, 3))
-    p_at_4 = str(calculate_precision(qrels, results, topic_num, 4))
-    p_at_5 = str(calculate_precision(qrels, results, topic_num, 5))
-    p_at_10 = str(calculate_precision(qrels, results, topic_num, 10))
-    p_at_15 = str(calculate_precision(qrels, results, topic_num, 15))
-    p_at_20 = str(calculate_precision(qrels, results, topic_num, 20))
-    p_at_25 = str(calculate_precision(qrels, results, topic_num, 25))
-    p_at_30 = str(calculate_precision(qrels, results, topic_num, 30))
-    p_at_40 = str(calculate_precision(qrels, results, topic_num, 40))
-    p_at_50 = str(calculate_precision(qrels, results, topic_num, 50))
-    """
+        return_dict[f'p{k}'] = p
 
     total_relevant_docs = get_topic_relevant_count(qrels, topic_num)
     r_prec = str(calculate_precision(qrels, results, topic_num, total_relevant_docs))
 
-    patk.append(r_prec)
-    patk.append(str(total_relevant_docs))
+    return_dict['rprec'] = r_prec
+    return_dict['total_relevant_docs'] = total_relevant_docs
 
-    return patk
+    return return_dict
 
 
 def get_time_diff(past,present):
