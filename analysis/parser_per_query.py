@@ -45,6 +45,7 @@ QUERY_SESSION_COLUMNS = ['query',
                          'document_click_depth_trec_rel',
                          'document_click_depth_trec_nonrel',
                          'document_click_depth_trec_unassessed',
+                         'document_hover_count_raw',
                          'document_hover_count',
                          'document_hover_count_trec_rel',
                          'document_hover_count_trec_nonrel',
@@ -298,6 +299,7 @@ class QueryLogEntry(object):
         self.document_click_depth_trec_nonrel = 0  # Same as above, but considering only TREC nonrelevant documents.
         self.document_click_depth_trec_unassessed = 0  # Same as above, applying only to TREC unassessed documents.
 
+        self.document_hover_count_raw = 0  # The number of times a hover event occurs.
         self.document_hover_count = 0  # The number of times a hover event occurs (ignoring documents that have been hovered before).
         self.document_hover_count_trec_rel = 0  # Same as above, but for only TREC relevant documents.
         self.document_hover_count_trec_nonrel = 0  # Same as above, but considering only TREC nonrelevant documents.
@@ -441,7 +443,8 @@ class QueryLogEntry(object):
                 rank = int(line[14])
                 docid = line[11]
                 qrel_judgement = self.qrel_handler.get_value_if_exists(self.topic, docid)
-
+                self.document_hover_count_raw += 1
+                
                 # Calculate the number of hover events.
                 if docid not in self.document_hover_list:
                     self.document_hover_list.append(docid)

@@ -164,6 +164,7 @@ class SearchSessionAggregator(object):
         self.document_click_depth_per_query = 0
 
         self.document_hover_total = 0
+        self.document_hover_raw_total = 0
 
         self.serps_viewed_total = 0
         self.serps_viewed_per_query = 0
@@ -232,6 +233,7 @@ class SearchSessionAggregator(object):
             self.document_click_depths.append(self.get_value(query_session, 'document_click_depth', int))
 
             self.document_hover_total += self.get_value(query_session, 'document_hover_count', int)
+            self.document_hover_raw_total += self.get_value(query_session, 'document_hover_count_raw', int)
 
             self.serps_viewed_total += self.get_value(query_session, 'serp_page_viewed_to', int)
 
@@ -265,7 +267,7 @@ class SearchSessionAggregator(object):
             self.time_per_document = self.time_documents_total / float(self.document_clicked_total)
         
         if self.document_hover_total > 0:
-            self.time_per_snippet = self.time_serp_total / float(self.document_hover_total)
+            self.time_per_snippet = self.time_serp_total / float(self.document_hover_raw_total)
 
         # Probabilities -- we have the probability of each query, so take the mean of them?
         # Not sure if this is 100% correct.
