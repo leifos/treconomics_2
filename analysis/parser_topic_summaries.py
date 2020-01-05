@@ -15,7 +15,38 @@ KEY_LIST = ['username', 'condition', 'interface', 'task', 'topic']
 # What values do you want to be in the output? These need to be instance variables in .
 COMPUTED_VALUES = [
     'queries_total_issued',
-    'documents_clicked',
+    'document_clicked_total',
+    'document_clicked_total_trec_rel',
+    'document_clicked_total_trec_nonrel',
+    'document_clicked_total_trec_unassessed',
+    'document_clicked_per_query',
+    'document_saved_total',
+    'document_saved_total_trec_rel',
+    'document_saved_total_trec_nonrel',
+    'document_saved_total_trec_unassessed',
+    'document_click_depth_per_query',
+    'document_hover_total',
+    'serps_viewed_total',
+    'serps_viewed_per_query',
+    'time_session_total',
+    'time_query_total',
+    'time_serp_total',
+    'time_documents_total',
+    'time_per_query',
+    'time_per_document',
+    'time_per_snippet',
+    'mean_pm',
+    'mean_pmr',
+    'mean_pmn',
+    'mean_pc',
+    'mean_pcr',
+    'mean_pcn',
+    'accuracy_search_session',
+    'mean_p1',
+    'mean_p5',
+    'mean_p10',
+    'mean_p20',
+    'mean_rprec',
 ]
 
 SEPARATOR = ','  # What does each column get separated by?
@@ -117,8 +148,63 @@ class SearchSessionAggregator(object):
         self.topic = topic
 
         # Instance variables below can be used in output. Make sure required output names match these variables!
-        self.queries_total_issued = 0
-        self.documents_clicked = 0
+        self.queries_total_issued = 0  # How many queries were issued over all query sessions?
+
+        self.document_clicked_total = 0  # How many documents were clicked over all query sessions?
+        self.document_clicked_total_trec_rel = 0  # Same as above, filtered for TREC relevant documents only.
+        self.document_clicked_total_trec_nonrel = 0  # Same as above, filtered for TREC nonrelevant documents only.
+        self.document_clicked_total_trec_unassessed = 0  # Same as above, filtered for TREC unassessed documents only.
+        self.document_clicked_per_query = 0  # The total number of documents clicked, divided by the number of queries issued.
+
+        self.document_saved_total = 0
+        self.document_saved_total_trec_rel = 0
+        self.document_saved_total_trec_nonrel = 0
+        self.document_saved_total_trec_unassessed = 0
+
+        self.document_click_depth_per_query = 0
+
+        self.document_hover_total = 0
+
+        self.serps_viewed_total = 0
+        self.serps_viewed_per_query = 0
+        
+        self.time_session_total = 0.0
+        self.time_query_total = 0.0
+        self.time_serp_total = 0.0
+        self.time_documents_total = 0.0
+        self.time_per_query = 0.0
+        self.time_per_document = 0.0
+        self.time_per_snippet = 0.0
+
+        self.mean_pm = 0.0
+        self.mean_pmr = 0.0
+        self.mean_pmn = 0.0
+        self.mean_pc = 0.0
+        self.mean_pcr = 0.0
+        self.mean_pcn = 0.0
+
+        self.accuracy_search_session = 0.0  # See calculate() below for a description of accuracy.
+
+        self.mean_p1 = 0
+        self.mean_p5 = 0
+        self.mean_p10 = 0
+        self.mean_p20 = 0
+        self.mean_rprec = 0
+        
+
+        # These are used for storing values so a mean can be created (above).
+        self.document_click_depths = []
+        self.values_pm = []
+        self.values_pmr = []
+        self.values_pmn = []
+        self.values_pc = []
+        self.values_pcr = []
+        self.values_pcn = []
+        self.values_p1 = []
+        self.values_p5 = []
+        self.values_p10 = []
+        self.values_p20 = []
+        self.values_rprec = []
     
     def add_line(self, line):
         """
@@ -133,7 +219,72 @@ class SearchSessionAggregator(object):
         self.queries_total_issued = len(self.data)
 
         for query_session in self.data:
-            self.documents_clicked += self.get_value(query_session, 'document_click_count', int)
+            self.document_clicked_total += self.get_value(query_session, 'document_click_count', int)
+            self.document_clicked_total_trec_rel += self.get_value(query_session, 'document_click_count_trec_rel', int)
+            self.document_clicked_total_trec_nonrel += self.get_value(query_session, 'document_click_count_trec_nonrel', int)
+            self.document_clicked_total_trec_unassessed += self.get_value(query_session, 'document_click_count_trec_unassessed', int)
+
+            self.document_saved_total += self.get_value(query_session, 'document_saved_count', int)
+            self.document_saved_total_trec_rel += self.get_value(query_session, 'document_saved_count_trec_rel', int)
+            self.document_saved_total_trec_nonrel += self.get_value(query_session, 'document_saved_count_trec_nonrel', int)
+            self.document_saved_total_trec_unassessed += self.get_value(query_session, 'document_saved_count_trec_unassessed', int)
+
+            self.document_click_depths.append(self.get_value(query_session, 'document_click_depth', int))
+
+            self.document_hover_total += self.get_value(query_session, 'document_hover_count', int)
+
+            self.serps_viewed_total += self.get_value(query_session, 'serp_page_viewed_to', int)
+
+            self.time_session_total += self.get_value(query_session, 'time_session_overall', float)
+            self.time_query_total += self.get_value(query_session, 'time_query', float)
+            self.time_serp_total += self.get_value(query_session, 'time_on_serp', float)
+            self.time_documents_total += self.get_value(query_session, 'time_on_documents', float)
+
+            self.values_pm.append(self.get_value(query_session, 'pm', float))
+            self.values_pmr.append(self.get_value(query_session, 'pmr', float))
+            self.values_pmn.append(self.get_value(query_session, 'pmn', float))
+            self.values_pc.append(self.get_value(query_session, 'pc', float))
+            self.values_pcr.append(self.get_value(query_session, 'pcr', float))
+            self.values_pcn.append(self.get_value(query_session, 'pcn', float))
+
+            self.values_p1.append(self.get_value(query_session, 'p1', float))
+            self.values_p5.append(self.get_value(query_session, 'p5', float))
+            self.values_p10.append(self.get_value(query_session, 'p10', float))
+            self.values_p20.append(self.get_value(query_session, 'p20', float))
+            self.values_rprec.append(self.get_value(query_session, 'rprec', float))
+        
+        self.document_clicked_per_query = self.document_clicked_total / float(self.queries_total_issued)
+
+        self.document_click_depth_per_query = sum(self.document_click_depths) / float(self.queries_total_issued)
+        
+        self.serps_viewed_per_query = self.serps_viewed_total / float(self.queries_total_issued)
+
+        self.time_per_query = self.time_query_total / float(self.queries_total_issued)
+
+        if self.document_clicked_total > 0:
+            self.time_per_document = self.time_documents_total / float(self.document_clicked_total)
+        
+        if self.document_hover_total > 0:
+            self.time_per_snippet = self.time_serp_total / float(self.document_hover_total)
+
+        # Probabilities -- we have the probability of each query, so take the mean of them?
+        # Not sure if this is 100% correct.
+        self.mean_pm = sum(self.values_pm) / float(len(self.values_pm))
+        self.mean_pmr = sum(self.values_pmr) / float(len(self.values_pmr))
+        self.mean_pmn = sum(self.values_pmn) / float(len(self.values_pmn))
+        self.mean_pc = sum(self.values_pc) / float(len(self.values_pc))
+        self.mean_pcr = sum(self.values_pcr) / float(len(self.values_pcr))
+        self.mean_pcn = sum(self.values_pcn) / float(len(self.values_pcn))
+
+        # Accuracy -- the total number of TREC relevant documents saved, divided by the total number saved.
+        if self.document_saved_total > 0:
+            self.accuracy_search_session = self.document_saved_total_trec_rel / float(self.document_clicked_total)
+        
+        self.mean_p1 = sum(self.values_p1) / self.queries_total_issued
+        self.mean_p5 = sum(self.values_p5) / self.queries_total_issued
+        self.mean_p10 = sum(self.values_p10) / self.queries_total_issued
+        self.mean_p20 = sum(self.values_p20) / self.queries_total_issued
+        self.mean_rprec = sum(self.values_rprec) / self.queries_total_issued
     
     def get_value(self, line, key, cast_to=None):
         """
@@ -164,7 +315,11 @@ class SearchSessionAggregator(object):
         # Now add the extra columns from this script.
         for key in COMPUTED_VALUES:
             value = getattr(self, key)
-            output_str = f"{output_str}{SEPARATOR}{value}"
+            
+            if type(value) == float:
+                output_str = f"{output_str}{SEPARATOR}{value:.3f}"
+            else:
+                output_str = f"{output_str}{SEPARATOR}{value}"
         
         return output_str
 

@@ -30,6 +30,7 @@ KEY_LIST = ['username', 'condition', 'interface', 'task', 'topic']
 
 # What do you want to output? Put the names of QueryLogEntry instance variables here and they will be output.
 QUERY_SESSION_COLUMNS = ['query',
+                         'time_query',
                          'time_system_query_delay',
                          'time_on_serp',
                          'time_on_documents',
@@ -345,6 +346,7 @@ class QueryLogEntry(object):
         self.pcn = 0.0
 
         # Instance variables to store times.
+        self.time_query = query_time  # The time spent in the query box.
         self.time_system_query_delay = 0.0  # Elapsed time for query lag (from QUERY_START to QUERY_END), in seconds.
         self.time_on_serp = 0.0  # Elapsed time spend examining content on the SERP, in seconds.
         self.time_document_clicked = None # When was the last DOC_CLICKED event?
