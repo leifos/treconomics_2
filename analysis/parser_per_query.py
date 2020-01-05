@@ -29,7 +29,8 @@ EVENT_SEARCH_SESSION_COMPLETE = 'SEARCH_TASK_COMPLETE'
 KEY_LIST = ['username', 'condition', 'interface', 'task', 'topic']
 
 # What do you want to output? Put the names of QueryLogEntry instance variables here and they will be output.
-QUERY_SESSION_COLUMNS = ['time_system_query_delay',
+QUERY_SESSION_COLUMNS = ['query',
+                         'time_system_query_delay',
                          'time_on_serp',
                          'time_on_documents',
                          'time_session_overall',
@@ -63,6 +64,13 @@ QUERY_SESSION_COLUMNS = ['time_system_query_delay',
                          'seen_trec_rel',
                          'seen_trec_nonrel',
                          'seen_trec_unassessed',
+                         'accuracy',
+                         'pm',
+                         'pmr',
+                         'pmn',
+                         'pc',
+                         'pcr',
+                         'pcn',
                          'ad_hover_count',
                          'ad_hover_count_top',
                          'ad_hover_count_side',
@@ -326,6 +334,16 @@ class QueryLogEntry(object):
         self.ad_click_count_side = 0  # A subset of the above; considering ads on the side only
         self.ad_click_count_bot = 0  # A subset of the above; considering ads on the bottom only
 
+        # Instance variables to store computed values from counts.
+        # These are computed in end_query_session().
+        self.accuracy = 0.0  # The accuracy of the searcher.
+        self.pm = 0.0  # For descriptions of probabilities, see end_query_session(), see end_query_session().
+        self.pmr = 0.0
+        self.pmn = 0.0
+        self.pc = 0.0
+        self.pcr = 0.0
+        self.pcn = 0.0
+
         # Instance variables to store times.
         self.time_system_query_delay = 0.0  # Elapsed time for query lag (from QUERY_START to QUERY_END), in seconds.
         self.time_on_serp = 0.0  # Elapsed time spend examining content on the SERP, in seconds.
@@ -385,33 +403,35 @@ class QueryLogEntry(object):
         if self.curr_event == 'DOC_MARKED_VIEWED':
             docid = line[11]
             rank = int(line[14])
-            qrel_judgement = self.qrel_handler.get_value_if_exists(self.topic, docid)
 
-            # Work out the number of clicks that have been made on documents.
-            if docid not in self.document_clicked_list:
-                self.document_clicked_list.append(docid)
-                self.document_click_count += 1
+            if rank > 0: # Prevents issues where click events spill onto the next query. Just ignores them. Bizarre.
+                qrel_judgement = self.qrel_handler.get_value_if_exists(self.topic, docid)
 
+                # Work out the number of clicks that have been made on documents.
+                if docid not in self.document_clicked_list:
+                    self.document_clicked_list.append(docid)
+                    self.document_click_count += 1
+
+                    if qrel_judgement is None:
+                        self.document_click_count_trec_unassessed += 1
+                    elif qrel_judgement < 1:
+                        self.document_click_count_trec_nonrel += 1
+                    else:
+                        self.document_click_count_trec_rel += 1
+                
+                # Work out the click depth(s).
+                if rank > self.document_click_depth:
+                    self.document_click_depth = rank
+                
                 if qrel_judgement is None:
-                    self.document_click_count_trec_unassessed += 1
+                    if rank > self.document_click_depth_trec_unassessed:
+                        self.document_click_depth_trec_unassessed = rank
                 elif qrel_judgement < 1:
-                    self.document_click_count_trec_nonrel += 1
+                    if rank > self.document_click_depth_trec_nonrel:
+                        self.document_click_depth_trec_nonrel = rank
                 else:
-                    self.document_click_count_trec_rel += 1
-            
-            # Work out the click depth(s).
-            if rank > self.document_click_depth:
-                self.document_click_depth = rank
-            
-            if qrel_judgement is None:
-                if rank > self.document_click_depth_trec_unassessed:
-                    self.document_click_depth_trec_unassessed = rank
-            elif qrel_judgement < 1:
-                if rank > self.document_click_depth_trec_nonrel:
-                    self.document_click_depth_trec_nonrel = rank
-            else:
-                if rank > self.document_click_depth_trec_rel:
-                    self.document_click_depth_trec_rel = rank
+                    if rank > self.document_click_depth_trec_rel:
+                        self.document_click_depth_trec_rel = rank
         
         # When an organic result or advertisement is hovered over, do this.
         if self.curr_event == 'DOCUMENT_HOVER_IN':
@@ -537,7 +557,7 @@ class QueryLogEntry(object):
         if self.time_session_end is None:  # Only execute if we haven't calculated this already.
             self.time_session_end = end_time
             self.time_session_overall = get_time_diff(self.time_session_start, self.time_session_end)
-        
+
         # At the end of the session, we can work out seen depths.
         # These require the search engine to get the rankings.
         if ('seen' in QUERY_SESSION_COLUMNS or 'seen_trec_rel' in QUERY_SESSION_COLUMNS or 'seen_trec_nonrel' in QUERY_SESSION_COLUMNS or 'seen_trec_unassessed' in QUERY_SESSION_COLUMNS) and not self.search_engine:
@@ -551,24 +571,48 @@ class QueryLogEntry(object):
         if self.document_click_depth > seen_depth:
             seen_depth = self.document_click_depth
         
-        # We can assume we have document rankings now, as the search engine presence check was done above.
-        # Loop through the rankings to seen_depth. Update the seen counters.
-        for document in self.rankings:
-            if position == seen_depth:
-                break
-            
-            docid = document.docid.decode('utf-8')
-            qrel_judgement = self.qrel_handler.get_value_if_exists(self.topic, docid)
+        # Loop through the rankings to seen_depth. Update the seen counters. But only if we have a search engine.
+        if self.search_engine:
+            for document in self.rankings:
+                if position == seen_depth:
+                    break
+                
+                docid = document.docid.decode('utf-8')
+                qrel_judgement = self.qrel_handler.get_value_if_exists(self.topic, docid)
 
-            if qrel_judgement is None:
-                self.seen_trec_unassessed += 1
-            elif qrel_judgement < 1:
-                self.seen_trec_nonrel += 1
-            else:
-                self.seen_trec_rel += 1
-            
-            self.seen += 1
-            position += 1
+                if qrel_judgement is None:
+                    self.seen_trec_unassessed += 1
+                elif qrel_judgement < 1:
+                    self.seen_trec_nonrel += 1
+                else:
+                    self.seen_trec_rel += 1
+                
+                self.seen += 1
+                position += 1
+        
+        # At the end of the query session, we can compute the accuracy attained.
+        # Accuracy is defined here as the number of TREC relevant documents saved, divided by the total number of documents saved.
+        if self.document_saved_count > 0:
+            self.accuracy = self.document_saved_count_trec_rel / float(self.document_saved_count)
+
+        # At the end of the session, we can also compute probabilities of interaction!
+        if self.document_click_count > 0:
+            self.pm = self.document_saved_count / float(self.document_click_count)
+        
+        if self.document_click_count_trec_rel > 0:
+            self.pmr = self.document_saved_count_trec_rel / float(self.document_click_count_trec_rel)
+        
+        if (self.document_click_count_trec_nonrel + self.document_click_count_trec_unassessed) > 0:
+            self.pmn = (self.document_saved_count_trec_nonrel + self.document_saved_count_trec_unassessed) / float(self.document_click_count_trec_nonrel + self.document_click_count_trec_unassessed)
+        
+        if self.seen > 0:
+            self.pc = self.document_click_count / float(self.seen)
+        
+        if self.seen_trec_rel > 0:
+            self.pcr = self.document_click_count_trec_rel / float(self.seen_trec_rel)
+        
+        if (self.seen_trec_nonrel + self.seen_trec_unassessed) > 0:
+            self.pcn = (self.document_click_count_trec_nonrel + self.document_click_count_trec_unassessed) / float(self.seen_trec_nonrel + self.seen_trec_unassessed)
 
     def __str__(self):
         return_str = ""
