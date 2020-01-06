@@ -247,6 +247,7 @@ class LogEntryReader(object):
         
         # When the search task is completed (injected by preprocessor), end the query session, too.
         if action == EVENT_SEARCH_SESSION_COMPLETE and self.current_query and not self.query_ended_previously:
+            self.current_query.time_session_second_last = self.last_event_time
             self.current_query.end_query_session(f"{line[0]} {line[1]}")
             self.query_ended_previously = True
         
@@ -355,6 +356,7 @@ class QueryLogEntry(object):
         self.time_on_documents = 0.0  # Elapsed time spent on documents.
         self.time_session_start = f"{line[0]} {line[1]}"  # When did the search session start? Get this from the line variable.
         self.time_session_end = None  # When did the session end? Saved in end_query_session().
+        self.time_session_second_last = None # Added to check that the timeout is close to the session end
         self.time_session_overall = 0.0  # The overall session time. From QUERY_FOCUS to the end event.
 
         # For storing performance measures.
@@ -560,8 +562,18 @@ class QueryLogEntry(object):
         This is called once, when the QUERY SESSION ends -- not the SEARCH SESSION.
         """
         if self.time_session_end is None:  # Only execute if we haven't calculated this already.
-            self.time_session_end = end_time
-            self.time_session_overall = get_time_diff(self.time_session_start, self.time_session_end)
+            last_action_to_end_time = 0
+            if self.time_session_second_last is not None:
+                last_action_to_end_time = get_time_diff(self.time_session_second_last, end_time)
+
+            if last_action_to_end_time > 20:
+                # the participant probably has let the task time out - and so we want to cap the total time.
+                self.time_session_end = self.time_session_second_last
+            else:
+                self.time_session_end = end_time
+
+            # total time is session time plus the time it takes to submit the query
+            self.time_session_overall = get_time_diff(self.time_session_start, self.time_session_end) + self.time_query
 
         # At the end of the session, we can work out seen depths.
         # These require the search engine to get the rankings.
