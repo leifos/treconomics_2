@@ -267,7 +267,10 @@ class SearchSessionAggregator(object):
             self.time_per_document = self.time_documents_total / float(self.document_clicked_total)
         
         if self.document_hover_total > 0:
-            self.time_per_snippet = self.time_serp_total / float(self.document_hover_raw_total)
+
+            depth = max(max(float(self.document_hover_raw_total), float(self.document_clicked_total)),3.0)
+            #self.time_per_snippet = self.time_serp_total / float(self.document_hover_raw_total)
+            self.time_per_snippet = self.time_serp_total / depth
 
         # Probabilities -- we have the probability of each query, so take the mean of them?
         # Not sure if this is 100% correct.
