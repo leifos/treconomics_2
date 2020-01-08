@@ -42,6 +42,14 @@ COMPUTED_VALUES = [
     'mean_pcr',
     'mean_pcn',
     'accuracy_search_session',
+    'ad_hover_count_total',
+    'ad_hover_count_top_total',
+    'ad_hover_count_side_total',
+    'ad_hover_count_bot_total',
+    'ad_click_count_total',
+    'ad_click_count_top_total',
+    'ad_click_count_side_total',
+    'ad_click_count_bot_total',
     'mean_p1',
     'mean_p5',
     'mean_p10',
@@ -184,6 +192,16 @@ class SearchSessionAggregator(object):
         self.mean_pcr = 0.0
         self.mean_pcn = 0.0
 
+        # These are used for summing up the ad columns
+        self.ad_hover_count_total = 0
+        self.ad_hover_count_top_total = 0
+        self.ad_hover_count_side_total = 0
+        self.ad_hover_count_bot_total = 0
+        self.ad_click_count_total = 0
+        self.ad_click_count_top_total = 0
+        self.ad_click_count_side_total = 0
+        self.ad_click_count_bot_total = 0
+
         self.accuracy_search_session = 0.0  # See calculate() below for a description of accuracy.
 
         self.mean_p1 = 0
@@ -191,7 +209,7 @@ class SearchSessionAggregator(object):
         self.mean_p10 = 0
         self.mean_p20 = 0
         self.mean_rprec = 0
-        
+
 
         # These are used for storing values so a mean can be created (above).
         self.document_click_depths = []
@@ -248,6 +266,15 @@ class SearchSessionAggregator(object):
             self.values_pc.append(self.get_value(query_session, 'pc', float))
             self.values_pcr.append(self.get_value(query_session, 'pcr', float))
             self.values_pcn.append(self.get_value(query_session, 'pcn', float))
+
+            self.ad_hover_count_total += (self.get_value(query_session, 'ad_hover_count', int))
+            self.ad_hover_count_top_total += (self.get_value(query_session, 'ad_hover_count_top', int))
+            self.ad_hover_count_side_total += (self.get_value(query_session, 'ad_hover_count_side', int))
+            self.ad_hover_count_bot_total += (self.get_value(query_session, 'ad_hover_count_bot', int))
+            self.ad_click_count_total += (self.get_value(query_session, 'ad_click_count', int))
+            self.ad_click_count_top_total += (self.get_value(query_session, 'ad_click_count_top', int))
+            self.ad_click_count_side_total += (self.get_value(query_session, 'ad_click_count_side', int))
+            self.ad_click_count_bot_total += (self.get_value(query_session, 'ad_click_count_bot', int))
 
             self.values_p1.append(self.get_value(query_session, 'p1', float))
             self.values_p5.append(self.get_value(query_session, 'p5', float))
