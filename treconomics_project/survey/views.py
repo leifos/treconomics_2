@@ -128,7 +128,7 @@ def view_pst_findas(request):
         log_event(event="PST_A_STARTED", request=request)
 
     context_dict = {'participant':uname, 'condition':condition, 'action':action}
-    return render(request, 'survey/perceptual_speed_test_findas.html', context_dict)
+    return render(request, 'survey/perceptual_speed_test_serpa.html', context_dict)
 
 
 @login_required

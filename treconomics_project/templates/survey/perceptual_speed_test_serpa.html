@@ -1,0 +1,254 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+
+{% block exp_info_block %}
+<style>
+    .active { color:blue; text-decoration: line-through; }
+</style>
+
+<script type="text/javascript"  src="{% static 'javascripts/pst.js' %}"></script>
+
+
+<p> <!-- a href="/treconomics/logout">Logout</a> -->
+ </p>
+{% endblock %}
+
+{% block exp_block %}
+
+
+<div>
+<p class="experimentPageTitle">
+<h2>Perceptual Speed Test - Finding A's</h2>
+
+
+<div id="pst_instructions">
+    <p> You will be shown lists of words.
+        Your task is to select/click all the words which contain the letter 'a'.<br/>
+        Selected words are shown in blue with a line through the text.
+        You can de-select the word by clicking it again.
+        You can try practicing with the words below.<br/>
+
+        <table  style="width:40%;  background-color:#e9f5f7;">
+    <tr><td class="practice">monkey</td><td class="practice">glasses</td></tr>
+    <tr>  <td class="practice">boats</td><td class="practice">yellow</td></tr>
+</table>
+    <div id="practice_result"><b>Correct: 0  Incorrect: 0 </b></div>
+
+</p>
+    <p>
+
+
+        You will have <b>five pages</b> to complete. At the bottom of the table you will be able to select each page.<br/>
+
+        Note that you will only have <b>2 minutes</b> to correctly identify as many words containing
+        the letter 'a' as possible. <br/>
+
+</p><p>
+
+        Once you are ready, press the start button to begin.<br/>
+
+    </p>
+
+</div>
+
+    <div id="finished">
+        You've now completed the survey, please click the "next" button to continue.
+
+    </div>
+
+    <div >
+    <div id="startbtn">
+            <button  class="largebutton" type="start">Start</button>
+    </div>
+    </div>
+
+
+    <div id="pst_test" style="padding-top:00px">
+        <h3>Select as many words with 'a' in them as you can across all pages. <b>Time remaining: <span id="timer"></span></b></h3>
+
+
+        <div id="pst1">
+            <div style="padding-top:30px;padding-bottom:10px;">Page 1 of 5</div>
+
+    <table class="tabskbox" style="width:100%;  background-color:#e9f5f7;">
+<tr><td>milky</td>  <td>line</td><td>purpose</td>           <td></td><td>quicker</td><td>useful</td></tr>
+<tr><td>scrubbed</td>   <td>pendent</td><td>teeth</td>     <td></td><td>jointly</td><td>sole</td></tr>
+<tr><td>prop</td>   <td>prohibit</td><td>swung</td>          <td></td><td>straight</td><td>twirl</td></tr>
+<tr><td></td><td>   </td><td></td>                         <td></td><td>proven</td><td>install</td></tr>
+<tr><td>full</td>   <td>circling</td><td>avoid</td>      <td></td><td></td><td></td></tr>
+<tr><td>bookshop</td>   <td>travel</td><td>tipsy</td>    <td></td><td>intent</td><td>speed</td></tr>
+<tr><td>glimpse</td>    <td>regime</td><td>puppet</td>      <td></td><td>reindeer</td><td>perm</td></tr>
+<tr><td></td><td></td><td></td>                         <td></td><td>venom</td><td>twitched</td></tr>
+<tr><td>quiz</td><td>truck</td><td>vile</td>            <td></td><td>tomorrow</td><td>weaken</td></tr>
+<tr><td>removing</td><td>midriff</td><td>fencing</td>   <td></td><td></td><td></td></tr>
+<tr><td>bulb</td><td>quietly</td><td>swum</td>          <td></td><td>downhill</td><td>excited</td></tr>
+<tr><td></td><td></td><td></td>                         <td></td><td>islander</td><td>myself</td></tr>
+<tr><td>tweet</td><td>hottest</td><td>inspire</td>      <td></td><td>touchy</td><td>itself</td></tr>
+<tr><td>bury</td><td>chilly</td><td>grovel</td>         <td></td><td>tumble</td><td>spook</td></tr>
+<tr><td>wasp</td><td>eyesight</td><td>wind</td>         <td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td>                         <td></td><td>younger</td><td>teeny</td></tr>
+<tr><td>kicked</td><td>midwife</td><td>graphic</td>     <td></td><td>refine</td><td>octave</td></tr>
+<tr><td>purely</td><td>gull</td><td>exciting</td>       <td></td><td>mumble</td><td>emperor</td></tr>
+<tr><td>sweet</td><td>defined</td><td>prefix</td>       <td></td><td>poem</td><td>ruined</td></tr>
+<tr><td></td><td></td><td></td>                         <td></td><td></td><td></td></tr>
+<tr><td>miracle</td><td>greenery</td><td>emotion</td>    <td></td><td>turf</td><td>notice</td></tr>
+        <tr><td>send</td><td>radio</td><td>verify</td>   <td></td><td>ticked</td><td>stuck</td></tr>
+<tr><td>newsroom</td><td>peppered</td><td>widely</td>    <td></td><td>timer</td><td>tide</td></tr>
+<tr><td></td><td></td><td></td>                         <td></td><td>rubbery</td><td>licking</td></tr>
+<tr><td>python</td><td>opposed</td><td>yolk</td>        <td></td><td></td><td></td></tr>
+<tr><td>hula</td><td>point</td><td>hiding</td>          <td></td><td>rubbery</td><td>licking</td></tr>
+
+    </table>
+    </div>
+        <div id="pst2">
+            <div style="padding-top:30px;padding-bottom:10px;">Page 2 of 5</div>
+        <table style="width:100%;  background-color:#e9f5f7;">
+<tr><td>confuse</td><td>bejewel</td><td>curry</td><td>window</td><td>fryer</td></tr>
+<tr><td>intrude</td><td>bore</td><td>royal</td><td>surfer</td><td>windmill</td></tr>
+<tr><td>shrunken</td><td>reserve</td><td>term</td><td>cope</td><td>trend</td></tr>
+<tr><td>woven</td><td>train</td><td>overpaid</td><td>growl</td><td>mopping</td></tr>
+<tr><td>blurred</td><td>trying</td><td>mystify</td><td>tire</td><td>gear</td></tr>
+<tr><td>flex</td><td>binding</td><td>hovered</td><td>bluffing</td><td>unwell</td></tr>
+<tr><td>nobody</td><td>flirt</td><td>sober</td><td>tycoon</td><td>tripping</td></tr>
+<tr><td>ministry</td><td>robin</td><td>tomboy</td><td>interest</td><td>uphill</td></tr>
+<tr><td>jazz</td><td>mildly</td><td>noodle</td><td>treat</td><td>pier</td></tr>
+<tr><td>verge</td><td>guest</td><td>evil</td><td>delta</td><td>pupil</td></tr>
+<tr><td>nickname</td><td>settling</td><td>imprison</td><td>cell</td><td>bode</td></tr>
+<tr><td>zipper</td><td>moisten</td><td>knit</td><td>ignored</td><td>fill</td></tr>
+<tr><td>trunk</td><td>texture</td><td>unsettle</td><td>diet</td><td>spot</td></tr>
+<tr><td>synonym</td><td>kitchen</td><td>uncouple</td><td>oboe</td><td>oiled</td></tr>
+<tr><td>tenor</td><td>shoe</td><td>pullout</td><td>youth</td><td>policy</td></tr>
+<tr><td>rented</td><td>vocal</td><td>gourmet</td><td>trot</td><td>rested</td></tr>
+<tr><td>tedium</td><td>thrive</td><td>joining</td><td>disco</td><td>wrapping</td></tr>
+<tr><td>cleaner</td><td>tonic</td><td>invite</td><td>voyage</td><td>beholder</td></tr>
+<tr><td>withdrew</td><td>revoke</td><td>freshen</td><td>jiggly</td><td>oddly</td></tr>
+<tr><td>stuff</td><td>bookclub</td><td>incoming</td><td>twice</td><td>peckish</td></tr>
+
+    </table>
+        </div>
+
+          <div id="pst3">
+            <div style="padding-top:30px;padding-bottom:10px;">Page 3 of 5</div>
+        <table style="width:100%;  background-color:#e9f5f7;">
+<tr><td>tuck</td><td>pudding</td><td>risen</td><td>boutique</td><td>till</td></tr>
+<tr><td>shoulder</td><td>mime</td><td>trek</td><td>measure</td><td>scorpion</td></tr>
+<tr><td>from</td><td>hiccup</td><td>cart</td><td>nicely</td><td>sleep</td></tr>
+<tr><td>sold</td><td>feel</td><td>circle</td><td>necktie</td><td>kettle</td></tr>
+<tr><td>bathed</td><td>pulpit</td><td>multiply</td><td>uncover</td><td>outdo</td></tr>
+<tr><td>jubilee</td><td>usher</td><td>clown</td><td>noun</td><td>fool</td></tr>
+<tr><td>tongue</td><td>sushi</td><td>price</td><td>urged</td><td>visual</td></tr>
+<tr><td>hermit</td><td>meringue</td><td>pole</td><td>stone</td><td>solve</td></tr>
+<tr><td>befriend</td><td>tidy</td><td>chestnut</td><td>dewy</td><td>noon</td></tr>
+<tr><td>whiten</td><td>stump</td><td>neckline</td><td>float</td><td>quirk</td></tr>
+<tr><td>grand</td><td>blot</td><td>wren</td><td>pebble</td><td>uncut</td></tr>
+<tr><td>lodge</td><td>eleven</td><td>reflect</td><td>closest</td><td>tunnel</td></tr>
+<tr><td>very</td><td>figured</td><td>wooden</td><td>yearly</td><td>whoever</td></tr>
+<tr><td>edition</td><td>lilac</td><td>focused</td><td>nominee</td><td>pinpoint</td></tr>
+<tr><td>snort</td><td>invent</td><td>centered</td><td>void</td><td>junction</td></tr>
+<tr><td>steer</td><td>nephew</td><td>flipping</td><td>shopping</td><td>handhold</td></tr>
+<tr><td>dorm</td><td>theory</td><td>comma</td><td>observe</td><td>clutter</td></tr>
+<tr><td>unisex</td><td>zoned</td><td>universe</td><td>silently</td><td>luckily</td></tr>
+<tr><td>reverse</td><td>interact</td><td>kilo</td><td>queried</td><td>notified</td></tr>
+<tr><td>cheerful</td><td>deed</td><td>lifebelt</td><td>bramble</td><td>inspired</td></tr>
+    </table>
+        </div>
+
+
+          <div id="pst4">
+            <div style="padding-top:30px;padding-bottom:10px;">Page 4 of 5</div>
+        <table style="width:100%;  background-color:#e9f5f7;">
+<tr><td>beef</td><td>jazzy</td><td>joker</td><td>beehive</td><td>tweezer</td></tr>
+<tr><td>lining</td><td>step</td><td>gardener</td><td>smile</td><td>tube</td></tr>
+<tr><td>mass</td><td>lightly</td><td>turnip</td><td>genuine</td><td>nestled</td></tr>
+<tr><td>overdone</td><td>hose</td><td>skipping</td><td>wrecked</td><td>oversize</td></tr>
+<tr><td>checkout</td><td>unite</td><td>wheeled</td><td>soil</td><td>nearest</td></tr>
+<tr><td>still</td><td>dish</td><td>zest</td><td>clog</td><td>towel</td></tr>
+<tr><td>owed</td><td>lunar</td><td>scissor</td><td>mushy</td><td>blinking</td></tr>
+<tr><td>modesty</td><td>untrue</td><td>tourist</td><td>beetles</td><td>securely</td></tr>
+<tr><td>preset</td><td>typed</td><td>tricycle</td><td>keyboard</td><td>sunny</td></tr>
+<tr><td>thieve</td><td>tiled</td><td>perky</td><td>heater</td><td>pure</td></tr>
+<tr><td>terrific</td><td>drum</td><td>vexed</td><td>wheezy</td><td>pedigree</td></tr>
+<tr><td>fruitful</td><td>offended</td><td>briefest</td><td>foreign</td><td>voting</td></tr>
+<tr><td>toddler</td><td>gown</td><td>inviting</td><td>unpick</td><td>parrot</td></tr>
+<tr><td>unused</td><td>viking</td><td>codfish</td><td>zipped</td><td>port</td></tr>
+<tr><td>lockout</td><td>blushing</td><td>trend</td><td>jungle</td><td>scribble</td></tr>
+<tr><td>kale</td><td>viewed</td><td>include</td><td>quarry</td><td>whiz</td></tr>
+<tr><td>misprint</td><td>miner</td><td>omit</td><td>worthy</td><td>viewer</td></tr>
+<tr><td>neither</td><td>legroom</td><td>croak</td><td>remotely</td><td>perished</td></tr>
+<tr><td>grip</td><td>tortoise</td><td>mockery</td><td>memento</td><td>showbiz</td></tr>
+<tr><td>epic</td><td>dart</td><td>tuned</td><td>sentence</td><td>disc</td></tr>
+
+    </table>
+        </div>
+
+                  <div id="pst5">
+            <div style="padding-top:30px;padding-bottom:10px;">Page 5 of 5</div>
+        <table style="width:100%;  background-color:#e9f5f7;">
+<tr><td>tints</td><td>upon</td><td>chilled</td><td>tunic</td><td>elicit</td></tr>
+<tr><td>enclose</td><td>mistook</td><td>motive</td><td>zing</td><td>took</td></tr>
+<tr><td>beckoned</td><td>tighten</td><td>cove</td><td>oasis</td><td>bicycle</td></tr>
+<tr><td>toga</td><td>injury</td><td>edge</td><td>licked</td><td>minibus</td></tr>
+<tr><td>sensory</td><td>hero</td><td>plea</td><td>included</td><td>title</td></tr>
+<tr><td>trio</td><td>hydrated</td><td>tense</td><td>bowl</td><td>tenth</td></tr>
+<tr><td>keeping</td><td>lecturer</td><td>ruled</td><td>sting</td><td>hungry</td></tr>
+<tr><td>urine</td><td>suck</td><td>form</td><td>swam</td><td>weirdly</td></tr>
+<tr><td>endured</td><td>timed</td><td>lyric</td><td>zucchini</td><td>override</td></tr>
+<tr><td>rink</td><td>store</td><td>udder</td><td>dental</td><td>grumbled</td></tr>
+<tr><td>divert</td><td>sweep</td><td>bluebird</td><td>pension</td><td>historic</td></tr>
+<tr><td>instead</td><td>unburden</td><td>smoke</td><td>thou</td><td>shed</td></tr>
+<tr><td>sculpted</td><td>tooth</td><td>hectic</td><td>bending</td><td>sauce</td></tr>
+<tr><td>there</td><td>toad</td><td>remiss</td><td>uproot</td><td>quickly</td></tr>
+<tr><td>flopped</td><td>fumed</td><td>revise</td><td>crew</td><td>cosy</td></tr>
+<tr><td>spent</td><td>wobbly</td><td>jaundice</td><td>reword</td><td>fork</td></tr>
+<tr><td>lightens</td><td>wherever</td><td>divine</td><td>sighting</td><td>density</td></tr>
+<tr><td>yelling</td><td>grit</td><td>tulip</td><td>rustic</td><td>comment</td></tr>
+<tr><td>giant</td><td>tinsel</td><td>jersey</td><td>serious</td><td>ladybug</td></tr>
+<tr><td>germ</td><td>tying</td><td>club</td><td>eleventh</td><td>heel</td></tr>
+
+    </table>
+        </div>
+
+
+
+        <div id="pstpages" style="padding-top:40px" >
+            <span class="span_btn" id="btn1">Page 1</span>
+            <span id="btn2" class="span_btn">Page 2</span>
+            <span id="btn3" class="span_btn">Page 3</span>
+            <span id="btn4" class="span_btn">Page 4</span>
+            <span id="btn5" class="span_btn">Page 5</span>
+        </div>
+
+    </div>
+
+
+    </div>
+
+
+
+    <!--- div id="score">0 0</div> --->
+
+<div>
+
+    <form id="survey_form" method="post" action="{{action}}">
+        {% csrf_token %}
+        <input type="hidden" id="correct" name="correct" value="0">
+        <input type="hidden" id="incorrect" name="incorrect" value="0">
+
+           <div id="nextbtn" class="surveySubmitButton">
+ <input class="largebutton" type="submit" name="submit" value="Next" />
+</div>
+
+    </form>
+
+</div>
+
+
+
+
+{% endblock %}
+
+
+{% block exp_footer_block %}
+Participant: {{participant}}
+{% endblock %}
