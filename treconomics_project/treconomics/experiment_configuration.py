@@ -97,20 +97,20 @@ sigir2020_reduced_flow = [
 
 
 pst_flow = [
-    'startexperiment/', 'pst-numbers/', 'pst-findas/','taskspacer','endexperiment/', 'logout/'
+    'startexperiment/', 'pst-findas/', 'pst-findas/','pst-numbers/', 'pst-findas/','taskspacer','endexperiment/', 'logout/'
 ]
 
 
 
 suggestion_trie = None
 
-suggestion_trie = AutocompleteTrie(
-    min_occurrences=3,
-    suggestion_count=8,
-    include_stopwords=False,
-    stopwords_path=os.path.join(work_dir, "data/stopwords.txt"),
-    vocab_path=os.path.join(work_dir, "data/vocab.txt"),
-    vocab_trie_path=os.path.join(work_dir, "data/vocab_trie.dat"))
+#suggestion_trie = AutocompleteTrie(
+#    min_occurrences=3,
+#    suggestion_count=8,
+#    include_stopwords=False,
+#    stopwords_path=os.path.join(work_dir, "data/stopwords.txt"),
+#    vocab_path=os.path.join(work_dir, "data/vocab.txt"),
+#    vocab_trie_path=os.path.join(work_dir, "data/vocab_trie.dat"))
 
 search_engine = Whooshtrec(
     whoosh_index_dir=my_whoosh_doc_index_dir,
@@ -144,7 +144,7 @@ exp_sigir2020a = ExperimentSetup(
     rotation_type=1,
     description='BM25 - interfaces with different Ads',
     trie=suggestion_trie,
-    autocomplete=True,
+    autocomplete=False,
     timeout=timeouts)  # 300s = 5min; 600s = 10min; 1200s = 20min
 
 
@@ -159,7 +159,7 @@ exp_sigir2020b = ExperimentSetup(
     rotation_type=1,
     description='BM25 - interfaces with different Ads',
     trie=suggestion_trie,
-    autocomplete=True,
+    autocomplete=False,
     timeout=timeouts)  # 300s = 5min; 600s = 10min; 1200s = 20min
 
 
@@ -174,7 +174,7 @@ exp_sigir2020c = ExperimentSetup(
     rotation_type=1,
     description='BM25 - interfaces with different Ads',
     trie=suggestion_trie,
-    autocomplete=True,
+    autocomplete=False,
     timeout=timeouts)  # 300s = 5min; 600s = 10min; 1200s = 20min
 
 
@@ -189,7 +189,7 @@ exp_sigir2020d = ExperimentSetup(
     rotation_type=1,
     description='BM25 - interfaces with different Ads',
     trie=suggestion_trie,
-    autocomplete=True,
+    autocomplete=False,
     timeout=timeouts)  # 300s = 5min; 600s = 10min; 1200s = 20min
 
 
@@ -204,7 +204,7 @@ exp_sigir2020test = ExperimentSetup(
     rotation_type=1,
     description='BM25 - interfaces with different Ads',
     trie=suggestion_trie,
-    autocomplete=True,
+    autocomplete=False,
     timeout=timeouts)  # 300s = 5min; 600s = 10min; 1200s = 20min
 
 

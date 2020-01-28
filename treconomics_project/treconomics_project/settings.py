@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '$wy_xm_b!4!_x35r_j^pfauexp0z-fbcb%3qj(v=s(y^zo8u)('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['treconomics.org', '64.225.5.100', '127.0.0.1']
 
