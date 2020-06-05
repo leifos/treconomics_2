@@ -1,6 +1,6 @@
 beautifulsoup4==4.7.1
 datrie==0.8
-Django==2.2.3
+Django==2.2.13
 jsonpickle==1.2
 nltk==3.4.5
 Pillow==6.2.1
